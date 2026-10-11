@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dante Persson – Rail operations and software</title>
+  <meta name="description" content="Dante Persson: railway operations lead from Sweden who builds web apps and automation. Moving to Vietnam.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/barlow-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#board">Skip to projects</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="mark" href="#top" aria-label="Dante Persson, back to top">
+        <span class="mark__d" aria-hidden="true">D</span>
+        <span>Dante Persson</span>
+      </a>
+      <div class="clocks" aria-label="Local times">
+        <p><span class="clocks__city">Malmö</span> <time class="clocks__time" data-tz="Europe/Stockholm">--:--</time></p>
+        <p><span class="clocks__city">Hanoi</span> <time class="clocks__time" data-tz="Asia/Ho_Chi_Minh">--:--</time></p>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="intro wrap">
+      <h1>I keep trains moving safely. Now I build the software around them.</h1>
+      <p class="lede">Four years in Swedish rail operations, from the traffic control centre to leading track-work projects. On the side I build web apps and automation with AI. I'm moving to Vietnam and looking for project, operations and IT roles.</p>
+    </section>
+
+    <section class="board-wrap" id="board" aria-labelledby="board-title">
+      <div class="board">
+        <div class="board__head">
+          <h2 id="board-title"><span lang="sv">Avgångar</span> <span class="board__en">Departures</span></h2>
+          <p class="board__hint">Select a departure for details. Track 1 is web apps, 2 is data, 3 is work tools.</p>
+        </div>
+
+        <div class="board__cols" aria-hidden="true">
+          <span>Time</span><span>Destination</span><span class="col-via">Via</span><span>Track</span><span>Status</span>
+        </div>
+
+        <ol class="board__rows" id="rows"></ol>
+      </div>
+    </section>
+
+    <section class="route wrap" aria-labelledby="route-title">
+      <h2 id="route-title">The route so far</h2>
+      <ol class="line">
+        <li class="stop">
+          <p class="stop__time">2014–2018</p>
+          <div>
+            <h3>Sundsgymnasiet, Vellinge</h3>
+            <p>IT – Media and Information: networking, servers and my first lines of code.</p>
+          </div>
+        </li>
+        <li class="stop">
+          <p class="stop__time">2018–2019</p>
+          <div>
+            <h3>Metso, Trelleborg</h3>
+            <p>Machine operator in mineral processing. Where I learned that risk assessment is a habit, not a form.</p>
+          </div>
+        </li>
+        <li class="stop">
+          <p class="stop__time">2020–2022</p>
+          <div>
+            <h3>Bredband2 and Postnord, Malmö</h3>
+            <p>Technical support, then Salesforce superuser in Postnord's invoicing department.</p>
+          </div>
+        </li>
+        <li class="stop">
+          <p class="stop__time">2022–2026</p>
+          <div>
+            <h3>Trafikverket, Malmö</h3>
+            <p>Train traffic controller and TLS programmer in a 24/7 control centre: live traffic, incidents and emergency stops with police and rescue services.</p>
+          </div>
+        </li>
+        <li class="stop">
+          <p class="stop__time">2026</p>
+          <div>
+            <h3>LD Järnväg och planering</h3>
+            <p>Chief track work supervisor. I lead several on-site teams, act as the main contact with the infrastructure owner and plan upcoming railway projects.</p>
+          </div>
+        </li>
+        <li class="stop stop--next">
+          <p class="stop__time">Next</p>
+          <div>
+            <h3>Vietnam</h3>
+            <p>Relocating to be with my partner. Open to remote or Vietnam-based roles in project management, operations, logistics and IT.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="about wrap" aria-labelledby="about-title">
+      <div class="about__text">
+        <h2 id="about-title">About me</h2>
+        <p>I grew up in Trelleborg, a small harbour town at the southern tip of Sweden. Rail work taught me to plan carefully, communicate clearly under pressure and never assume a system is safe until it's checked.</p>
+        <p>I bring the same approach to software. I plan the scope and architecture first, then build with AI coding tools and check every result. Every departure on the board is a project I planned and built myself, not a tutorial.</p>
+        <p>Away from work I surf, play football and study Vietnamese.</p>
+      </div>
+      <table class="facts">
+        <caption>Quick facts</caption>
+        <tbody>
+          <tr><th scope="row">Based in</th><td>Malmö, Sweden, moving to Vietnam</td></tr>
+          <tr><th scope="row">Languages</th><td>Swedish (native), English (fluent), Vietnamese (learning)</td></tr>
+          <tr><th scope="row">Strengths</th><td>Planning, risk management, stakeholder contact, calm incident handling</td></tr>
+          <tr><th scope="row">Builds with</th><td>Next.js, React, TypeScript, Prisma, Excel/VBA, Claude Code</td></tr>
+          <tr><th scope="row">Looking for</th><td>Project, operations and IT roles, remote or in Vietnam</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="contact" aria-labelledby="contact-title">
+    <div class="wrap contact__inner">
+      <h2 id="contact-title">Get in touch</h2>
+      <ul class="contact__links">
+        <li><a href="mailto:dantep@live.se">dantep@live.se</a></li>
+        <li><a href="https://www.linkedin.com/in/dante-persson/">LinkedIn</a></li>
+        <li><a href="https://github.com/HitchJr">GitHub</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
