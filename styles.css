@@ -16,6 +16,10 @@
   --rule: #c3cbd6;
   --signal: #c8102e;       /* used once: the next stop */
   --focus: #ffb000;
+  --card: #ffffff;         /* CV tickets */
+  --track-line: var(--board); /* route line and stop rings */
+  --frame-shadow: rgb(8 32 79 / 0.6);
+  color-scheme: light;
 
   --font: "Barlow", "Helvetica Neue", Arial, sans-serif;
   --step--1: 0.875rem;
@@ -25,6 +29,35 @@
   --step-3: clamp(2rem, 1.2rem + 3.6vw, 3.5rem);
   --wrap: 72rem;
   --gutter: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* Dark theme: the station at night. Follows the system setting unless the
+   visitor picks a theme with the toggle (stored as data-theme on <html>). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0a1222;
+    --ink: #e8edf7;
+    --ink-soft: #a3afc8;
+    --rule: #27324a;
+    --card: #111c33;
+    --board-deep: #061633;
+    --track-line: #3d63b8;
+    --signal: #ff4d5e;
+    --frame-shadow: rgb(0 0 0 / 0.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0a1222;
+  --ink: #e8edf7;
+  --ink-soft: #a3afc8;
+  --rule: #27324a;
+  --card: #111c33;
+  --board-deep: #061633;
+  --track-line: #3d63b8;
+  --signal: #ff4d5e;
+  --frame-shadow: rgb(0 0 0 / 0.7);
+  color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -71,6 +104,18 @@ a:hover { text-decoration-thickness: 2px; }
 .clocks { display: flex; gap: 1.25rem; font-size: var(--step--1); }
 .clocks__city { color: var(--ink-soft); }
 .clocks__time { font-weight: 600; }
+.topbar__right { display: flex; align-items: center; gap: 1.25rem; }
+.theme-toggle {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font: inherit; font-size: var(--step--1); font-weight: 600; color: var(--ink);
+  background: none; border: 1px solid var(--rule); border-radius: 999px;
+  padding: 0.3rem 0.75rem; cursor: pointer; white-space: nowrap;
+}
+.theme-toggle:hover { border-color: var(--ink-soft); }
+.theme-toggle__dot {
+  width: 0.7rem; height: 0.7rem; border-radius: 50%;
+  background: var(--lamp); box-shadow: 0 0 0 2px var(--board);
+}
 
 /* Intro */
 .intro { padding-block: clamp(3rem, 8vw, 6rem) clamp(2rem, 5vw, 3.5rem); }
@@ -88,7 +133,7 @@ a:hover { text-decoration-thickness: 2px; }
   border: 10px solid var(--board-deep);
   border-radius: 6px;
   padding: clamp(1rem, 3vw, 2rem) clamp(0.75rem, 3vw, 2rem) clamp(0.75rem, 2vw, 1.5rem);
-  box-shadow: 0 1.5rem 3rem -1.5rem rgb(8 32 79 / 0.6);
+  box-shadow: 0 1.5rem 3rem -1.5rem var(--frame-shadow);
 }
 .board__head {
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1.5rem;
@@ -157,7 +202,7 @@ a:hover { text-decoration-thickness: 2px; }
 .line { list-style: none; margin: 0; padding: 0; position: relative; max-width: 50rem; }
 .line::before {
   content: ""; position: absolute; left: calc(7rem + 0.5rem); top: 0.6rem; bottom: 0.6rem;
-  width: 6px; margin-left: -3px; background: var(--board); border-radius: 3px;
+  width: 6px; margin-left: -3px; background: var(--track-line); border-radius: 3px;
 }
 .stop {
   display: grid; grid-template-columns: 7rem 1fr; column-gap: 2.25rem;
@@ -167,7 +212,7 @@ a:hover { text-decoration-thickness: 2px; }
 .stop::before {
   content: ""; position: absolute; left: calc(7rem + 0.5rem); top: 0.35rem;
   width: 18px; height: 18px; margin-left: -9px;
-  background: var(--paper); border: 4px solid var(--board); border-radius: 50%;
+  background: var(--paper); border: 4px solid var(--track-line); border-radius: 50%;
 }
 .stop__time { font-weight: 600; color: var(--ink-soft); text-align: right; padding-right: 0.25rem; }
 .stop h3 { font-size: var(--step-1); font-weight: 800; }
@@ -199,7 +244,7 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .ticket {
   display: flex; flex-direction: column; gap: 0.4rem;
-  background: #fff; border: 1px solid var(--rule); border-top: 6px solid var(--board);
+  background: var(--card); border: 1px solid var(--rule); border-top: 6px solid var(--track-line);
   border-radius: 4px; padding: 1.25rem 1.25rem 1.1rem;
 }
 .ticket__route { font-weight: 800; font-size: var(--step-1); }
@@ -243,4 +288,7 @@ a:hover { text-decoration-thickness: 2px; }
   .stop { grid-template-columns: 1fr; padding-left: 2.25rem; }
   .stop__time { text-align: left; padding: 0; }
   .clocks { gap: 0.75rem; }
+  .topbar__right { gap: 0.75rem; }
+  .theme-toggle__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .theme-toggle { padding: 0.45rem; }
 }

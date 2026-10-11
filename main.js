@@ -94,9 +94,12 @@ rowsEl.addEventListener("click", (e) => {
   document.getElementById(btn.getAttribute("aria-controls")).dataset.open = String(!open);
 });
 
-// One orchestrated moment: the board settles like split-flap displays on load.
+// The board settles like split-flap displays: once on load, and again
+// on a row whenever the mouse moves onto it.
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 function settle(el, delay) {
+  if (el.dataset.running === "true") return; // already flipping, let it finish
+  el.dataset.running = "true";
   const final = el.dataset.final;
   const stops = [...final].map(() => 6 + Math.floor(Math.random() * 10));
   let frame = 0;
@@ -107,13 +110,39 @@ function settle(el, delay) {
       c === " " || frame >= stops[i] ? c : CHARS[Math.floor(Math.random() * CHARS.length)]
     ).join("");
     if (frame < Math.max(...stops)) setTimeout(tick, 45);
+    else el.dataset.running = "false";
   }, delay);
 }
 if (!reduceMotion) {
   rowsEl.querySelectorAll(".row").forEach((row, r) => {
     row.querySelectorAll(".flap").forEach((el) => settle(el, 250 + r * 160));
+    // Mouse only, so tapping a row on a phone just opens it.
+    row.querySelector(".row__btn").addEventListener("pointerenter", (e) => {
+      if (e.pointerType !== "mouse") return;
+      row.querySelectorAll(".flap").forEach((el) => settle(el, 0));
+    });
   });
 }
+
+// Light/dark toggle. With no saved choice, the site follows the system setting.
+const toggle = document.querySelector(".theme-toggle");
+const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+function isDark() {
+  const t = document.documentElement.dataset.theme;
+  return t ? t === "dark" : systemDark.matches;
+}
+function syncToggle() {
+  toggle.querySelector(".theme-toggle__label").textContent = isDark() ? "Light mode" : "Dark mode";
+  toggle.setAttribute("aria-label", isDark() ? "Switch to light mode" : "Switch to dark mode");
+}
+toggle.addEventListener("click", () => {
+  const next = isDark() ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("theme", next); } catch (e) {}
+  syncToggle();
+});
+systemDark.addEventListener("change", syncToggle);
+syncToggle();
 
 // Malmö and Hanoi clocks.
 function tickClocks() {

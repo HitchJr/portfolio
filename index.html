@@ -8,6 +8,10 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/barlow-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
+  <script>
+    // Apply a saved theme before the page paints, so there's no light flash.
+    try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
 </head>
 <body>
   <a class="skip" href="#board">Skip to projects</a>
@@ -18,9 +22,15 @@
         <span class="mark__d" aria-hidden="true">D</span>
         <span>Dante Persson</span>
       </a>
-      <div class="clocks" aria-label="Local times">
-        <p><span class="clocks__city">Malmö</span> <time class="clocks__time" data-tz="Europe/Stockholm">--:--</time></p>
-        <p><span class="clocks__city">Hanoi</span> <time class="clocks__time" data-tz="Asia/Ho_Chi_Minh">--:--</time></p>
+      <div class="topbar__right">
+        <div class="clocks" aria-label="Local times">
+          <p><span class="clocks__city">Malmö</span> <time class="clocks__time" data-tz="Europe/Stockholm">--:--</time></p>
+          <p><span class="clocks__city">Hanoi</span> <time class="clocks__time" data-tz="Asia/Ho_Chi_Minh">--:--</time></p>
+        </div>
+        <button class="theme-toggle" type="button">
+          <span class="theme-toggle__dot" aria-hidden="true"></span>
+          <span class="theme-toggle__label">Dark mode</span>
+        </button>
       </div>
     </div>
   </header>
