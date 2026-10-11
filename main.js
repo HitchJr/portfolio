@@ -101,7 +101,9 @@ function settle(el, delay) {
   if (el.dataset.running === "true") return; // already flipping, let it finish
   el.dataset.running = "true";
   const final = el.dataset.final;
-  const stops = [...final].map(() => 6 + Math.floor(Math.random() * 10));
+  // Each letter locks a little later than the one to its left, so the text
+  // settles left to right. The small random part keeps it from looking robotic.
+  const stops = [...final].map((_, i) => 4 + Math.round(i * 1.5) + Math.floor(Math.random() * 3));
   let frame = 0;
   el.textContent = final.replace(/\S/g, " ");
   setTimeout(function tick() {
