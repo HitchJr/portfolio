@@ -233,6 +233,59 @@ a:hover { text-decoration-thickness: 2px; }
 .facts tr:last-child th, .facts tr:last-child td { border-bottom: 1px solid var(--rule); }
 .facts th { font-weight: 600; width: 8.5rem; padding-right: 1rem; color: var(--ink-soft); }
 
+/* AI and coding: the signal box */
+.ai { padding-block: 0 clamp(3.5rem, 9vw, 6.5rem); }
+.ai h2 { font-size: var(--step-2); font-weight: 800; }
+.ai__en { font-weight: 400; color: var(--ink-soft); margin-left: 0.4rem; }
+.ai__lede { margin-top: 0.75rem; max-width: 60ch; font-size: var(--step-1); line-height: 1.5; color: var(--ink-soft); }
+
+.ai__split { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1.25rem; margin-top: 2rem; }
+.ai__col { background: var(--card); border: 1px solid var(--rule); border-radius: 4px; padding: 1.25rem 1.25rem 1.1rem; }
+.ai__col h3 { font-size: var(--step-1); font-weight: 800; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.6rem; }
+.ai__tools { font-size: var(--step--1); font-weight: 600; color: var(--ink-soft); }
+.ai__col ul { margin: 0.75rem 0 0; padding-left: 1.1rem; }
+.ai__col li + li { margin-top: 0.4rem; }
+.ai__col li::marker { color: var(--track-line); }
+
+.ai__sub { font-size: var(--step-1); font-weight: 800; margin-top: 2.75rem; }
+
+/* Build steps as stations on a horizontal line */
+.steps {
+  list-style: none; margin: 1.25rem 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem;
+  position: relative;
+}
+/* One track segment from each stop to the next, so the line ends at the last stop */
+.steps li:not(:last-child)::after {
+  content: ""; position: absolute; left: 0.95rem; top: 0.95rem;
+  width: calc(100% + 1rem); height: 6px; margin-top: -3px; background: var(--track-line);
+}
+.steps li { position: relative; font-size: var(--step--1); color: var(--ink-soft); }
+.steps strong { display: block; margin: 0.6rem 0 0.15rem; font-size: var(--step-0); color: var(--ink); }
+.steps__n {
+  position: relative; z-index: 1; display: grid; place-items: center;
+  width: 1.9rem; height: 1.9rem; border-radius: 50%;
+  background: var(--board); color: var(--lamp); font-weight: 800; font-size: var(--step--1);
+  box-shadow: 0 0 0 4px var(--paper);
+}
+
+/* Proof: board-style tiles with the number lit up */
+.proof { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1.25rem; }
+.proof li {
+  background: var(--board); color: var(--board-dim); border-radius: 4px;
+  padding: 1.1rem 1.25rem; font-size: var(--step--1); line-height: 1.5;
+}
+.proof__big { display: block; color: var(--lamp); font-weight: 800; font-size: var(--step-2); line-height: 1.1; margin-bottom: 0.4rem; }
+.ai__note { margin-top: 1.5rem; color: var(--ink-soft); font-size: var(--step--1); max-width: 62ch; }
+
+@media (max-width: 760px) {
+  .steps { grid-template-columns: 1fr; gap: 1.1rem; }
+  .steps li:not(:last-child)::after { width: 6px; height: auto; bottom: -1.1rem; margin: 0 0 0 -3px; }
+  .steps li { display: grid; grid-template-columns: 1.9rem 1fr; column-gap: 0.9rem; }
+  .steps__n { grid-row: span 2; }
+  .steps strong { margin: 0.2rem 0 0; }
+}
+
 /* CV downloads: printed tickets on timetable paper */
 .cvs { padding-block: 0 clamp(3.5rem, 9vw, 6.5rem); }
 .cvs h2 { font-size: var(--step-2); font-weight: 800; }
