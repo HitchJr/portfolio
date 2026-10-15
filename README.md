@@ -1,19 +1,20 @@
 # Dante Persson – portfolio
 
-Personal portfolio built like a Swedish station departure board. Each project is a departure; select one to see the details. My career runs below it as a route line from Trelleborg to Vietnam.
+Personal portfolio under the DP.IO brand: a dark page with one amber "signal" accent, bold condensed headlines, an example-brief box in the hero, proof numbers, a five-step build process, project cards, a career timeline and CV downloads.
 
 Plain HTML, CSS and JavaScript with no build step, so it deploys anywhere static files are served.
 
 ## Files
 
-- `index.html` – page structure and text
-- `styles.css` – design tokens, layout and the board styling
-- `main.js` – project data for the board, the split-flap load effect and the Malmö/Hanoi clocks
-- `fonts/` – self-hosted Barlow (SIL Open Font License)
+- `index.html` – page structure and all the text
+- `styles.css` – DP.IO design tokens (colours, fonts, spacing) at the top, then the layout
+- `main.js` – the example-brief chips in the hero (swaps the text and pre-fills the email)
+- `brand/` – DP.IO logo: white wordmark for dark backgrounds, black wordmark for light ones, and the square mark (also used as `favicon.svg`)
+- `fonts/` – self-hosted Barlow, Barlow Condensed and JetBrains Mono (SIL Open Font License)
 
 ## Add or edit a project
 
-Edit the `departures` array at the top of `main.js`. Each entry has a time, name, one-line description, stack ("via"), track (1 web apps, 2 data, 3 work tools), status and an HTML details block. Set `change: true` to show the status in board yellow.
+Copy one `<article class="card project">` block in the Projects section of `index.html` and change the text. Status pills: `pill--go` (green, live or in use), `pill--signal` (amber, in progress) or plain `pill` (grey). Add `project--draft` to the article for a dashed outline.
 
 ## Run locally
 
