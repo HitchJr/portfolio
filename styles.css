@@ -146,8 +146,8 @@ img, svg { display: block; }
 }
 .topbar__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 12px; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink-3); }
-.brand img { height: 28px; width: auto; }
-.brand span { font-size: 15px; padding-left: 12px; border-left: 1px solid var(--line-strong); }
+.brand img { height: 30px; width: auto; }
+.brand span { font-family: var(--font-mono); font-weight: 500; font-size: 14px; letter-spacing: -0.02em; word-spacing: -0.3em; padding-left: 12px; border-left: 1px solid var(--line-strong); }
 .brand:hover { color: var(--ink); }
 .nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 22px; font-size: 15px; }
 .nav a:not(.btn) { color: var(--ink-3); text-decoration: none; }
@@ -161,7 +161,21 @@ img, svg { display: block; }
   font-family: var(--font-mono); font-size: 13px; color: var(--ink-3);
   border: 1px solid #262C35; border-radius: 999px; padding: 8px 16px;
 }
-.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--go); }
+
+/* Signal head: the logo's lamp housing, used small around the site.
+   Top lamp lit amber = "look here"; .sig--go lights the bottom lamp green = "open, go". */
+.sig {
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: space-evenly; flex: 0 0 auto;
+  width: 11px; height: 22px; box-sizing: border-box;
+  background: #000; border: 1px solid var(--line-strong); border-radius: 6px;
+}
+.sig i { width: 5px; height: 5px; border-radius: 50%; background: #1C2128; }
+.sig i:first-child { background: var(--signal); }
+.sig--go i:first-child { background: #1C2128; }
+.sig--go i:last-child { background: var(--go); box-shadow: 0 0 6px rgba(94, 227, 161, 0.6); }
+.sig--lg { width: 18px; height: 38px; border-width: 2px; border-radius: 9px; margin-right: 14px; }
+.sig--lg i { width: 9px; height: 9px; }
+.sig--lg i:first-child { box-shadow: 0 0 10px rgba(255, 181, 71, 0.5); }
 .hero h1 { font-size: clamp(44px, 7vw, 100px); max-width: 1100px; text-wrap: balance; }
 .hero__lede { font-size: clamp(18px, 2vw, 21px); color: var(--ink-2); max-width: 720px; }
 
@@ -181,8 +195,8 @@ img, svg { display: block; }
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px 24px;
   padding-bottom: 16px; border-bottom: 1px solid var(--line);
 }
-.board__head h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 4vw, 44px); text-transform: uppercase; line-height: 1; color: var(--signal); }
-.board__en { font-family: var(--font-mono); font-weight: 400; font-size: 13px; letter-spacing: 0.08em; color: var(--ink-4); margin-left: 10px; vertical-align: middle; }
+.board__head h2 { display: flex; flex-wrap: wrap; align-items: center; row-gap: 6px; font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 4vw, 44px); text-transform: uppercase; line-height: 1; color: var(--signal); }
+.board__en { font-family: var(--font-mono); font-weight: 400; font-size: 13px; letter-spacing: 0.08em; color: var(--ink-4); margin-left: 14px; }
 .clocks { display: flex; gap: 20px; font-family: var(--font-mono); font-size: 13px; }
 .clocks__city { color: var(--ink-4); text-transform: uppercase; letter-spacing: 0.08em; }
 .clocks__time { color: var(--signal); font-weight: 500; }
@@ -273,14 +287,41 @@ img, svg { display: block; }
 .sub { font-size: 22px; font-weight: 600; margin: 56px 0 20px; }
 .note { margin-top: 28px; font-size: 15px; color: var(--ink-4); }
 
-/* ---------- Route ---------- */
-.route { list-style: none; padding: 0; border-top: 1px solid #2A313B; --min: 170px; gap: 0 16px; }
-.route li { padding: 24px 0 8px; display: flex; flex-direction: column; gap: 8px; }
-.route time, .route .when { font-family: var(--font-mono); font-size: 13px; color: var(--ink-4); }
+/* ---------- Route (experience) ----------
+   Each job is a stop on a line: amber circles joined by a track.
+   Past stops are hollow, the current one is lit and pulses,
+   and the line to the next stop is dashed because it's not built yet. */
+.route { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.route li { position: relative; padding: 38px 20px 0 0; display: flex; flex-direction: column; gap: 8px; }
+.route li::before {               /* the stop */
+  content: ""; position: absolute; top: 0; left: 0; z-index: 1;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--ground); border: 2px solid var(--signal);
+}
+.route li::after {                /* the track to the next stop */
+  content: ""; position: absolute; top: 7px; left: 16px; right: 0; height: 2px;
+  background: var(--signal-line);
+}
+.route li:last-child::after { display: none; }
+.route .now::before { background: var(--signal); box-shadow: 0 0 0 6px rgba(255, 181, 71, 0.16); animation: lamp 2.4s ease-in-out infinite; }
+.route .now::after { background: repeating-linear-gradient(90deg, var(--signal-line) 0 8px, transparent 8px 14px); }
+.route .next::before { border-style: dashed; border-color: var(--signal-line); }
+@keyframes lamp { 50% { box-shadow: 0 0 0 10px rgba(255, 181, 71, 0.04); } }
+
+.route .when { font-family: var(--font-mono); font-size: 13px; color: var(--ink-4); }
 .route .now .when { color: var(--signal); }
-.route .next .when { color: var(--go); }
 .route strong { font-size: 18px; font-weight: 600; }
 .route p { font-size: 14px; color: var(--ink-3); }
+.route .next strong, .route .next p { color: var(--ink-4); }
+
+/* Narrower screens: the line runs downwards instead */
+@media (max-width: 900px) {
+  .route { grid-template-columns: 1fr; }
+  .route li { padding: 0 0 32px 40px; }
+  .route li::before { top: 2px; }
+  .route li::after { top: 18px; bottom: 0; left: 7px; right: auto; width: 2px; height: auto; }
+  .route .now::after { background: repeating-linear-gradient(180deg, var(--signal-line) 0 8px, transparent 8px 14px); }
+}
 
 /* ---------- CV ---------- */
 .cvs { --min: 280px; }
@@ -310,7 +351,7 @@ img, svg { display: block; }
 /* ---------- Footer ---------- */
 .footer { border-top: 1px solid var(--line-soft); }
 .footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding-block: 28px; font-size: 14px; color: var(--ink-4); }
-.footer img { height: 20px; width: auto; }
+.footer__logo { height: 44px; width: auto; }
 
 /* ---------- Phones ---------- */
 @media (max-width: 640px) {
@@ -342,4 +383,5 @@ img, svg { display: block; }
   html { scroll-behavior: auto; }
   .ticker__track { animation: none; }
   .row__panel, .cell--chev { transition: none; }
+  .route .now::before { animation: none; }
 }
