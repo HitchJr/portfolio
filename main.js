@@ -177,3 +177,88 @@ function tickClocks() {
 }
 tickClocks();
 setInterval(tickClocks, 15000);
+
+// ---------- 4. The train on "How a build runs" ----------
+// The five steps sit on one track. Hover a step and the train drives to it.
+// Trains don't reverse: if the step is behind the train, it drives off the
+// right end of the track and comes back in from the left (the track is a loop).
+const stepsWrap = document.getElementById("steps");
+const train = stepsWrap.querySelector(".train");
+const steps = [...stepsWrap.querySelectorAll(".steps li")];
+let at = 0;          // the step the train is standing at
+let wanted = 0;      // the step the visitor last hovered
+let driving = false;
+
+// Where the train stands for a step: on the track, at the step's left edge.
+function spot(i) {
+  const li = steps[i];
+  return { x: li.offsetLeft + 4, y: li.offsetTop + li.offsetHeight - 9 - train.clientHeight };
+}
+
+// The train only drives when all five steps are on one line (wide screens).
+// On phones they stack, so the train simply stays at step 01.
+function oneLine() {
+  return steps.every((li) => li.offsetTop === steps[0].offsetTop);
+}
+
+function place(i) {
+  const p = spot(i);
+  train.style.transform = `translate(${p.x}px, ${p.y}px)`;
+}
+
+function light(i) {
+  steps.forEach((li, n) => li.classList.toggle("steps__now", n === i));
+}
+
+// One leg of the journey, from x to x. Returns a promise that resolves on arrival.
+function drive(fromX, toX, y, ms, easing) {
+  return train.animate(
+    [{ transform: `translate(${fromX}px, ${y}px)` }, { transform: `translate(${toX}px, ${y}px)` }],
+    { duration: ms, easing, fill: "forwards" }
+  ).finished;
+}
+
+async function go() {
+  if (driving) return;                // already on the way; it will check `wanted` again on arrival
+  driving = true;
+  while (wanted !== at) {
+    const target = wanted;
+    const from = spot(at), to = spot(target);
+    const perPx = 1.4;                // milliseconds per pixel, so longer trips take longer
+    if (reduceMotion) {
+      place(target);
+    } else if (target > at) {
+      // Ahead of us: drive straight there.
+      await drive(from.x, to.x, to.y, Math.max(350, (to.x - from.x) * perPx), "ease-in-out");
+    } else {
+      // Behind us: off the right end, round the loop, in from the left.
+      const exit = stepsWrap.clientWidth + 10;
+      const enter = -train.clientWidth - 10;
+      await drive(from.x, exit, to.y, (exit - from.x) * perPx, "ease-in");
+      await drive(enter, to.x, to.y, (to.x - enter) * perPx, "ease-out");
+    }
+    at = target;
+    light(at);
+  }
+  train.getAnimations().forEach((a) => { a.commitStyles(); a.cancel(); });
+  driving = false;
+}
+
+steps.forEach((li, i) => {
+  li.addEventListener("pointerenter", (e) => {
+    if (e.pointerType !== "mouse" || !oneLine()) return;
+    wanted = i;
+    go();
+  });
+});
+
+// Put the train in place now, and again if the window is resized
+// (back to step 01 if the steps no longer fit on one line).
+function reset() {
+  if (driving) return;
+  if (!oneLine()) { at = wanted = 0; light(0); }
+  place(at);
+}
+reset();
+window.addEventListener("resize", reset);
+document.fonts && document.fonts.ready.then(reset);   // text size can shift once fonts load

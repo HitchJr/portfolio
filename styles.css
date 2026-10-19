@@ -283,7 +283,8 @@ img, svg { display: block; }
 .steps__n { font-family: var(--font-mono); font-size: 13px; color: var(--ink-4); }
 .steps strong { font-size: 22px; font-weight: 600; }
 .steps p { font-size: 15px; color: var(--ink-3); }
-.train { position: absolute; left: 4px; bottom: 9px; width: 150px; height: 46px; max-width: calc(100% - 8px); }
+.steps-wrap { position: relative; overflow-x: clip; }   /* clip: the train can leave one end of the track and come back in at the other */
+.train { position: absolute; left: 0; top: 0; width: 150px; height: 46px; pointer-events: none; }
 .train__body { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; }
 .train__win { fill: var(--ground); }
 .train__stripe { fill: var(--signal); }
