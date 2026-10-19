@@ -273,14 +273,41 @@ img, svg { display: block; }
 .sub { font-size: 22px; font-weight: 600; margin: 56px 0 20px; }
 .note { margin-top: 28px; font-size: 15px; color: var(--ink-4); }
 
-/* ---------- Route ---------- */
-.route { list-style: none; padding: 0; border-top: 1px solid #2A313B; --min: 170px; gap: 0 16px; }
-.route li { padding: 24px 0 8px; display: flex; flex-direction: column; gap: 8px; }
-.route time, .route .when { font-family: var(--font-mono); font-size: 13px; color: var(--ink-4); }
+/* ---------- Route (experience) ----------
+   Each job is a stop on a line: amber circles joined by a track.
+   Past stops are hollow, the current one is lit and pulses,
+   and the line to the next stop is dashed because it's not built yet. */
+.route { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.route li { position: relative; padding: 38px 20px 0 0; display: flex; flex-direction: column; gap: 8px; }
+.route li::before {               /* the stop */
+  content: ""; position: absolute; top: 0; left: 0; z-index: 1;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--ground); border: 2px solid var(--signal);
+}
+.route li::after {                /* the track to the next stop */
+  content: ""; position: absolute; top: 7px; left: 16px; right: 0; height: 2px;
+  background: var(--signal-line);
+}
+.route li:last-child::after { display: none; }
+.route .now::before { background: var(--signal); box-shadow: 0 0 0 6px rgba(255, 181, 71, 0.16); animation: lamp 2.4s ease-in-out infinite; }
+.route .now::after { background: repeating-linear-gradient(90deg, var(--signal-line) 0 8px, transparent 8px 14px); }
+.route .next::before { border-style: dashed; border-color: var(--signal-line); }
+@keyframes lamp { 50% { box-shadow: 0 0 0 10px rgba(255, 181, 71, 0.04); } }
+
+.route .when { font-family: var(--font-mono); font-size: 13px; color: var(--ink-4); }
 .route .now .when { color: var(--signal); }
-.route .next .when { color: var(--go); }
 .route strong { font-size: 18px; font-weight: 600; }
 .route p { font-size: 14px; color: var(--ink-3); }
+.route .next strong, .route .next p { color: var(--ink-4); }
+
+/* Narrower screens: the line runs downwards instead */
+@media (max-width: 900px) {
+  .route { grid-template-columns: 1fr; }
+  .route li { padding: 0 0 32px 40px; }
+  .route li::before { top: 2px; }
+  .route li::after { top: 18px; bottom: 0; left: 7px; right: auto; width: 2px; height: auto; }
+  .route .now::after { background: repeating-linear-gradient(180deg, var(--signal-line) 0 8px, transparent 8px 14px); }
+}
 
 /* ---------- CV ---------- */
 .cvs { --min: 280px; }
@@ -342,4 +369,5 @@ img, svg { display: block; }
   html { scroll-behavior: auto; }
   .ticker__track { animation: none; }
   .row__panel, .cell--chev { transition: none; }
+  .route .now::before { animation: none; }
 }
