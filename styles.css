@@ -264,13 +264,32 @@ img, svg { display: block; }
 .stat p { color: var(--ink-2); font-size: 16px; }
 
 /* ---------- Steps ---------- */
-.steps { list-style: none; padding: 0; --min: 190px; }
-.steps li { border-top: 2px solid var(--line-strong); padding: 20px 4px 0; display: flex; flex-direction: column; gap: 8px; }
-.steps li:first-child { border-top-color: var(--signal); }
-.steps li:first-child .steps__n { color: var(--signal); }
+/* The five steps sit on a stretch of track (side view: rail on top,
+   sleepers under it). The train stands on the track under the current step. */
+.steps { list-style: none; padding: 0; --min: 190px; column-gap: 0; row-gap: 32px; }
+.steps li { position: relative; padding: 0 20px 76px 4px; display: flex; flex-direction: column; gap: 8px; }
+.steps li::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 10px;
+  background:
+    linear-gradient(var(--line-strong), var(--line-strong)) top / 100% 3px no-repeat,
+    repeating-linear-gradient(90deg, var(--line) 0 8px, transparent 8px 20px) bottom / 100% 7px no-repeat;
+}
+.steps__now::after {
+  background:
+    linear-gradient(var(--signal), var(--signal)) top / 100% 3px no-repeat,
+    repeating-linear-gradient(90deg, var(--signal-line) 0 8px, transparent 8px 20px) bottom / 100% 7px no-repeat !important;
+}
+.steps__now .steps__n { color: var(--signal); }
 .steps__n { font-family: var(--font-mono); font-size: 13px; color: var(--ink-4); }
 .steps strong { font-size: 22px; font-weight: 600; }
 .steps p { font-size: 15px; color: var(--ink-3); }
+.steps-wrap { position: relative; overflow-x: clip; }   /* clip: the train can leave one end of the track and come back in at the other */
+.train { position: absolute; left: 0; top: 0; width: 150px; height: 46px; pointer-events: none; }
+.train__body { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; }
+.train__win { fill: var(--ground); }
+.train__stripe { fill: var(--signal); }
+.train__lamp { fill: var(--signal-hover); filter: drop-shadow(0 0 4px var(--signal)); }
+.train__wheel { fill: var(--line-strong); stroke: var(--ground); stroke-width: 2; }
 
 /* ---------- AI and coding ---------- */
 .compare { --min: 300px; }
@@ -358,6 +377,9 @@ img, svg { display: block; }
   .nav a:not(.btn) { display: none; }   /* phones: logo + contact button only, so the sticky bar stays one line */
   .brand { gap: 10px; } .brand span { padding-left: 10px; font-size: 14px; }
   .card { padding: 22px; }
+  .steps { row-gap: 24px; }
+  .steps li { padding-bottom: 28px; }          /* only the step with the train needs room above the track */
+  .steps li.steps__now { padding-bottom: 76px; }
 }
 
 /* Board on narrow screens: two lines per departure */
