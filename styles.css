@@ -61,6 +61,11 @@ body {
 a { color: var(--signal); }
 a:hover { color: var(--signal-hover); }
 :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 4px; }
+/* Browser highlights. A link that ends in "#:~:text=..." (from search results, chat apps
+   or "copy link to highlight") makes the browser mark that passage, and some phone browsers
+   draw it as a white box on a dark page. Keep it in the site's colours instead. */
+::target-text { background: transparent; color: inherit; }
+::selection { background: var(--signal); color: var(--ground); }
 h1, h2, h3, p, ul, ol { margin: 0; }
 img, svg { display: block; }
 
