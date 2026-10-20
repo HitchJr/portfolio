@@ -1,0 +1,44 @@
+# CV design standard
+
+Every CV follows one design, one layout and one way of writing. All versions are built from the files in this folder, so a change here changes every CV.
+
+## Build
+
+```bash
+pip install jinja2 playwright
+python -m playwright install chromium
+python3 cv/source/build_cvs.py
+```
+
+The PDFs are written to `cv/`, with the same file names the site links to.
+
+## Files
+
+- `build_cvs.py` – all the content. Shared text (contact, jobs, languages, interests) is at the top, and each version is one entry in `CVS`.
+- `template.html.j2` – the layout.
+- `style.css` – the DP.IO design: Barlow, Barlow Condensed and JetBrains Mono from `/fonts`, dark header, one amber accent.
+- `photo.jpg` – the photo in the header.
+
+## Design rules
+
+- **One A4 page.** If a version runs onto a second page, shorten it rather than shrinking the type.
+- **Header.** The header is dark. It holds the role icon and an eyebrow line, the name with "Persson" in amber, and a contact line. Below that is the amber Portfolio button, and the photo sits small on the right with an amber border.
+- **Experience as a route line.** Each job is a stop on a vertical line, and the current job is the lit amber stop. Older, less relevant jobs go under "Earlier roles" as one line each.
+- **Sidebar, in this order:** Skills, Languages, Projects, Education, Interests.
+- **Role icon.** Each version has its own icon in the eyebrow, drawn in the signal style: black body, grey outline, one amber part lit.
+  - `signal`: railway (the DP.IO signal head)
+  - `server`: IT and operations (a server rack)
+  - `plan`: project management (a task timeline)
+
+  To add an icon, add it to `ICONS` in `build_cvs.py`.
+
+## Writing rules
+
+- Plain, short sentences in Dante's own voice. No buzzwords, no "core competencies" lists, no headline slogans.
+- Only facts Dante has stated. Don't add claims to fit a job ad.
+- "About me" describes him in general. It is not written at a specific job.
+- Each version changes only the eyebrow and icon, the second paragraph of About me, the order of bullets, which jobs get full entries, and the skills it leads with.
+
+## Add a new version
+
+Copy an entry in `CVS`, give it a new `file`, `label`, `icon` and `eyebrow`, adjust the parts listed above, run the build, and check that it is still one page.

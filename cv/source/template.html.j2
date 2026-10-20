@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dante Persson – CV ({{ cv.label }})</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="head">
+  <div class="head__text">
+    <p class="eyebrow">{{ icons[cv.icon] }}{{ cv.eyebrow }}</p>
+    <h1>Dante <span>Persson</span></h1>
+    <div class="contact">
+      {% for c in contact %}{% if c.href %}<a href="{{ c.href }}">{{ c.text }}</a>{% else %}<span>{{ c.text }}</span>{% endif %}
+      {% endfor %}
+    </div>
+    <a class="portfolio" href="https://dante-persson.vercel.app"><span class="portfolio__label">Portfolio</span><span class="portfolio__text">See my projects and work tools</span><span class="portfolio__url">dante-persson.vercel.app &#8594;</span></a>
+  </div>
+  <img class="photo" src="photo.jpg" alt="Dante Persson">
+</header>
+<div class="route"></div>
+
+<div class="body">
+  <div class="main">
+    <section class="about">
+      <h2>About me</h2>
+      {% for p in cv.about %}<p>{{ p }}</p>
+      {% endfor %}
+    </section>
+
+    <section>
+      <h2>Work experience</h2>
+      <div class="jobs">
+        {% for job in cv.jobs %}
+        <div class="job{% if loop.first %} now{% endif %}">
+          <h3>{{ job.title }}<br><span class="org">{{ job.org }}</span>{% if job.note %} <span class="note">({{ job.note }})</span>{% endif %}</h3>
+          <p class="when">{{ job.when }}</p>
+          <ul>
+            {% for b in job.bullets %}<li>{{ b }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %}
+        {% if cv.earlier %}
+        <div class="job early">
+          <h3>Earlier roles</h3>
+          {% for e in cv.earlier %}
+          <p class="row"><b>{{ e.title }},</b> {{ e.org }} <span class="when">{{ e.when }}</span></p>
+          <p class="sub">{{ e.line }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+
+  <aside class="side">
+    <section>
+      <h2>Skills</h2>
+      <ul>
+        {% for s in cv.skills %}<li>{{ s }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section>
+      <h2>Languages</h2>
+      <ul>
+        {% for name, level in languages %}<li class="lang"><span>{{ name }}</span><span>{{ level }}</span></li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="proj">
+      <h2>Projects</h2>
+      {% if cv.projects_intro is not sameas false %}<p>In my free time I build small web apps with AI coding tools.</p>{% endif %}
+      {% for name, text in cv.projects %}<p><b>{{ name }}:</b> {{ text|safe }}</p>
+      {% endfor %}
+    </section>
+    <section class="edu">
+      <h2>Education</h2>
+      {% for e in cv.education %}
+      <b>{{ e.what }}</b>
+      <span>{{ e.where }}</span>
+      <p class="when">{{ e.when }}</p>
+      {% endfor %}
+    </section>
+    <section>
+      <h2>Interests</h2>
+      <p>{{ interests }}</p>
+    </section>
+  </aside>
+</div>
+</body>
+</html>
