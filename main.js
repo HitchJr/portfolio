@@ -1,7 +1,7 @@
 // DP.IO portfolio
 // 1. The departure board: one row per project, built from the list below.
 // 2. Split-flap effect: letters and numbers roll before they settle.
-// 3. Malmö and Hanoi clocks on the board.
+// 3. Malmö and Tokyo clocks on the board.
 
 // ---------- 1. Departures ----------
 // Track: 1 = web apps, 2 = data, 3 = work tools.
