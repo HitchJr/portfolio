@@ -1,14 +1,14 @@
 # Dante Persson – portfolio
 
-Personal portfolio under the DP.IO brand (logo: "dp" with a signal head). The page is a railway planning sheet: white paper, black ink, and a train graph (the time–distance chart railway traffic is planned with) where my career is one red train line through my workplaces as stations. Then experience, projects, AI and coding, about, CV downloads and contact, all lined up on the graph's station column.
+Personal portfolio under the DP.IO brand (logo: "dp" with a signal head). The page is a railway planning sheet: pale sage paper (or a night-shift dark mode), black ink, and a train graph (the time–distance chart railway traffic is planned with) where my career is one red train line through my workplaces as stations. Then experience, projects, AI and coding, about, CV downloads and contact, all lined up on the graph's station column.
 
 Plain HTML, CSS and JavaScript with no build step, so it deploys anywhere static files are served.
 
 ## Files
 
 - `index.html` – page structure and all the text, including the train graph and the project rows
-- `styles.css` – design tokens (colours, fonts, the station column width) at the top, then the layout. Red is used only for the train line.
-- `main.js` – only opens and closes the project rows. The page works without it; the train line's draw-in is plain CSS.
+- `styles.css` – design tokens for light and dark mode (colours, fonts, the station column width) at the top, then the layout. Red is for the train; green and red signal lamps mark project status. Sections draw in as you scroll (in browsers that support scroll-driven animation). Everything respects the visitor's reduced-motion setting.
+- `main.js` – the motion and small extras: the light/dark switch, the train that drives along the career line, the route line under the header that follows your scrolling, the live Malmö clock, and opening project rows. The page works without it.
 - `brand/` – the dp logo (dp + signal head) for dark and light backgrounds, the full version with name and route line (`dp-lockup-*`), the app icon, and the favicon (signal head only, also `favicon.svg`). All letters are outlined paths, so no font is needed.
 - `fonts/` – self-hosted Familjen Grotesk (headlines) and Schibsted Grotesk (text), both SIL Open Font License
 
