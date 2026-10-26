@@ -155,18 +155,7 @@ img, svg { display: block; }
 .nav .btn { min-height: 40px; padding: 8px 18px; }
 
 /* ---------- Hero ---------- */
-.hero { position: relative; isolation: isolate; padding: clamp(64px, 10vw, 128px) var(--gutter) 56px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px; }
-/* Amber aurora behind the hero (drawn by shader.js). Hidden until it's ready,
-   then fades in; the mask fades its bottom edge into the page background. */
-.hero__glow {
-  position: absolute; inset: 0; z-index: -1;
-  width: 100%; height: 100%;
-  opacity: 0; transition: opacity 1.2s ease;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
-          mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
-}
-.hero__glow.is-on { opacity: 0.85; }
+.hero { padding: clamp(64px, 10vw, 128px) var(--gutter) 56px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px; }
 .status {
   display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--font-mono); font-size: 13px; color: var(--ink-3);
