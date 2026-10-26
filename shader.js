@@ -26,10 +26,10 @@ if (canvas && !reduceMotion && isWebGPUSupported()) {
               colorA: "#FFB547", // --signal (amber lamp)
               colorB: "#C9781F", // darker amber
               colorC: "#5A4417", // --signal-line (deep amber)
-              intensity: 45,     // keep it soft so the text stays readable
+              intensity: 70,     // visible but soft, so the text stays readable
               speed: 2,          // slow drift, not a light show
               curtainCount: 3,
-              height: 90,
+              height: 140,
               center: { x: 0.5, y: 0 },
             },
           },
