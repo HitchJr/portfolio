@@ -1,20 +1,24 @@
 # Dante Persson – portfolio
 
-Personal portfolio under the DP.IO brand (logo: "dp" with a signal head): a dark page with one amber "signal" accent and bold condensed headlines. Projects are shown on a railway departure board whose letters and numbers roll like split-flap displays. Then the career route (each role a stop on the line, with its results), AI and coding, about, CV downloads, and contact as the last departure.
+Personal portfolio under the DP.IO brand (logo: "dp" with a signal head). The page is a railway planning sheet: white paper, black ink, and a train graph (the time–distance chart railway traffic is planned with) where my career is one red train line through my workplaces as stations. Then experience, projects, AI and coding, about, CV downloads and contact, all lined up on the graph's station column.
 
 Plain HTML, CSS and JavaScript with no build step, so it deploys anywhere static files are served.
 
 ## Files
 
-- `index.html` – page structure and all the text, including the departure board rows
-- `styles.css` – DP.IO design tokens (colours, fonts, spacing) at the top, then the layout
-- `main.js` – only adds effects on top of the HTML: opening and closing board rows, the split-flap roll, the Malmö and Tokyo clocks, and the train on "How a build runs". The page still works if it fails to load.
+- `index.html` – page structure and all the text, including the train graph and the project rows
+- `styles.css` – design tokens (colours, fonts, the station column width) at the top, then the layout. Red is used only for the train line.
+- `main.js` – only opens and closes the project rows. The page works without it; the train line's draw-in is plain CSS.
 - `brand/` – the dp logo (dp + signal head) for dark and light backgrounds, the full version with name and route line (`dp-lockup-*`), the app icon, and the favicon (signal head only, also `favicon.svg`). All letters are outlined paths, so no font is needed.
-- `fonts/` – self-hosted Barlow, Barlow Condensed and JetBrains Mono (SIL Open Font License)
+- `fonts/` – self-hosted Familjen Grotesk (headlines) and Schibsted Grotesk (text), both SIL Open Font License
 
 ## Add or edit a project
 
-Projects live on the departure board in `index.html`. Copy one `<li class="row">` block and change the text. Each visible board text (`.flap`) has a matching hidden text (`.sr`) that screen readers use, so update both. Give the button's `aria-controls` and the panel's `id` the same new name. Put the `is-change` class on the status cell to light it up in amber (used for "Paused").
+Projects are in `index.html`, in the Projects section. Copy one `<li class="dep">` block and change the text. Give the button's `aria-controls` and the panel's `id` the same new name.
+
+## Change the train graph
+
+The graph is in `index.html` near the top. Each workplace is one `<li class="st">` row, and the red line is the `<path>` elements in the SVG. Positions are percentages: across, the plot runs from mid-2014 (0) to mid-2027 (100), so one year is about 7.69; down, each of the 7 rows is 14.29 tall, with row centres at 7.14, 21.43, 35.71 and so on. To move "now" later, change the last numbers in `seg--ld`, the start of `seg--next`, and `--x` on `.now` and `.now-line`.
 
 ## Run locally
 

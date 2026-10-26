@@ -1,7 +1,8 @@
 /* DP.IO portfolio: the train graph.
    The page is a railway planning sheet: white paper, a pale grid where the
-   graph is drawn, black ink, and one red train line. Square corners and
-   thin rules instead of cards. */
+   graph is drawn, black ink, and red used for one thing only: the train line.
+   Square corners and thin rules instead of cards. Every section keeps the
+   graph's left column (--label), so the page reads as one timetable. */
 
 /* ---------- Fonts (self-hosted, SIL Open Font License) ----------
    Familjen Grotesk (by Familjen, Stockholm) for headlines,
@@ -14,21 +15,20 @@
   --paper: #FFFFFF;         /* page */
   --sheet: #F2F5F3;         /* the graph sheet, faintly green-grey like printed train graphs */
   --grid: #DCE3DF;          /* fine grid lines */
-  --grid-strong: #B9C6BF;   /* year lines */
+  --grid-strong: #B9C6BF;   /* year lines and station rules */
   --rule: #D6DBD8;          /* rules between rows */
   --ink: #111417;           /* text and strong rules */
   --ink-2: #3D444B;         /* body text */
   --ink-3: #5E666D;         /* secondary text */
-  --red: #C4161C;           /* the train line */
-  --red-deep: #9C0F14;
-  --green: #17734A;         /* "live / open" */
+  --red: #C4161C;           /* the train line, and nothing else */
 
   --font-head: "Familjen Grotesk", "Schibsted Grotesk", system-ui, sans-serif;
   --font-body: "Schibsted Grotesk", system-ui, sans-serif;
 
   --wrap: 1240px;
   --gutter: 32px;
-  --section: clamp(80px, 11vw, 136px);
+  --label: 15rem;           /* the graph's station column, reused by every section */
+  --section: clamp(72px, 9vw, 112px);
   --ease-out: cubic-bezier(.16, 1, .3, 1);
 }
 
@@ -37,7 +37,7 @@
 html {
   scroll-behavior: smooth; scroll-padding-top: 76px;
   scrollbar-color: var(--grid-strong) var(--paper);
-  caret-color: var(--red);
+  caret-color: var(--ink);
 }
 body {
   margin: 0;
@@ -49,34 +49,32 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
-::selection { background: var(--red); color: #fff; }
-a { color: var(--ink); text-decoration-color: var(--red); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
-a:hover { color: var(--red); }
-:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+::selection { background: var(--ink); color: var(--paper); }
+a { color: var(--ink); text-decoration-color: var(--ink-3); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+a:hover { text-decoration-color: var(--ink); text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
 img, svg { display: block; }
 
 .wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: var(--gutter); }
 .skip { position: absolute; left: -9999px; }
-.skip:focus { left: 16px; top: 12px; z-index: 100; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: var(--ink); color: #fff; }
+.skip:focus { left: 16px; top: 12px; z-index: 100; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: var(--ink); color: var(--paper); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
 .btn {
-  display: inline-flex; white-space: nowrap; align-items: center; justify-content: center;
+  display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;
   min-height: 44px; padding: 0 20px;
   font-weight: 600; font-size: 16px; text-decoration: none;
-  border: 1.5px solid var(--ink); border-radius: 2px;
-  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  background: var(--ink); color: var(--paper); border: 0; border-radius: 0;
+  transition: background-color 160ms ease;
 }
-.btn--ink { background: var(--ink); color: #fff; }
-.btn--ink:hover { background: var(--red); border-color: var(--red); color: #fff; }
-.btn--line { background: transparent; color: var(--ink); }
-.btn--line:hover { border-color: var(--red); color: var(--red); }
+.btn:hover { background: #2B3138; color: var(--paper); }
+.textlink { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
 
 /* ---------- Sheet header ---------- */
 .sheet-head {
   position: sticky; top: 0; z-index: 10;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.95);
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--ink);
 }
@@ -87,45 +85,48 @@ img, svg { display: block; }
 .sheet-head__title span { font-weight: 400; color: var(--ink-3); margin-left: 8px; }
 .nav { display: flex; align-items: center; gap: 4px 24px; margin-left: auto; font-size: 15px; }
 .nav a:not(.btn) { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 32px; text-decoration: none; color: var(--ink-2); }
-.nav a:not(.btn):hover { color: var(--red); }
-.nav .btn { min-height: 44px; padding: 0 16px; font-size: 15px; }
+.nav a:not(.btn):hover { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; }
+.nav .btn { padding: 0 16px; font-size: 15px; }
 
-/* ---------- Hero ---------- */
-.hero { padding-top: clamp(40px, 6vw, 72px); }
-.hero__text {
-  display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 32px 56px; align-items: end;
-  padding-bottom: clamp(32px, 4vw, 48px);
+/* ---------- First screen: title block over the graph ----------
+   Like the header box of a printed graph sheet: the headline in the big
+   cell, facts in small cells, the actions in the last one. */
+.hero { padding-top: clamp(24px, 3.5vw, 40px); }
+.titleblock {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); grid-template-rows: 1fr auto;
+  border: 1.5px solid var(--ink); border-bottom: 0;
 }
-.hero h1 {
+.titleblock__main { grid-row: 1 / span 2; padding: 24px 32px 26px 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; }
+.titleblock h1 {
   font-family: var(--font-head); font-weight: 700;
-  font-size: clamp(42px, 6.2vw, 88px); line-height: 0.98; letter-spacing: -0.035em;
-  text-wrap: balance;
+  font-size: clamp(34px, 3.9vw, 54px); line-height: 1.02; letter-spacing: -0.03em;
+  max-width: 17ch; text-wrap: balance;
 }
-.hero h1 span { display: block; color: var(--red); }
-.hero__side { display: flex; flex-direction: column; gap: 18px; padding-bottom: 6px; }
-.hero__lede { font-size: 18px; color: var(--ink-2); max-width: 44ch; }
-.hero__status { display: flex; align-items: baseline; gap: 10px; font-size: 15px; color: var(--ink-3); }
-.dot { flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; background: var(--green); transform: translateY(-1px); }
-.hero__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.titleblock__main p { font-size: 17px; color: var(--ink-2); max-width: 58ch; }
+.titleblock__facts { display: grid; grid-template-columns: 1fr 1fr; border-left: 1.5px solid var(--ink); }
+.titleblock__facts div { padding: 12px 16px; border-bottom: 1px solid var(--grid-strong); }
+.titleblock__facts div:nth-child(odd) { border-right: 1px solid var(--grid-strong); }
+.titleblock__facts dt { font-size: 13px; color: var(--ink-3); }
+.titleblock__facts dd { font-weight: 600; font-size: 15px; line-height: 1.3; margin-top: 2px; }
+.titleblock__actions { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; padding: 14px 16px; border-left: 1.5px solid var(--ink); }
 
 /* ---------- The train graph ----------
    A grid: station names on the left, the plot on the right.
-   Year lines are drawn as a background on the plot; the red path is an SVG
-   stretched over the plot, with a stroke that keeps its width. */
+   Year lines are a background on the plot; the red path is an SVG stretched
+   over the plot, with a stroke that keeps its width. */
 .graph {
-  --label: 15rem;
-  --row: 52px;
+  --row: 50px;
   --years: 30px;
   position: relative; isolation: isolate;
   display: grid; grid-template-columns: var(--label) minmax(0, 1fr); grid-template-rows: var(--years) auto auto;
-  border-top: 2px solid var(--ink);
+  border-top: 1.5px solid var(--ink);
 }
-.graph__years, .job__when, .dep__when { font-variant-numeric: tabular-nums; }
+.graph__years, .job__when, .dep__when, .seglabel { font-variant-numeric: tabular-nums; }
 .graph__years { grid-column: 2; grid-row: 1; position: relative; font-size: 13px; color: var(--ink-3); }
 .graph__years span { position: absolute; left: calc(var(--x) * 1%); bottom: 6px; transform: translateX(-50%); }
 
 .graph__rows { grid-column: 1 / -1; grid-row: 2; list-style: none; padding: 0; position: relative; }
-/* The sheet: tinted plot area with year lines (strong) and quarter lines (fine).
+/* The sheet: tinted plot with year lines (strong) and quarter lines (fine).
    The plot spans 13 years (2014.5–2027.5), so one year is 100%/13. */
 .graph__rows::before {
   content: ""; position: absolute; top: 0; bottom: 0; left: var(--label); right: 0; z-index: -1;
@@ -138,100 +139,101 @@ img, svg { display: block; }
 }
 .st { border-bottom: 1px solid var(--grid-strong); }
 .st:first-child { border-top: 1px solid var(--grid-strong); }
+.st:last-child { border-bottom: 1.5px solid var(--ink); }
 .st a {
   display: flex; flex-direction: column; justify-content: center;
   width: var(--label); min-height: var(--row); padding: 6px 16px 6px 0;
   text-decoration: none; color: var(--ink); line-height: 1.2;
 }
 .st strong { font-family: var(--font-head); font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
-.st span { font-size: 13px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.st--now strong { color: var(--red); }
+.st span { font-size: 13px; color: var(--ink-3); }
 .st--next strong { color: var(--ink-3); }
-.st a:hover strong, .st a:focus-visible strong { color: var(--red); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.st a:hover strong, .st a:focus-visible strong { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 
-.graph__plot {
-  grid-column: 2; grid-row: 2; position: relative; pointer-events: none;
-}
+.graph__plot { grid-column: 2; grid-row: 2; position: relative; pointer-events: none; }
 .graph__plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .seg { fill: none; stroke: var(--red); stroke-width: 3; stroke-linejoin: round; stroke-linecap: square; vector-effect: non-scaling-stroke; transition: stroke-width 160ms ease; }
 .seg--next { stroke: var(--ink-3); stroke-width: 2; stroke-dasharray: 5 5; }
+.now-line { position: absolute; top: 0; bottom: 0; left: calc(var(--x) * 1%); border-left: 1px dashed var(--ink); }
 .now {
   position: absolute; left: calc(var(--x) * 1%); top: calc(var(--y) * 1%);
   width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px;
   background: var(--paper); border: 3px solid var(--red); border-radius: 50%;
 }
-.now span { position: absolute; left: 50%; top: 14px; transform: translateX(-50%); font-size: 12px; font-weight: 600; color: var(--red); }
+.now span { position: absolute; right: 12px; top: -22px; font-size: 13px; font-weight: 600; color: var(--ink); background: var(--sheet); padding: 0 3px; }
+/* Dates written along each stay, the way train numbers sit on their path */
+.seglabel { position: absolute; left: calc(var(--x) * 1% + 6px); top: calc(var(--y) * 1%); transform: translateY(-120%); font-size: 12px; color: var(--ink-2); white-space: nowrap; }
 
-/* Hovering or focusing a station lights its row and thickens its part of the line */
+/* Hovering or focusing a station thickens its part of the line and tints its row */
 .graph:has(.st--ld a:is(:hover, :focus-visible)) .seg--ld,
 .graph:has(.st--tv a:is(:hover, :focus-visible)) .seg--tv,
 .graph:has(.st--pn a:is(:hover, :focus-visible)) .seg--pn,
 .graph:has(.st--bb a:is(:hover, :focus-visible)) .seg--bb,
 .graph:has(.st--me a:is(:hover, :focus-visible)) .seg--me,
 .graph:has(.st--su a:is(:hover, :focus-visible)) .seg--su { stroke-width: 6; }
-.graph:has(.st--next a:is(:hover, :focus-visible)) .seg--next { stroke: var(--red); stroke-width: 3; }
-.st:has(a:is(:hover, :focus-visible)) { background: linear-gradient(to right, transparent var(--label), rgba(196, 22, 28, 0.06) var(--label)); }
+.graph:has(.st--next a:is(:hover, :focus-visible)) .seg--next { stroke: var(--ink); }
+.st:has(a:is(:hover, :focus-visible)) { background: linear-gradient(to right, transparent var(--label), rgba(17, 20, 23, 0.05) var(--label)); }
 
 /* The line draws itself once, left to right, like time passing */
 .js .graph__plot svg { clip-path: inset(-10px 100% -10px 0); animation: draw 1.8s var(--ease-out) 0.25s forwards; }
-.js .now { opacity: 0; animation: appear 0.3s ease 1.7s forwards; }
+.js .now, .js .seglabel { opacity: 0; animation: appear 0.4s ease 1.6s forwards; }
 @keyframes draw { to { clip-path: inset(-10px -10px -10px 0); } }
 @keyframes appear { to { opacity: 1; } }
 
-.graph figcaption { grid-column: 1 / -1; grid-row: 3; padding-top: 14px; font-size: 14px; color: var(--ink-3); max-width: 80ch; }
+.graph figcaption { grid-column: 1 / -1; grid-row: 3; padding-top: 12px; font-size: 14px; color: var(--ink-3); max-width: 90ch; }
 
-/* ---------- Sections ---------- */
-.section { padding-top: var(--section); }
+/* ---------- Sections ----------
+   Same two columns as the graph: the heading sits in the station column. */
+.section { margin-top: var(--section); }
 .section__head {
-  display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 16px 56px; align-items: end;
-  padding-bottom: 28px; border-bottom: 2px solid var(--ink); margin-bottom: 8px;
+  display: grid; grid-template-columns: var(--label) minmax(0, 1fr); align-items: baseline;
+  padding-top: 18px; border-top: 1.5px solid var(--ink); margin-bottom: 8px;
 }
-.section__head h2 {
-  font-family: var(--font-head); font-weight: 700;
-  font-size: clamp(34px, 4.2vw, 56px); line-height: 1; letter-spacing: -0.03em; text-wrap: balance;
-}
-.section__head p { font-size: 17px; color: var(--ink-2); max-width: 52ch; }
+.section__head h2 { font-family: var(--font-head); font-weight: 700; font-size: 28px; line-height: 1.1; letter-spacing: -0.02em; padding-right: 16px; }
+.section__head p { font-size: 19px; color: var(--ink-2); max-width: 58ch; }
+.section__body { margin-left: var(--label); }
 
-/* ---------- Career timetable ---------- */
+/* ---------- Experience: the rows behind the graph ---------- */
 .job {
-  display: grid; grid-template-columns: 11rem minmax(0, 1fr) minmax(0, 20rem); gap: 12px 40px;
-  padding: 32px 0; border-bottom: 1px solid var(--rule);
+  display: grid; grid-template-columns: var(--label) minmax(0, 1fr);
+  border-bottom: 1px solid var(--rule);
   scroll-margin-top: 90px;
 }
-.job__when { font-size: 15px; color: var(--ink-3); padding-top: 6px; }
-.job--now .job__when { color: var(--red); font-weight: 600; }
+.job__station { padding: 30px 16px 30px 0; }
+.job__station strong { display: block; font-family: var(--font-head); font-weight: 700; font-size: 17px; line-height: 1.25; }
+.job__when { font-size: 14px; color: var(--ink-3); margin-top: 2px; }
+.job__body { padding: 28px 0 32px; }
 .job h3 { font-family: var(--font-head); font-weight: 700; font-size: clamp(24px, 2.4vw, 30px); line-height: 1.1; letter-spacing: -0.02em; }
 .job__org { margin-top: 4px; color: var(--ink-3); }
 .job ul { list-style: none; padding: 0; margin-top: 16px; display: flex; flex-direction: column; gap: 6px; color: var(--ink-2); max-width: 64ch; }
-.job li { position: relative; padding-left: 20px; }
-.job li::before { content: ""; position: absolute; left: 0; top: 0.78em; width: 10px; height: 1.5px; background: var(--ink-3); }
-.job__result { align-self: start; padding: 4px 0 0 18px; border-left: 1px solid var(--red); color: var(--ink-2); font-size: 15px; }
-.job__result strong { display: block; font-family: var(--font-head); font-weight: 700; font-size: 40px; line-height: 1; letter-spacing: -0.03em; color: var(--red); margin-bottom: 8px; }
-.job--earlier h3 { color: var(--ink-3); }
+.job li, .split li { position: relative; padding-left: 20px; }
+.job li::before, .split li::before { content: ""; position: absolute; left: 0; top: 12px; width: 10px; height: 2px; background: var(--ink-3); }
+.job__result { margin-top: 16px; max-width: 64ch; color: var(--ink-2); }
+.job__result strong { color: var(--ink); font-weight: 700; }
+.job--earlier h3 { font-size: 22px; }
 .job dl { margin-top: 14px; display: flex; flex-direction: column; gap: 12px; }
 .job dt { font-weight: 600; }
 .job dd { font-size: 15px; color: var(--ink-3); }
 
-/* ---------- Projects timetable ---------- */
+/* ---------- Projects: a printed timetable ---------- */
 .deps__cols, .dep__btn {
-  display: grid; grid-template-columns: 7rem minmax(0, 2.4fr) minmax(0, 1.4fr) 8rem 1.5rem; gap: 20px; align-items: baseline;
+  display: grid; grid-template-columns: var(--label) minmax(0, 2.4fr) minmax(0, 1.4fr) 8rem 1.5rem; column-gap: 20px; align-items: baseline;
 }
-.deps__cols { padding: 12px 0 10px; font-size: 13px; font-weight: 600; color: var(--ink-3); border-bottom: 1px solid var(--ink); }
+.deps__cols { padding: 12px 0 10px; font-size: 13px; color: var(--ink-3); border-bottom: 1px solid var(--ink); }
 .deps__rows { list-style: none; padding: 0; }
 .dep { border-bottom: 1px solid var(--rule); }
 .dep__btn {
   width: 100%; padding: 20px 0; background: none; border: 0; text-align: left; cursor: pointer;
   font: inherit; color: var(--ink);
 }
-.dep__btn:hover .dep__name strong, .dep__btn[aria-expanded="true"] .dep__name strong { color: var(--red); }
+.dep__btn:hover .dep__name strong, .dep__btn[aria-expanded="true"] .dep__name strong { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
 .dep__btn:focus-visible { outline-offset: 4px; }
 .dep__when { font-size: 15px; color: var(--ink-3); }
 .dep__name { color: var(--ink-3); font-size: 15px; }
-.dep__name strong { display: block; font-family: var(--font-head); font-weight: 700; font-size: 24px; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); transition: color 160ms ease; }
+.dep__name strong { display: block; font-family: var(--font-head); font-weight: 700; font-size: 24px; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); }
 .dep__via { font-size: 15px; color: var(--ink-3); }
 .dep__status { font-size: 15px; font-weight: 600; color: var(--ink); }
-.dep__status--live { color: var(--green); }
-.dep__status--changed { color: var(--red); }
+.dep__status--changed { font-weight: 400; color: var(--ink-3); font-style: italic; }
 .dep__toggle { justify-self: end; align-self: center; color: var(--ink); }
 .dep__toggle svg { fill: none; stroke: currentColor; stroke-width: 1.75; transition: transform 240ms var(--ease-out); }
 .dep__btn[aria-expanded="true"] .dep__toggle svg { transform: rotate(45deg); }
@@ -241,113 +243,95 @@ img, svg { display: block; }
 .js .dep__panel { grid-template-rows: 0fr; transition: grid-template-rows 280ms var(--ease-out); }
 .js .dep__panel[data-open="true"] { grid-template-rows: 1fr; }
 .dep__panel > div { overflow: hidden; }
-.panel { margin: 0 0 24px calc(7rem + 20px); max-width: 66ch; color: var(--ink-2); }
+.panel { margin: 0 0 24px calc(var(--label) + 20px); max-width: 66ch; color: var(--ink-2); }
 .panel p + p, .panel ul + p, .panel p + ul { margin-top: 10px; }
 .panel ul { padding-left: 18px; }
-.panel li::marker { color: var(--red); }
 .panel__links { display: flex; flex-wrap: wrap; gap: 0 28px; font-weight: 600; }
 .panel__links a { display: inline-flex; align-items: center; min-height: 44px; }
 
 /* ---------- AI and coding ---------- */
-.split { display: grid; grid-template-columns: 1fr 1fr; }
-.split__col { padding: 28px 40px 32px 0; }
-.split__col + .split__col { padding-left: 40px; border-left: 1px solid var(--rule); }
-.split h3 { font-family: var(--font-head); font-weight: 700; font-size: 26px; letter-spacing: -0.02em; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.split { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--rule); }
+.split__col { padding: 24px 32px 28px 0; }
+.split__col + .split__col { padding-left: 32px; border-left: 1px solid var(--rule); }
+.split h3 { font-family: var(--font-head); font-weight: 700; font-size: 22px; letter-spacing: -0.02em; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
 .split h3 span { font-family: var(--font-body); font-weight: 400; font-size: 15px; color: var(--ink-3); letter-spacing: 0; }
-.split__col--ai h3 { color: var(--red); }
-.split ul { list-style: none; padding: 0; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; color: var(--ink-2); }
-.split li { position: relative; padding-left: 20px; }
-.split li::before { content: ""; position: absolute; left: 0; top: 0.78em; width: 10px; height: 1.5px; background: var(--ink-3); }
-.split__col--ai li::before { background: var(--red); }
-
-.sub { font-family: var(--font-head); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; margin: 48px 0 0; padding-bottom: 14px; }
-/* The five steps as stops on a line */
-.stops { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 3px solid var(--ink); }
-.stops li { position: relative; padding: 22px 24px 0 0; }
-.stops li::before { content: ""; position: absolute; left: 0; top: -9px; width: 15px; height: 15px; border-radius: 50%; background: var(--paper); border: 3px solid var(--ink); }
-.stops li:last-child::before { background: var(--red); border-color: var(--red); }
-.stops strong { font-family: var(--font-head); font-size: 20px; }
-.stops p { margin-top: 4px; font-size: 15px; color: var(--ink-3); }
-.note { margin-top: 48px; font-size: 15px; color: var(--ink-3); max-width: 70ch; }
+.split ul { list-style: none; padding: 0; margin-top: 14px; display: flex; flex-direction: column; gap: 10px; color: var(--ink-2); }
+.note { margin-top: 20px; font-size: 15px; color: var(--ink-3); max-width: 70ch; }
 .note a { display: inline-block; padding: 11px 0; font-weight: 600; }
 
 /* ---------- About ---------- */
-.about { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px 56px; padding-top: 28px; }
-.about__text { display: flex; flex-direction: column; gap: 16px; font-size: 19px; color: var(--ink-2); max-width: 60ch; }
-.facts div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 16px; padding: 12px 0; border-top: 1px solid var(--rule); }
+.about { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px 48px; padding-top: 16px; }
+.about__text { display: flex; flex-direction: column; gap: 16px; color: var(--ink-2); max-width: 60ch; }
+.facts div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 16px; padding: 11px 0; border-top: 1px solid var(--rule); }
 .facts div:last-child { border-bottom: 1px solid var(--rule); }
 .facts dt { font-weight: 600; font-size: 15px; }
 .facts dd { font-size: 15px; color: var(--ink-2); }
 
 /* ---------- CV ---------- */
-.cvs { list-style: none; padding: 0; }
-.cvs li { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) auto; gap: 8px 40px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--rule); }
-.cvs h3 { font-family: var(--font-head); font-weight: 700; font-size: 26px; letter-spacing: -0.02em; }
-.cvs p { color: var(--ink-2); }
+.cvs { list-style: none; padding: 0; border-top: 1px solid var(--rule); }
+.cvs li { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) auto; gap: 4px 32px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+.cvs h3 { font-family: var(--font-head); font-weight: 700; font-size: 22px; letter-spacing: -0.02em; }
+.cvs p { color: var(--ink-2); font-size: 16px; }
 .cvs a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-weight: 600; white-space: nowrap; }
 .cvs .meta { display: inline-block; font-weight: 400; color: var(--ink-3); font-size: 14px; }
 
 /* ---------- Contact ---------- */
-.contact__mail { margin-top: 36px; }
-.contact__mail a {
-  font-family: var(--font-head); font-weight: 700; letter-spacing: -0.035em; line-height: 1;
-  font-size: clamp(40px, 8vw, 112px); text-decoration-thickness: 3px; text-underline-offset: 10px;
-  overflow-wrap: anywhere;
-}
-.contact__links { display: flex; gap: 0 32px; margin-top: 20px; font-weight: 600; font-size: 18px; }
+.contact__mail { padding-top: 12px; }
+.contact__mail a { display: inline-block; padding: 4px 0; font-family: var(--font-head); font-weight: 700; font-size: clamp(26px, 3vw, 36px); letter-spacing: -0.02em; overflow-wrap: anywhere; }
+.contact__links { display: flex; gap: 0 28px; margin-top: 6px; font-weight: 600; }
 .contact__links a { display: inline-flex; align-items: center; min-height: 44px; }
 
 /* ---------- Footer ---------- */
-.footer { margin-top: var(--section); border-top: 2px solid var(--ink); }
-.footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; padding-block: 28px; font-size: 14px; color: var(--ink-3); }
+.footer { margin-top: var(--section); border-top: 1.5px solid var(--ink); }
+.footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; padding-block: 24px; font-size: 14px; color: var(--ink-3); }
 .footer__logo { height: 40px; width: auto; }
 
 /* ---------- Medium screens ---------- */
 @media (max-width: 1000px) {
+  :root { --label: 12rem; }
   .sheet-head__title span { display: none; }
-  .hero__text, .section__head, .about { grid-template-columns: 1fr; }
-  .job { grid-template-columns: 9rem minmax(0, 1fr); }
-  .job__result { grid-column: 2; }
-  .stops { grid-template-columns: 1fr; border-top: 0; border-left: 3px solid var(--ink); margin-left: 7px; }
-  .stops li { padding: 0 0 22px 26px; }
-  .stops li::before { left: -9px; top: 4px; }
-  .stops li:last-child { padding-bottom: 0; }
+  .titleblock { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .titleblock__main { grid-row: auto; }
+  .titleblock__facts, .titleblock__actions { grid-column: 1; border-left: 0; }
+  .titleblock__facts { border-top: 1.5px solid var(--ink); }
+  .seglabel { display: none; }
+  .deps__cols, .dep__btn { grid-template-columns: 7rem minmax(0, 1fr) 7rem 1.5rem; }
+  .dep__via, .deps__cols span:nth-child(3) { display: none; }
+  .panel { margin-left: calc(7rem + 20px); }
+  .about { grid-template-columns: 1fr; }
 }
 
 /* ---------- Phones ---------- */
 @media (max-width: 720px) {
-  :root { --gutter: 18px; }
+  :root { --gutter: 18px; --label: 7.5rem; }
   .sheet-head__title, .nav a.nav__wide { display: none; }
   .nav { gap: 4px 14px; }
   .nav .btn { padding: 0 12px; }
-  .now span { left: auto; right: 10px; top: -3px; transform: none; }
 
-  .graph { --label: 7.5rem; --row: 50px; }
+  .titleblock__main { padding: 18px 16px 20px; }
   .st strong { font-size: 15px; }
-  .st span { white-space: normal; font-size: 12px; overflow: visible; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .st span { font-size: 12px; }
   .graph__years span { display: none; }
   .graph__years span:nth-child(4n+1) { display: block; }
   .graph__years span:last-child { transform: translateX(-85%); }
   .graph__years { font-size: 12px; }
 
-  .job { grid-template-columns: 1fr; gap: 8px; padding: 26px 0; }
-  .job__result { grid-column: 1; margin-top: 12px; }
-  .job__result strong { font-size: 34px; }
+  .section__head { grid-template-columns: 1fr; gap: 8px; }
+  .section__body { margin-left: 0; }
+  .job { grid-template-columns: 1fr; }
+  .job__station { padding: 24px 0 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .job__body { padding: 8px 0 26px; }
 
   .deps__cols { display: none; }
-  .dep__btn { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name toggle" "meta meta"; gap: 6px 16px; }
+  .dep__btn { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name toggle" "when toggle" "status toggle"; row-gap: 6px; }
   .dep__name { grid-area: name; }
   .dep__toggle { grid-area: toggle; }
-  .dep__when { grid-area: meta; }
-  .dep__via, .dep__status { grid-area: meta; }
-  .dep__btn { grid-template-areas: "name toggle" "when toggle" "status toggle"; }
   .dep__when { grid-area: when; font-size: 14px; }
-  .dep__via { display: none; }
   .dep__status { grid-area: status; font-size: 14px; }
   .panel { margin-left: 0; }
 
   .split { grid-template-columns: 1fr; }
-  .split__col { padding: 24px 0; }
+  .split__col { padding: 22px 0; }
   .split__col + .split__col { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); }
 
   .facts div { grid-template-columns: 1fr; gap: 2px; }
@@ -357,6 +341,6 @@ img, svg { display: block; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .graph__plot svg { animation: none; clip-path: none; }
-  .js .now { animation: none; opacity: 1; }
+  .js .now, .js .seglabel { animation: none; opacity: 1; }
   .js .dep__panel, .dep__toggle svg, .btn, .seg { transition: none; }
 }
