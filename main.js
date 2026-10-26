@@ -1,131 +1,55 @@
 // DP.IO portfolio
-// 1. The departure board: one row per project, built from the list below.
-// 2. Split-flap effect: letters and numbers roll before they settle.
+// The page works without this file: the board rows are written in index.html.
+// This file only adds:
+// 1. Open and close for the departure board rows.
+// 2. Split-flap effect: board letters roll once before they settle.
 // 3. Malmö and Tokyo clocks on the board.
+// 4. The train on "How a build runs": drives through the steps once.
 
-// ---------- 1. Departures ----------
-// Track: 1 = web apps, 2 = data, 3 = work tools.
-// To add a project, copy one { ... } block and change the text.
-// "change: true" lights the status up in amber, like a changed departure.
-const departures = [
-  {
-    id: "automation",
-    time: "May 26",
-    name: "Workflow automation",
-    line: "Excel and VBA tools for railway track work",
-    via: "Excel, VBA, AI-assisted",
-    track: "3",
-    status: "In daily use",
-    details: `
-      <p>Planning and safety documentation for track work took hours of manual work in a 24/7 operation. I built Excel tools and VBA macros with AI-assisted development to automate it.</p>
-      <ul>
-        <li>Used daily by a team of 6 across 5 railway projects</li>
-        <li>Saves 2–4 work hours a day</li>
-        <li>Documentation is generated automatically, saving about 10 work hours per documentation request</li>
-        <li>Fewer manual steps, so fewer human errors in safety-critical paperwork</li>
-      </ul>
-      <p>Internal tool, so there's no public link. Happy to walk through it in an interview.</p>`
-  },
-  {
-    id: "voicereader",
-    time: "Aug 26",
-    name: "VoiceReader",
-    line: "Web fiction, read aloud",
-    via: "Next.js, React, TypeScript, Prisma",
-    track: "1",
-    status: "Built",
-    details: `
-      <p>A full-stack app that pulls chapters of serialized web fiction from websites and turns them into audio you can listen to on your phone.</p>
-      <p>I planned the scope and architecture first, then directed the build with Claude Code: site scrapers, sentence segmentation, the API routes and the React interface. The player highlights each sentence as it's read, using the Web Speech API.</p>
-      <p>Private repo. Happy to demo it in an interview.</p>`
-  },
-  {
-    id: "tokenwise",
-    time: "Oct 26",
-    name: "TokenWise AI",
-    line: "AI explained for companies",
-    via: "Web app on Vercel",
-    track: "1",
-    status: "Live",
-    details: `
-      <p>A website that explains AI to companies in plain language: what tokens are, what AI costs compared with what it saves, and a chat that checks whether a business problem is a good fit for AI.</p>
-      <p>Built as a test of whether I can create something of real value with AI.</p>
-      <p class="panel__links">
-        <a href="https://tokenwise-ai.vercel.app">Open the live site →</a>
-        <a href="https://github.com/HitchJr/tokenwise-ai">Source on GitHub</a>
-      </p>`
-  },
-  {
-    id: "railpulse",
-    time: "Oct 26",
-    name: "Rail Pulse",
-    line: "Railway disruption dashboard",
-    via: "Trafikverket open data",
-    track: "2",
-    status: "Paused",
-    change: true,
-    details: `
-      <p>A dashboard that shows disruptions on the Swedish rail network, built on Trafikverket's open data. It's the view I wished I had when I worked in traffic control: what's late, where, and why.</p>
-      <p>Paused while I work through access issues with Trafikverket's API.</p>`
-  }
-];
-
-const rowsEl = document.getElementById("rows");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const rowsEl = document.getElementById("rows");
 
-// A board cell. The visible letters (.flap) are hidden from screen readers,
-// which read the plain text in .sr instead, so they never hear the scrambling.
-function flap(text) {
-  return `<span class="flap" aria-hidden="true" data-final="${text}">${text}</span><span class="sr">${text}</span>`;
+// ---------- 1. Open and close ----------
+// A closed panel is also made "inert", so keyboard users can't tab into
+// links they can't see. Opening the row removes it again.
+const buttons = [...rowsEl.querySelectorAll(".row__btn")];
+
+function setOpen(btn, open) {
+  const panel = document.getElementById(btn.getAttribute("aria-controls"));
+  btn.setAttribute("aria-expanded", String(open));
+  panel.dataset.open = String(open);
+  panel.inert = !open;
 }
 
-rowsEl.innerHTML = departures.map((d) => `
-  <li class="row">
-    <button class="row__btn" type="button" aria-expanded="false" aria-controls="panel-${d.id}">
-      <span class="cell cell--time">${flap(d.time)}</span>
-      <span class="cell cell--dest">${flap(d.name)}<small>${d.line}</small></span>
-      <span class="cell cell--via col-via">${d.via}</span>
-      <span class="cell cell--track col-track">${flap(d.track)}</span>
-      <span class="cell cell--status${d.change ? " is-change" : ""}">${flap(d.status)}</span>
-      <span class="cell cell--chev" aria-hidden="true">+</span>
-    </button>
-    <div class="row__panel" id="panel-${d.id}" data-open="false" role="region" aria-label="${d.name} details">
-      <div><div class="panel">${d.details}</div></div>
-    </div>
-  </li>`).join("");
-
-// Open and close a departure's details when its row is clicked.
-rowsEl.addEventListener("click", (e) => {
-  const btn = e.target.closest(".row__btn");
-  if (!btn) return;
-  const open = btn.getAttribute("aria-expanded") === "true";
-  btn.setAttribute("aria-expanded", String(!open));
-  document.getElementById(btn.getAttribute("aria-controls")).dataset.open = String(!open);
+buttons.forEach((btn) => {
+  setOpen(btn, false);
+  btn.addEventListener("click", () => setOpen(btn, btn.getAttribute("aria-expanded") !== "true"));
 });
 
 // ---------- 2. Split-flap effect ----------
-// Each character spins through random characters of the same kind
-// (numbers through numbers, letters through letters) and locks in place.
-// Spaces and symbols like "–" or "~" stay put.
-const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+// Each character spins through random characters of the same kind and case
+// (digits through digits, capitals through capitals, small letters through
+// small letters) and then locks in place. Spaces and symbols stay put.
+const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const LOWER = "abcdefghijklmnopqrstuvwxyz";
 const DIGITS = "0123456789";
+const pick = (set) => set[Math.floor(Math.random() * set.length)];
 
 function randomLike(c) {
-  if (/[0-9]/.test(c)) return DIGITS[Math.floor(Math.random() * 10)];
-  if (/[a-zåäö]/i.test(c)) return LETTERS[Math.floor(Math.random() * 26)];
-  return c; // space or symbol: no spin
+  if (/[0-9]/.test(c)) return pick(DIGITS);
+  if (/[A-ZÅÄÖ]/.test(c)) return pick(UPPER);
+  if (/[a-zåäö]/.test(c)) return pick(LOWER);
+  return c;
 }
 
 function settle(el, delay) {
-  if (el.dataset.running === "true") return; // already spinning, let it finish
+  if (el.dataset.running === "true") return;
   el.dataset.running = "true";
   const final = [...el.dataset.final];
-  // Each character locks a little later than the one to its left, so the text
-  // settles left to right. The small random part keeps it from looking robotic.
+  // Characters lock left to right, with a little randomness so it isn't robotic.
   const stops = final.map((_, i) => 4 + Math.round(i * 1.4) + Math.floor(Math.random() * 3));
   const last = Math.max(...stops);
   let frame = 0;
-  el.textContent = final.map(randomLike).join("");
   setTimeout(function tick() {
     frame++;
     el.textContent = final.map((c, i) => (frame >= stops[i] ? c : randomLike(c))).join("");
@@ -134,36 +58,24 @@ function settle(el, delay) {
   }, delay);
 }
 
+const flaps = [...rowsEl.querySelectorAll(".flap")];
+flaps.forEach((el) => { el.dataset.final = el.textContent; });
+
 if (!reduceMotion) {
-  // Board rows: spin once when the board scrolls into view, row by row,
-  // and again on a row whenever the mouse moves onto it.
+  // Rolls once, row by row, when the board scrolls into view.
+  // (The text is already readable before that; the roll is only a flourish.)
   const rows = rowsEl.querySelectorAll(".row");
-  const boardSeen = new IntersectionObserver((entries, obs) => {
+  new IntersectionObserver((entries, obs) => {
     if (!entries[0].isIntersecting) return;
     rows.forEach((row, r) => row.querySelectorAll(".flap").forEach((el) => settle(el, r * 160)));
     obs.disconnect();
-  }, { threshold: 0.25 });
-  boardSeen.observe(rowsEl);
+  }, { threshold: 0.25 }).observe(rowsEl);
 
-  rows.forEach((row) => {
-    // Mouse only, so tapping a row on a phone just opens it.
-    row.querySelector(".row__btn").addEventListener("pointerenter", (e) => {
-      if (e.pointerType !== "mouse") return;
-      row.querySelectorAll(".flap").forEach((el) => settle(el, 0));
+  // And again on a row when a mouse moves onto it.
+  buttons.forEach((btn) => {
+    btn.addEventListener("pointerenter", (e) => {
+      if (e.pointerType === "mouse") btn.querySelectorAll(".flap").forEach((el) => settle(el, 0));
     });
-  });
-
-  // Result numbers: roll when each card scrolls into view.
-  const rollSeen = new IntersectionObserver((entries, obs) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      settle(entry.target, 0);
-      obs.unobserve(entry.target);
-    });
-  }, { threshold: 0.6 });
-  document.querySelectorAll(".roll").forEach((el) => {
-    el.dataset.final = el.textContent;
-    rollSeen.observe(el);
   });
 }
 
@@ -179,24 +91,27 @@ tickClocks();
 setInterval(tickClocks, 15000);
 
 // ---------- 4. The train on "How a build runs" ----------
-// The five steps sit on one track. Hover a step and the train drives to it.
-// Trains don't reverse: if the step is behind the train, it drives off the
-// right end of the track and comes back in from the left (the track is a loop).
+// The five steps sit on one track. When the section scrolls into view, the
+// train drives through the steps once, lighting each one, and stops at 05.
+// After that, hovering a step with a mouse drives the train there.
+// Trains don't reverse: to reach a step behind it, the train leaves the right
+// end of the track and comes back in from the left (the track is a loop).
+// On phones the steps stack, so there's no shared track: the train is hidden.
 const stepsWrap = document.getElementById("steps");
 const train = stepsWrap.querySelector(".train");
 const steps = [...stepsWrap.querySelectorAll(".steps li")];
 let at = 0;          // the step the train is standing at
-let wanted = 0;      // the step the visitor last hovered
+let wanted = 0;      // the step it should go to next
 let driving = false;
+let touring = false; // true during the one drive-through
 
-// Where the train stands for a step: on the track, at the step's left edge.
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
 function spot(i) {
   const li = steps[i];
   return { x: li.offsetLeft + 4, y: li.offsetTop + li.offsetHeight - 9 - train.clientHeight };
 }
 
-// The train only drives when all five steps are on one line (wide screens).
-// On phones they stack, so the train simply stays at step 01.
 function oneLine() {
   return steps.every((li) => li.offsetTop === steps[0].offsetTop);
 }
@@ -210,7 +125,6 @@ function light(i) {
   steps.forEach((li, n) => li.classList.toggle("steps__now", n === i));
 }
 
-// One leg of the journey, from x to x. Returns a promise that resolves on arrival.
 function drive(fromX, toX, y, ms, easing) {
   return train.animate(
     [{ transform: `translate(${fromX}px, ${y}px)` }, { transform: `translate(${toX}px, ${y}px)` }],
@@ -219,19 +133,17 @@ function drive(fromX, toX, y, ms, easing) {
 }
 
 async function go() {
-  if (driving) return;                // already on the way; it will check `wanted` again on arrival
+  if (driving) return;
   driving = true;
   while (wanted !== at) {
     const target = wanted;
     const from = spot(at), to = spot(target);
-    const perPx = 1.4;                // milliseconds per pixel, so longer trips take longer
+    const perPx = 1.4;               // milliseconds per pixel, so longer trips take longer
     if (reduceMotion) {
       place(target);
     } else if (target > at) {
-      // Ahead of us: drive straight there.
-      await drive(from.x, to.x, to.y, Math.max(350, (to.x - from.x) * perPx), "ease-in-out");
+      await drive(from.x, to.x, to.y, Math.max(350, (to.x - from.x) * perPx), "cubic-bezier(.25,.8,.25,1)");
     } else {
-      // Behind us: off the right end, round the loop, in from the left.
       const exit = stepsWrap.clientWidth + 10;
       const enter = -train.clientWidth - 10;
       await drive(from.x, exit, to.y, (exit - from.x) * perPx, "ease-in");
@@ -244,21 +156,43 @@ async function go() {
   driving = false;
 }
 
+// The one drive-through: 01 → 02 → 03 → 04 → 05, with a short stop at each.
+async function tour() {
+  touring = true;
+  for (let i = 1; i < steps.length && touring; i++) {
+    await wait(i === 1 ? 300 : 450);
+    if (!touring) break;
+    wanted = i;
+    await go();
+  }
+  touring = false;
+}
+
+if (!reduceMotion) {
+  new IntersectionObserver((entries, obs) => {
+    if (!entries[0].isIntersecting || !oneLine()) return;
+    obs.disconnect();
+    tour();
+  }, { threshold: 0.6 }).observe(stepsWrap);
+} else {
+  light(steps.length - 1);           // reduced motion: no drive, just stand at 05
+  at = wanted = steps.length - 1;
+}
+
 steps.forEach((li, i) => {
   li.addEventListener("pointerenter", (e) => {
     if (e.pointerType !== "mouse" || !oneLine()) return;
+    touring = false;                 // a visitor takes over from the drive-through
     wanted = i;
     go();
   });
 });
 
-// Put the train in place now, and again if the window is resized
-// (back to step 01 if the steps no longer fit on one line).
 function reset() {
   if (driving) return;
-  if (!oneLine()) { at = wanted = 0; light(0); }
+  stepsWrap.classList.toggle("has-train", oneLine());
   place(at);
 }
 reset();
 window.addEventListener("resize", reset);
-document.fonts && document.fonts.ready.then(reset);   // text size can shift once fonts load
+document.fonts && document.fonts.ready.then(reset);
