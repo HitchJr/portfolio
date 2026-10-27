@@ -90,13 +90,6 @@ const ODIN = { what: "Full-stack web development", where: "The Odin Project (sel
 
 // ---------- Role icons (inline SVG, 24x24; the lit part is the brand green) ----------
 
-// Brand mark (track and signal), dark version since the header is dark in both themes
-const LOGO = '<svg class="logo" viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" rx="14" fill="#15201A"/>' +
-  '<path d="M12 40v12M20 40v12M28 40v12M36 40v12M44 40v12M52 40v12" stroke="#3A4E41" stroke-width="2.4" stroke-linecap="round"/>' +
-  '<path d="M7 43h50M7 49h50M44 43V24" stroke="#E7EEE8" stroke-width="2.6" stroke-linecap="round" fill="none"/>' +
-  '<rect x="38" y="8" width="12" height="20" rx="6" fill="#E7EEE8"/><circle cx="44" cy="14" r="2.8" fill="#2B3D32"/>' +
-  '<circle cx="44" cy="22" r="2.8" fill="#6FD49A"/></svg>';
-
 const ICONS = {
   // Railway: the signal head, one lamp lit
   signal: '<svg class="icon" viewBox="0 0 24 24"><rect x="7.5" y="1.5" width="9" height="21" rx="4.5" ' +
@@ -224,7 +217,7 @@ function page(cv, theme) {
 <header class="head">
   <div class="head__text">
     <p class="eyebrow">${ICONS[cv.icon]}${esc(cv.eyebrow)}</p>
-    <h1>${LOGO}Dante <span>Persson</span></h1>
+    <h1>Dante <span>Persson</span></h1>
     <div class="contact">${contact.map((c) => (c.href ? `<a href="${c.href}">${esc(c.text)}</a>` : `<span>${esc(c.text)}</span>`)).join("")}</div>
     <a class="portfolio" href="https://dante-persson.vercel.app"><span class="portfolio__label">Portfolio</span><span class="portfolio__text">See my projects and work tools</span><span class="portfolio__url">dante-persson.vercel.app &#8594;</span></a>
   </div>

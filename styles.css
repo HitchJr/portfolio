@@ -465,14 +465,13 @@ body { overflow-x: clip; }
 /* Split-flap text: characters roll before they settle (site.js) */
 .flap { font-variant-numeric: tabular-nums; }
 
-/* Ticket: the track keeps moving after the train arrives, like a live route */
+/* Ticket: a still dashed track for the train to ride along */
 .ticket__track { background: none; }
 .ticket__track::before {
   content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px;
   background: repeating-linear-gradient(90deg, var(--faint) 0 6px, transparent 6px 12px);
-  background-size: 12px 2px; animation: track-run 0.9s linear infinite;
+  background-size: 12px 2px;
 }
-@keyframes track-run { to { background-position: 12px 0; } }
 .ticket__train { color: var(--accent); }
 
 
@@ -528,5 +527,5 @@ body { overflow-x: clip; }
   .tracks { opacity: 0.6; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ticket__track::before, .route__item--now .route__dot { animation: none !important; }
+  .route__item--now .route__dot { animation: none !important; }
 }

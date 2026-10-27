@@ -20,7 +20,7 @@ Needs Node 18 or newer and Microsoft Edge or Google Chrome, which prints the PDF
 
 - **One A4 page.** If a version runs onto a second page, shorten it rather than shrinking the type.
 - **Two variants.** Light (paper page, dark header) for printing and most applications. Dark (the whole page is the control screen) for sending as a PDF when it suits the company.
-- **Header.** Dark in both variants. It holds the role icon and an eyebrow line, the brand mark (track and signal) beside the name with "Persson" in green, and a contact line. Below that is the Portfolio button, and the photo sits small on the right with a green border. Under the header runs a track with block joints and one green signal.
+- **Header.** Dark in both variants. It holds the role icon and an eyebrow line, the name with "Persson" in green, and a contact line. Below that is the Portfolio button, and the photo sits small on the right with a green border. Under the header runs a track with block joints and one green signal.
 - **Experience as a route line.** Each job is a stop on a vertical line, and the current job is the green stop. Older, less relevant jobs go under "Earlier roles" as one line each.
 - **Sidebar, in this order:** Skills, Languages, Projects, Education, Interests.
 - **Role icon.** Each version has its own icon in the eyebrow, drawn like a signal: dark body, one part lit green.

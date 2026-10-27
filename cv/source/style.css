@@ -95,6 +95,3 @@ li::marker { color: var(--accent); }
 /* Role icon in the eyebrow: one per CV version, drawn as a signal-style device */
 .icon { width: 6mm; height: 6mm; flex: 0 0 auto; }
 
-/* Brand mark beside the name */
-h1 { display: flex; align-items: center; gap: 3.2mm; }
-.logo { width: 9.5mm; height: 9.5mm; flex: 0 0 auto; }
