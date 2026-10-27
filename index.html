@@ -11,6 +11,11 @@
   <link rel="preload" href="fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/jetbrains-mono-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
+  <meta name="color-scheme" content="dark light">
+  <script>
+    // Dark is the default; a light choice made with the switch is remembered on this device.
+    try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+  </script>
 </head>
 <body>
   <a class="skip" href="#projects">Skip to projects</a>
@@ -18,7 +23,8 @@
   <header class="topbar">
     <nav class="wrap topbar__inner" aria-label="Main">
       <a class="brand" href="#top" aria-label="Dante Persson, back to top">
-        <img src="brand/dp-logo-on-dark.svg" alt="" width="58" height="30">
+        <img class="on-dark" src="brand/dp-logo-on-dark.svg" alt="" width="58" height="30">
+        <img class="on-light" src="brand/dp-logo-on-light.svg" alt="" width="58" height="30">
         <span>Dante Persson</span>
       </a>
       <div class="nav">
@@ -27,14 +33,24 @@
         <a href="#route">Experience</a>
         <a href="#about">About</a>
         <a href="#cv">CV</a>
+        <button class="theme" type="button" aria-label="Light mode" aria-pressed="false">
+          <svg class="theme__sun" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.2M10 16.3v2.2M1.5 10h2.2M16.3 10h2.2M4 4l1.6 1.6M14.4 14.4 16 16M4 16l1.6-1.6M14.4 5.6 16 4"/></svg>
+          <svg class="theme__moon" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M15.5 12.6A6.5 6.5 0 0 1 7.4 4.5a6.5 6.5 0 1 0 8.1 8.1Z"/></svg>
+        </button>
         <a class="btn btn--signal" href="#contact">Contact</a>
       </div>
     </nav>
+    <!-- Route line: the page's sections are stations, and the train shows
+         how far down the page you are. Filled in by main.js. -->
+    <div class="progress" aria-hidden="true"><div class="wrap progress__track"><span class="progress__train"></span></div></div>
   </header>
 
   <main id="top">
     <!-- Hero -->
     <section class="hero">
+      <!-- Live track display behind the headline, like the screens in a
+           traffic control centre. Drawn by main.js; decoration only. -->
+      <canvas class="tracks" aria-hidden="true"></canvas>
       <p class="status"><span class="sig sig--go" aria-hidden="true"><i></i><i></i></span>Open to project, operations and IT roles · on-site, hybrid or remote</p>
       <h1 class="display">
         <span>I keep trains moving.</span>
@@ -53,8 +69,8 @@
         <div class="board__head">
           <h2 id="board-title"><span class="sig sig--lg" aria-hidden="true"><i></i><i></i></span><span lang="sv">Avgångar</span> <span class="board__en">Departures · Projects</span></h2>
           <div class="clocks" aria-label="Local times">
-            <p><span class="clocks__city">Malmö</span> <time class="clocks__time" data-tz="Europe/Stockholm">--:--</time></p>
-            <p><span class="clocks__city">Tokyo</span> <time class="clocks__time" data-tz="Asia/Tokyo">--:--</time></p>
+            <p><span class="clocks__city">Malmö</span> <time class="clocks__time" data-tz="Europe/Stockholm">--:--:--</time></p>
+            <p><span class="clocks__city">Tokyo</span> <time class="clocks__time" data-tz="Asia/Tokyo">--:--:--</time></p>
           </div>
         </div>
 
@@ -219,7 +235,8 @@
 
   <footer class="footer">
     <div class="wrap">
-      <img class="footer__logo" src="brand/dp-lockup-on-dark.svg" alt="dp, Dante Persson" width="190" height="44">
+      <img class="footer__logo on-dark" src="brand/dp-lockup-on-dark.svg" alt="dp, Dante Persson" width="190" height="44">
+      <img class="footer__logo on-light" src="brand/dp-lockup-on-light.svg" alt="dp, Dante Persson" width="190" height="44">
       <span>© 2026 Dante Persson · Trelleborg → Malmö</span>
       <span>Planned by me, built with Claude Code, hosted on Vercel.</span>
     </div>

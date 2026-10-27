@@ -2,6 +2,9 @@
 // 1. The departure board: one row per project, built from the list below.
 // 2. Split-flap effect: letters and numbers roll before they settle.
 // 3. Malmö and Tokyo clocks on the board.
+// 4. The train on "How a build runs".
+// 5. Light / dark switch, the route line under the header, and the live
+//    track display behind the headline (further down).
 
 // ---------- 1. Departures ----------
 // Track: 1 = web apps, 2 = data, 3 = work tools.
@@ -79,6 +82,12 @@ function flap(text) {
   return `<span class="flap" aria-hidden="true" data-final="${text}">${text}</span><span class="sr">${text}</span>`;
 }
 
+// A small two-lamp signal head, like the one in the logo:
+// "go" lights the lower lamp green, "stop" lights the upper lamp red.
+function signal(aspect) {
+  return `<svg class="signal signal--${aspect}" viewBox="0 0 10 20" width="10" height="20" aria-hidden="true"><rect x="0.75" y="0.75" width="8.5" height="18.5" rx="4.25"/><circle cx="5" cy="5.8" r="2.6"/><circle cx="5" cy="14.2" r="2.6"/></svg>`;
+}
+
 rowsEl.innerHTML = departures.map((d) => `
   <li class="row">
     <button class="row__btn" type="button" aria-expanded="false" aria-controls="panel-${d.id}">
@@ -86,7 +95,7 @@ rowsEl.innerHTML = departures.map((d) => `
       <span class="cell cell--dest">${flap(d.name)}<small>${d.line}</small></span>
       <span class="cell cell--via col-via">${d.via}</span>
       <span class="cell cell--track col-track">${flap(d.track)}</span>
-      <span class="cell cell--status${d.change ? " is-change" : ""}">${flap(d.status)}</span>
+      <span class="cell cell--status${d.change ? " is-change" : ""}">${signal(d.change ? "stop" : "go")}${flap(d.status)}</span>
       <span class="cell cell--chev" aria-hidden="true">+</span>
     </button>
     <div class="row__panel" id="panel-${d.id}" data-open="false" role="region" aria-label="${d.name} details">
@@ -107,12 +116,17 @@ rowsEl.addEventListener("click", (e) => {
 // Each character spins through random characters of the same kind
 // (numbers through numbers, letters through letters) and locks in place.
 // Spaces and symbols like "–" or "~" stay put.
-const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const LOWER = "abcdefghijklmnopqrstuvwxyz";
 const DIGITS = "0123456789";
+const pick = (set) => set[Math.floor(Math.random() * set.length)];
 
+// Spins through characters of the same kind and case, so "May 26" rolls
+// through small letters and digits, never capitals.
 function randomLike(c) {
-  if (/[0-9]/.test(c)) return DIGITS[Math.floor(Math.random() * 10)];
-  if (/[a-zåäö]/i.test(c)) return LETTERS[Math.floor(Math.random() * 26)];
+  if (/[0-9]/.test(c)) return pick(DIGITS);
+  if (/[A-ZÅÄÖ]/.test(c)) return pick(UPPER);
+  if (/[a-zåäö]/.test(c)) return pick(LOWER);
   return c; // space or symbol: no spin
 }
 
@@ -153,6 +167,19 @@ if (!reduceMotion) {
     });
   });
 
+  // Live board: every few seconds one row refreshes, like a real departure
+  // board updating. Only while the board is on screen and the tab is visible.
+  let boardVisible = false;
+  new IntersectionObserver((entries) => { boardVisible = entries[0].isIntersecting; }).observe(rowsEl);
+  setInterval(() => {
+    if (!boardVisible || document.hidden) return;
+    const row = rows[Math.floor(Math.random() * rows.length)];
+    if (row.querySelector(".row__btn").getAttribute("aria-expanded") === "true") return;
+    row.classList.add("is-refreshing");
+    row.querySelectorAll(".flap").forEach((el) => settle(el, 0));
+    setTimeout(() => row.classList.remove("is-refreshing"), 900);
+  }, 6000);
+
   // Result numbers: roll when each card scrolls into view.
   const rollSeen = new IntersectionObserver((entries, obs) => {
     entries.forEach((entry) => {
@@ -171,12 +198,12 @@ if (!reduceMotion) {
 function tickClocks() {
   document.querySelectorAll(".clocks__time").forEach((el) => {
     const now = new Date();
-    el.textContent = new Intl.DateTimeFormat("sv-SE", { hour: "2-digit", minute: "2-digit", timeZone: el.dataset.tz }).format(now);
+    el.textContent = new Intl.DateTimeFormat("sv-SE", { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: el.dataset.tz }).format(now);
     el.dateTime = now.toISOString();
   });
 }
 tickClocks();
-setInterval(tickClocks, 15000);
+setInterval(tickClocks, 1000);
 
 // ---------- 4. The train on "How a build runs" ----------
 // The five steps sit on one track. Hover a step and the train drives to it.
@@ -244,9 +271,32 @@ async function go() {
   driving = false;
 }
 
+// When the steps scroll into view, the train drives through them once,
+// 01 to 05, stopping briefly at each. A visitor's hover takes over.
+let touring = false;
+const pause = (ms) => new Promise((r) => setTimeout(r, ms));
+async function tour() {
+  touring = true;
+  for (let i = 1; i < steps.length && touring; i++) {
+    await pause(i === 1 ? 300 : 500);
+    if (!touring) break;
+    wanted = i;
+    await go();
+  }
+  touring = false;
+}
+if (!reduceMotion) {
+  new IntersectionObserver((entries, obs) => {
+    if (!entries[0].isIntersecting || !oneLine()) return;
+    obs.disconnect();
+    tour();
+  }, { threshold: 0.6 }).observe(stepsWrap);
+}
+
 steps.forEach((li, i) => {
   li.addEventListener("pointerenter", (e) => {
     if (e.pointerType !== "mouse" || !oneLine()) return;
+    touring = false;
     wanted = i;
     go();
   });
@@ -262,3 +312,179 @@ function reset() {
 reset();
 window.addEventListener("resize", reset);
 document.fonts && document.fonts.ready.then(reset);   // text size can shift once fonts load
+
+// ---------- 5. Light / dark switch ----------
+// Dark is the site's default look; light is an option, remembered on this device.
+const root = document.documentElement;
+const themeBtn = document.querySelector(".theme");
+function showTheme() {
+  const light = root.dataset.theme === "light";
+  themeBtn.setAttribute("aria-pressed", String(light));
+  themeBtn.setAttribute("aria-label", light ? "Dark mode" : "Light mode");
+}
+themeBtn.addEventListener("click", () => {
+  const light = root.dataset.theme !== "light";
+  if (light) root.dataset.theme = "light"; else delete root.dataset.theme;
+  try { localStorage.setItem("theme", light ? "light" : "dark"); } catch (e) {}
+  showTheme();
+  readColors();
+});
+showTheme();
+
+// ---------- 6. Route line under the header ----------
+// Each section is a stop on a thin line; the train shows how far down the
+// page you are, and the nav link of the section you're in is marked.
+const progTrack = document.querySelector(".progress__track");
+const progTrain = document.querySelector(".progress__train");
+const sections = [...document.querySelectorAll("main section[id]")];
+const navLinks = [...document.querySelectorAll(".nav a[href^='#']")];
+const stops = sections.map(() => {
+  const stop = document.createElement("span");
+  stop.className = "progress__stop";
+  progTrack.appendChild(stop);
+  return stop;
+});
+
+function layoutStops() {
+  const max = root.scrollHeight - innerHeight;
+  sections.forEach((sec, i) => {
+    const at = max > 0 ? Math.min(1, Math.max(0, (sec.offsetTop - 90) / max)) : 0;
+    stops[i].style.setProperty("--at", at);
+    stops[i].dataset.at = at;
+  });
+}
+let scrollQueued = false;
+function onScroll() {
+  if (scrollQueued) return;
+  scrollQueued = true;
+  requestAnimationFrame(() => {
+    const max = root.scrollHeight - innerHeight;
+    const p = max > 0 ? scrollY / max : 0;
+    progTrain.style.setProperty("--p", p);
+    stops.forEach((s) => s.classList.toggle("is-passed", p >= Number(s.dataset.at) - 0.001));
+    scrollQueued = false;
+  });
+}
+layoutStops(); onScroll();
+addEventListener("scroll", onScroll, { passive: true });
+addEventListener("resize", () => { layoutStops(); onScroll(); });
+document.fonts && document.fonts.ready.then(() => { layoutStops(); onScroll(); });
+
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    navLinks.forEach((a) => {
+      if (a.getAttribute("href") === `#${entry.target.id}`) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  });
+}, { rootMargin: "-45% 0px -50% 0px" });
+sections.forEach((sec) => spy.observe(sec));
+
+// ---------- 7. Live track display behind the headline ----------
+// A simplified version of a traffic control screen: parallel tracks with
+// crossovers, train blocks moving along them, and signals that turn red
+// behind each train and back to green once it has gone. Purely decoration:
+// the trains and their positions are made up.
+const canvas = document.querySelector(".tracks");
+const ctx = canvas.getContext("2d");
+const hero = canvas.parentElement;
+let W = 0, H = 0, lines = [], trains = [], signals = [], colors = {};
+
+function readColors() {
+  const cs = getComputedStyle(root);
+  colors = {
+    track: cs.getPropertyValue("--line-strong").trim(),
+    train: cs.getPropertyValue("--signal").trim(),
+    go: cs.getPropertyValue("--go").trim(),
+    stop: cs.getPropertyValue("--stop").trim(),
+  };
+  if (reduceMotion) draw();
+}
+
+function rand(a, b) { return a + Math.random() * (b - a); }
+
+function buildLayout() {
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const r = hero.getBoundingClientRect();
+  W = r.width; H = r.height;
+  canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const count = H < 560 ? 4 : 6;
+  lines = Array.from({ length: count }, (_, i) => ({ y: Math.round(H * (0.1 + (0.82 * i) / (count - 1))) + 0.5, dir: i % 2 ? 1 : -1 }));
+  trains = [];
+  lines.forEach((ln, i) => {
+    const n = W > 900 ? 2 : 1;
+    for (let k = 0; k < n; k++) {
+      trains.push({ line: i, len: rand(60, 150), speed: rand(28, 70), x: rand(0, W + 300) - 150 });
+    }
+  });
+  signals = [];
+  lines.forEach((ln, i) => {
+    for (let x = rand(60, 200); x < W; x += rand(200, 300)) signals.push({ line: i, x });
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  // Tracks and crossovers
+  ctx.strokeStyle = colors.track; ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  lines.forEach((ln) => { ctx.moveTo(0, ln.y); ctx.lineTo(W, ln.y); });
+  for (let i = 0; i < lines.length - 1; i++) {
+    const x = (i % 2 ? 0.68 : 0.24) * W;
+    ctx.moveTo(x, lines[i].y); ctx.lineTo(x + 70, lines[i + 1].y);
+  }
+  ctx.stroke();
+  // Signals: red if a train is on, or has just passed, the block behind it
+  signals.forEach((sg) => {
+    const ln = lines[sg.line];
+    const occupied = trains.some((t) => {
+      if (t.line !== sg.line) return false;
+      const head = t.x, tail = t.x - ln.dir * t.len;
+      const behind = ln.dir > 0 ? sg.x - head : head - sg.x; // distance the head is past the signal (negative = not reached)
+      return (behind <= 0 && behind > -260) || (Math.min(head, tail) <= sg.x && Math.max(head, tail) >= sg.x);
+    });
+    ctx.fillStyle = occupied ? colors.stop : colors.go;
+    ctx.globalAlpha = occupied ? 0.95 : 0.55;
+    ctx.beginPath(); ctx.arc(sg.x, ln.y - 8, 2.5, 0, Math.PI * 2); ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+  // Trains as lit blocks, brighter at the front
+  trains.forEach((t) => {
+    const ln = lines[t.line];
+    const tail = t.x - ln.dir * t.len;
+    const x0 = Math.min(t.x, tail);
+    ctx.fillStyle = colors.train; ctx.globalAlpha = 0.75;
+    ctx.fillRect(x0, ln.y - 2.5, t.len, 5);
+    ctx.globalAlpha = 1;
+    ctx.fillRect(t.x - (ln.dir > 0 ? 6 : 0), ln.y - 2.5, 6, 5);
+  });
+}
+
+let last = 0, running = false, heroVisible = true;
+function frame(now) {
+  if (!running) return;
+  const dt = Math.min(0.05, (now - (last || now)) / 1000);
+  last = now;
+  trains.forEach((t) => {
+    const ln = lines[t.line];
+    t.x += ln.dir * t.speed * dt;
+    if (ln.dir > 0 && t.x - t.len > W + 40) { t.x = -rand(40, 400); t.len = rand(60, 150); }
+    if (ln.dir < 0 && t.x + t.len < -40) { t.x = W + rand(40, 400); t.len = rand(60, 150); }
+  });
+  draw();
+  requestAnimationFrame(frame);
+}
+function setRunning() {
+  const should = heroVisible && !document.hidden && !reduceMotion;
+  if (should && !running) { running = true; last = 0; requestAnimationFrame(frame); }
+  if (!should) running = false;
+}
+
+buildLayout(); readColors(); draw();
+new IntersectionObserver((entries) => { heroVisible = entries[0].isIntersecting; setRunning(); }).observe(hero);
+document.addEventListener("visibilitychange", setRunning);
+let resizeTimer;
+addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { buildLayout(); draw(); }, 150); });
+setRunning();

@@ -2,13 +2,16 @@
 
 Personal portfolio under the DP.IO brand (logo: "dp" with a signal head): a dark page with one amber "signal" accent and bold condensed headlines. Projects are shown on a railway departure board whose letters and numbers roll like split-flap displays. Then results, AI and coding, experience, about, CV downloads and contact.
 
+Dark is the default; a switch in the header changes to light mode (the departure board stays dark, like a real one). Behind the headline runs a live track display, like a traffic control screen: trains move along the tracks and signals turn red behind them. The board refreshes a row every few seconds and its clocks tick. A route line under the header shows how far down the page you are. All motion is turned off for visitors who have reduced motion switched on.
+
 Plain HTML, CSS and JavaScript with no build step, so it deploys anywhere static files are served.
 
 ## Files
 
 - `index.html` – page structure and all the text
 - `styles.css` – DP.IO design tokens (colours, fonts, spacing) at the top, then the layout
-- `main.js` – the departure board rows (the project list is at the top of this file), the split-flap rolling effect, and the Malmö and Tokyo clocks
+- `main.js` – also the light/dark switch, the route line, and the live track display (section 7, near the end).
+- `main.js` (start) – the departure board rows (the project list is at the top of this file), the split-flap rolling effect, and the Malmö and Tokyo clocks
 - `brand/` – the dp logo (dp + signal head) for dark and light backgrounds, the full version with name and route line (`dp-lockup-*`), the app icon, and the favicon (signal head only, also `favicon.svg`). All letters are outlined paths, so no font is needed.
 - `fonts/` – self-hosted Barlow, Barlow Condensed and JetBrains Mono (SIL Open Font License)
 
