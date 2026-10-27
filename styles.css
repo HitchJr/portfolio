@@ -1,35 +1,32 @@
-/* Colours: the night shift in a rail control room. Dark mode is petrol-blue
-   screens with phosphor-aqua lights; light mode is cool mint-grey paper
-   printed in petrol ink. Light by default; dark with the toggle.
-   Fonts: GitHub's open-source family, self-hosted (SIL Open Font License):
-   Hubot Sans (wide, for headings), Mona Sans (text), Martian Mono (live data). */
-@font-face { font-family: "Hubot Sans"; src: url("fonts/hubot-sans.woff2") format("woff2"); font-weight: 200 900; font-stretch: 75% 125%; font-display: swap; }
-@font-face { font-family: "Mona Sans"; src: url("fonts/mona-sans.woff2") format("woff2"); font-weight: 200 900; font-stretch: 75% 125%; font-display: swap; }
-@font-face { font-family: "Martian Mono"; src: url("fonts/martian-mono.woff2") format("woff2"); font-weight: 100 800; font-stretch: 75% 112.5%; font-display: swap; }
-
+/* Colours: "forest signal". Light mode is warm grey paper printed in deep
+   green ink; dark mode is a green-black control screen with signal-green
+   lights. Light by default; dark with the toggle.
+   Fonts: IBM Plex Sans (headings and text) and IBM Plex Mono (live data),
+   loaded from Google Fonts. */
 :root {
-  --bg: #EDF3F1;            /* mint-grey paper */
-  --bg-2: #E2EBE8;
-  --card: #FAFCFB;
-  --line: #CFDCD8;
-  --text: #0B2327;          /* petrol ink */
-  --dim: #3B575B;
-  --faint: #5E777B;
-  --accent: #087A73;        /* petrol teal */
-  --accent-soft: #D3EEE9;
-  --green: #0E8A5F;         /* signal: go */
-  --stop: #D2452F;          /* signal: stop */
-  --led: #087A73;           /* "live" lights; aqua LED in dark mode */
-  --btn-bg: #0B2327;
-  --btn-text: #EDF3F1;
-  --shadow: 0 22px 44px -26px rgb(8 40 44 / 0.35);
+  --bg: #F0F0EA;            /* warm grey paper */
+  --bg-2: #E5E6DD;
+  --card: #FBFBF8;
+  --line: #D5D8CC;
+  --text: #18221C;          /* green-black ink */
+  --dim: #46524A;
+  --faint: #6C776F;
+  --accent: #1E6B47;        /* forest green */
+  --accent-soft: #D8EADF;
+  --green: #1E8A4C;         /* signal: go */
+  --stop: #C2412D;          /* signal: stop */
+  --led: #1E6B47;
+  --track: #B3BBAA;         /* rails in the hero background */
+  --btn-bg: #18221C;
+  --btn-text: #F0F0EA;
+  --shadow: 0 22px 44px -26px rgb(24 34 28 / 0.35);
 
-  --head: "Hubot Sans", "Mona Sans", system-ui, sans-serif;
-  --font: "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "Martian Mono", ui-monospace, Consolas, monospace;
-  --head-weight: 700;
-  --head-stretch: 112%;
-  --head-track: -0.025em;
+  --head: "IBM Plex Sans", system-ui, sans-serif;
+  --font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --head-weight: 600;
+  --head-stretch: 100%;
+  --head-track: -0.02em;
 
   --wrap: 72rem;
   --gutter: clamp(1rem, 4vw, 2rem);
@@ -38,20 +35,21 @@
 }
 
 :root[data-theme="dark"] {
-  --bg: #061619;            /* petrol night */
-  --bg-2: #0A2024;
-  --card: #0C2529;
-  --line: #17393E;
-  --text: #E3F2EF;
-  --dim: #9CBAB6;
-  --faint: #6E908C;
-  --accent: #3CE3C8;        /* phosphor aqua */
-  --accent-soft: #0E3B3A;
-  --green: #5BF0A4;
-  --stop: #FF6B55;
-  --led: #3CE3C8;
-  --btn-bg: #3CE3C8;
-  --btn-text: #04181B;
+  --bg: #0D1410;            /* green-black control screen */
+  --bg-2: #121B16;
+  --card: #15201A;
+  --line: #223128;
+  --text: #E7EEE8;
+  --dim: #A5B4AA;
+  --faint: #6F8076;
+  --accent: #6FD49A;        /* signal green */
+  --accent-soft: #173426;
+  --green: #6FD49A;
+  --stop: #FF7A62;
+  --led: #6FD49A;
+  --track: #2B3D32;
+  --btn-bg: #6FD49A;
+  --btn-text: #0D1410;
   --shadow: 0 22px 44px -24px rgb(0 0 0 / 0.75);
   color-scheme: dark;
 }
@@ -123,7 +121,7 @@ h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); font-str
 /* Hero: a train ticket from Malmö to Vietnam */
 .hero { position: relative; isolation: isolate; padding-block: clamp(2.5rem, 7vw, 5rem) clamp(1rem, 3vw, 2rem); }
 .hero .ticket { box-shadow: 0 28px 50px -30px rgb(8 40 44 / 0.45); }
-:root[data-theme="dark"] .hero .ticket { box-shadow: 0 28px 60px -28px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(60 227 200 / 0.06); }
+:root[data-theme="dark"] .hero .ticket { box-shadow: 0 28px 60px -28px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(111 212 154 / 0.06); }
 .ticket {
   --notch: 1.1rem;
   display: grid; grid-template-columns: minmax(0, 1fr) 17rem;
@@ -441,17 +439,21 @@ body { overflow-x: clip; }
 /* Live track display behind the ticket: tracks, moving trains and signals,
    drawn by site.js. Full width, faded towards the middle. */
 .tracks {
-  position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%);
-  pointer-events: none; opacity: 0.6;
-  -webkit-mask-image: radial-gradient(ellipse 52% 58% at 50% 50%, rgba(0,0,0,0.08), #000 100%);
-          mask-image: radial-gradient(ellipse 52% 58% at 50% 50%, rgba(0,0,0,0.08), #000 100%);
+  position: absolute; z-index: -1; top: 0; left: 50%; width: 100vw; height: 100%; transform: translateX(-50%);
+  pointer-events: none; opacity: 1;
+  -webkit-mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, rgba(0,0,0,0.35), #000 100%);
+          mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, rgba(0,0,0,0.35), #000 100%);
 }
-:root[data-theme="dark"] .tracks { opacity: 0.75; }
+:root[data-theme="dark"] .tracks { opacity: 0.85; }
+/* More room above and below the ticket so the tracks show, and a slightly
+   see-through ticket so they run faintly behind it too */
+.hero { padding-block: clamp(3.5rem, 9vw, 6.5rem) clamp(3rem, 7vw, 5rem); }
+.ticket { background: color-mix(in srgb, var(--card) 84%, transparent); backdrop-filter: blur(2px); }
+.ticket__stub { background: color-mix(in srgb, var(--bg-2) 84%, transparent); }
 
 /* Route line under the top bar: page sections are stops, the train is where you are */
 .progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--line); overflow-x: clip; overflow-y: visible; }
 .progress__fill { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p, 0) * 100%); background: var(--accent); }
-.progress__train { position: absolute; top: -2px; left: calc(var(--p, 0) * 100%); width: 22px; height: 6px; margin-left: -22px; border-radius: 1px 4px 4px 1px; background: var(--accent); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent); }
 .progress__stop { position: absolute; top: -3px; left: calc(var(--at) * 100%); width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--faint); transition: background-color 200ms, border-color 200ms; }
 .progress__stop.is-passed { background: var(--accent); border-color: var(--accent); }
 .nav__links a[aria-current] { color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 7px; }
@@ -480,7 +482,9 @@ body { overflow-x: clip; }
   color: var(--accent); fill: var(--accent);
   transform: translate(-50%, -50%) translateY(-36px) rotate(90deg);
   filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 30%, transparent));
+  opacity: 0; transition: opacity 300ms;
 }
+.route.is-moving .route__loco { opacity: 1; }
 .route__loco .loco__cut { fill: var(--bg); }  /* windows and skirt line in the page colour, so it stays one colour */
 .route__item.is-passed .route__dot { border-color: var(--accent); }
 .route__item--now .route__dot { animation: beacon 2.4s ease-out infinite; }
@@ -517,7 +521,7 @@ body { overflow-x: clip; }
   .route__fill, .route__loco { left: 0.6rem; }
 }
 @media (max-width: 40rem) {
-  .tracks { opacity: 0.35; }
+  .tracks { opacity: 0.6; }
 }
 @media (prefers-reduced-motion: reduce) {
   .ticket__track::before, .route__item--now .route__dot { animation: none !important; }

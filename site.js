@@ -89,7 +89,7 @@ if (nav) {
   const bar = document.createElement("div");
   bar.className = "progress";
   bar.setAttribute("aria-hidden", "true");
-  bar.innerHTML = '<span class="progress__fill"></span><span class="progress__train"></span>';
+  bar.innerHTML = '<span class="progress__fill"></span>';
   nav.appendChild(bar);
   const stops = sections.map(() => { const s = document.createElement("span"); s.className = "progress__stop"; bar.appendChild(s); return s; });
   const layout = () => {
@@ -151,6 +151,7 @@ function updateRoute() {
   // Full when the bottom of the list reaches 60% down the screen
   const fill = reduceMotion ? 1 : Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / r.height));
   route.style.setProperty("--fill", fill);
+  route.classList.toggle("is-moving", fill > 0.02);   // the train only shows once the line starts filling
   routeItems.forEach((li) => {
     const dot = li.querySelector(".route__dot").getBoundingClientRect();
     li.classList.toggle("is-passed", dot.top - r.top <= fill * (r.height - 44) + 12);
@@ -167,10 +168,15 @@ document.querySelectorAll(".card, .feature").forEach((el) => {
   });
 });
 
+
 // ---------- Live track display behind the ticket ----------
-// A simplified traffic control screen: parallel tracks with crossovers, train
-// blocks moving along them, and signals that turn red behind each train and
-// green again once it has gone. Decoration only; the trains are made up.
+// A simplified traffic control screen that follows block signalling rules:
+// - Each track is split into blocks by signals. Only one train may be in a block.
+// - A signal turns red as soon as a train passes it, and back to green once
+//   the whole train has left the block behind it.
+// - A train that sees a red signal ahead brakes and waits in front of it,
+//   so two trains can never overlap on a track.
+// Decoration only; the trains are made up.
 const hero = document.querySelector(".hero");
 if (hero) {
   const canvas = document.createElement("canvas");
@@ -178,14 +184,24 @@ if (hero) {
   canvas.setAttribute("aria-hidden", "true");
   hero.prepend(canvas);
   const ctx = canvas.getContext("2d");
-  let W = 0, H = 0, lines = [], trains = [], signals = [], colors = {};
   const rand = (a, b) => a + Math.random() * (b - a);
+  const GAP = 24;            // minimum distance kept to the train ahead
+  const ACCEL = 22, BRAKE = 45;
+  let W = 0, H = 0, lines = [], colors = {};
 
   window.readTrackColors = function () {
     const cs = getComputedStyle(root);
-    colors = { track: cs.getPropertyValue("--line").trim(), train: cs.getPropertyValue("--accent").trim(), go: cs.getPropertyValue("--green").trim(), stop: cs.getPropertyValue("--stop").trim() };
+    const v = (name) => cs.getPropertyValue(name).trim();
+    colors = { track: v("--track") || v("--line"), train: v("--accent"), go: v("--green"), stop: v("--stop") };
     draw();
   };
+
+  // Positions along a line are measured in the direction of travel ("s"),
+  // so the same rules work for trains going left and right.
+  const toX = (ln, s) => (ln.dir > 0 ? s : W - s);
+  const tail = (t) => t.s - t.len;
+  const occupies = (t, from, to) => t.s > from && tail(t) < to;
+
   function build() {
     const dpr = Math.min(2, devicePixelRatio || 1);
     const r = canvas.getBoundingClientRect();
@@ -193,47 +209,96 @@ if (hero) {
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const count = H < 520 ? 5 : 7;
-    lines = Array.from({ length: count }, (_, i) => ({ y: Math.round(H * (0.08 + (0.84 * i) / (count - 1))) + 0.5, dir: i % 2 ? 1 : -1 }));
-    trains = [];
-    lines.forEach((_, i) => { for (let k = 0; k < (W > 900 ? 2 : 1); k++) trains.push({ line: i, len: rand(60, 160), speed: rand(30, 80), x: rand(-150, W + 150) }); });
-    signals = [];
-    lines.forEach((_, i) => { for (let x = rand(40, 180); x < W; x += rand(190, 280)) signals.push({ line: i, x }); });
+    const perLine = W > 900 ? 2 : 1;
+    lines = Array.from({ length: count }, (_, i) => {
+      const ln = { y: Math.round(H * (0.08 + (0.84 * i) / (count - 1))) + 0.5, dir: i % 2 ? 1 : -1, signals: [], trains: [] };
+      for (let s = rand(60, 160); s < W - 60; s += rand(200, 290)) ln.signals.push(s);
+      // Place trains from the front backwards, each one block apart
+      let front = rand(W * 0.5, W);
+      for (let k = 0; k < perLine; k++) {
+        const len = rand(60, 150);
+        ln.trains.push({ s: front, len, v: 0, vmax: rand(35, 75) });
+        front = front - len - rand(260, 420);
+      }
+      return ln;
+    });
   }
+
+  // Block i runs from signal i to signal i + 1 (the last one to the screen edge)
+  function blockEnd(ln, i) { return i + 1 < ln.signals.length ? ln.signals[i + 1] : W + 400; }
+  function isRed(ln, i, except) {
+    return ln.trains.some((t) => t !== except && occupies(t, ln.signals[i], blockEnd(ln, i)));
+  }
+
+  function step(dt) {
+    lines.forEach((ln) => {
+      ln.trains.sort((a, b) => b.s - a.s);              // leader first
+      ln.trains.forEach((t, k) => {
+        // Movement authority: stop before the next red signal, and never
+        // closer than GAP to the tail of the train ahead.
+        let limit = Infinity;
+        const next = ln.signals.findIndex((sig) => sig > t.s);
+        for (let i = next; i >= 0 && i < ln.signals.length; i++) {
+          if (isRed(ln, i, t)) { limit = ln.signals[i] - 6; break; }
+          if (ln.signals[i] - t.s > 400) break;          // far enough to see
+        }
+        if (k > 0) limit = Math.min(limit, tail(ln.trains[k - 1]) - GAP);
+        const room = Math.max(0, limit - t.s);
+        const target = Math.min(t.vmax, Math.sqrt(2 * BRAKE * room));
+        t.v = target > t.v ? Math.min(target, t.v + ACCEL * dt) : target;
+        t.s = Math.min(t.s + t.v * dt, limit);
+      });
+      // A train that has left the screen re-enters at the back of the queue
+      ln.trains.forEach((t) => {
+        if (tail(t) <= W + 40) return;
+        const lastTail = Math.min(...ln.trains.filter((o) => o !== t).map(tail), 0);
+        t.len = rand(60, 150); t.vmax = rand(35, 75); t.v = t.vmax * 0.6;
+        t.s = Math.min(-rand(40, 260), lastTail - GAP - rand(80, 300));
+      });
+    });
+  }
+
   function draw() {
     if (!W) return;
     ctx.clearRect(0, 0, W, H);
-    ctx.strokeStyle = colors.track; ctx.lineWidth = 1.5; ctx.beginPath();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = colors.track;
+    ctx.beginPath();
     lines.forEach((ln) => { ctx.moveTo(0, ln.y); ctx.lineTo(W, ln.y); });
     for (let i = 0; i < lines.length - 1; i++) { const x = (i % 2 ? 0.7 : 0.22) * W; ctx.moveTo(x, lines[i].y); ctx.lineTo(x + 70, lines[i + 1].y); }
     ctx.stroke();
-    signals.forEach((sg) => {
-      const ln = lines[sg.line];
-      const red = trains.some((t) => {
-        if (t.line !== sg.line) return false;
-        const past = ln.dir > 0 ? t.x - sg.x : sg.x - t.x;     // how far the front is past the signal
-        return past >= 0 && past < t.len + 220;
+
+    lines.forEach((ln) => {
+      const side = ln.dir > 0 ? -1 : 1;                  // signals stand on the driver's side
+      ln.signals.forEach((sig, i) => {
+        const x = toX(ln, sig);
+        const red = isRed(ln, i);
+        // Occupied block: drawn as a coloured section of track, like a control screen
+        if (red) {
+          ctx.strokeStyle = colors.stop; ctx.globalAlpha = 0.18; ctx.lineWidth = 3;
+          ctx.beginPath(); ctx.moveTo(x, ln.y); ctx.lineTo(toX(ln, Math.min(blockEnd(ln, i), W)), ln.y); ctx.stroke();
+        }
+        // Block joint and signal
+        ctx.globalAlpha = 0.9; ctx.strokeStyle = colors.track; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(x, ln.y - 4); ctx.lineTo(x, ln.y + 4); ctx.moveTo(x, ln.y + side * 4); ctx.lineTo(x, ln.y + side * 9); ctx.stroke();
+        ctx.globalAlpha = 1; ctx.fillStyle = red ? colors.stop : colors.go;
+        ctx.beginPath(); ctx.arc(x, ln.y + side * 11, 2.6, 0, Math.PI * 2); ctx.fill();
       });
-      ctx.globalAlpha = red ? 1 : 0.6; ctx.fillStyle = red ? colors.stop : colors.go;
-      ctx.beginPath(); ctx.arc(sg.x, ln.y - 8, 2.5, 0, Math.PI * 2); ctx.fill();
-    });
-    trains.forEach((t) => {
-      const ln = lines[t.line];
-      const x0 = ln.dir > 0 ? t.x - t.len : t.x;
-      ctx.fillStyle = colors.train; ctx.globalAlpha = 0.55; ctx.fillRect(x0, ln.y - 2.5, t.len, 5);
-      ctx.globalAlpha = 1; ctx.fillRect(ln.dir > 0 ? t.x - 7 : t.x, ln.y - 2.5, 7, 5);
+      ln.trains.forEach((t) => {
+        const a = toX(ln, tail(t)), b = toX(ln, t.s);
+        ctx.fillStyle = colors.train;
+        ctx.globalAlpha = 0.55; ctx.fillRect(Math.min(a, b), ln.y - 2.5, Math.abs(b - a), 5);
+        ctx.globalAlpha = 1; ctx.fillRect(ln.dir > 0 ? b - 7 : b, ln.y - 2.5, 7, 5);   // the cab at the front
+      });
     });
     ctx.globalAlpha = 1;
   }
+
   let running = false, last = 0, visible = true;
   function frame(now) {
     if (!running) return;
     const dt = Math.min(0.05, (now - (last || now)) / 1000); last = now;
-    trains.forEach((t) => {
-      const ln = lines[t.line];
-      t.x += ln.dir * t.speed * dt;
-      if (ln.dir > 0 && t.x - t.len > W + 40) { t.x = -rand(40, 400); t.len = rand(60, 160); }
-      if (ln.dir < 0 && t.x + t.len < -40) { t.x = W + rand(40, 400); t.len = rand(60, 160); }
-    });
+    step(dt);
     draw();
     requestAnimationFrame(frame);
   }
@@ -245,6 +310,16 @@ if (hero) {
   build(); window.readTrackColors();
   if ("IntersectionObserver" in window) new IntersectionObserver((e) => { visible = e[0].isIntersecting; setRunning(); }).observe(hero);
   document.addEventListener("visibilitychange", setRunning);
-  let t; addEventListener("resize", () => { clearTimeout(t); t = setTimeout(() => { build(); draw(); }, 150); });
+  // Rebuild when the hero changes size (window resize, or fonts loading in)
+  let resizeTimer, lastSize = `${W}x${H}`;
+  const rebuild = () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const r = canvas.getBoundingClientRect();
+      if (`${r.width}x${r.height}` === lastSize) return;
+      build(); draw(); lastSize = `${W}x${H}`;
+    }, 150);
+  };
+  if ("ResizeObserver" in window) new ResizeObserver(rebuild).observe(hero); else addEventListener("resize", rebuild);
   setRunning();
 }

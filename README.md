@@ -14,7 +14,7 @@ Plain HTML, CSS and JavaScript with no build step, so it deploys anywhere static
 - `cv/` – CV PDFs (the Download CV buttons link to `cv/Dante_Persson_CV_Standard.pdf`)
 - `brand/` – the dp logo files and favicon
 
-Fonts are Hubot Sans (headings), Mona Sans (text) and Martian Mono (live data), GitHub's open-source typefaces, self-hosted in `fonts/` (SIL Open Font License).
+Fonts are IBM Plex Sans and IBM Plex Mono, loaded from Google Fonts. Colours are the "forest signal" scheme: warm grey paper and deep green in light mode, a green-black control screen in dark mode.
 
 ## Add or edit a project
 
