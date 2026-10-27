@@ -529,3 +529,17 @@ body { overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) {
   .route__item--now .route__dot { animation: none !important; }
 }
+
+/* Wide screens (1440px and up): the page grows with the monitor instead of
+   sitting in a narrow column. Text scales from 16px at 1440px to about 19px
+   at 2560px, so everything sized in rem grows with it. */
+@media (min-width: 90rem) {
+  html { font-size: clamp(100%, 0.27vw + 12.1px, 125%); }
+  :root { --wrap: 86rem; --gutter: 3rem; }
+  .ticket { grid-template-columns: minmax(0, 1fr) 20rem; }
+
+  /* Experience: heading stays beside the timeline while it scrolls */
+  #experience { display: grid; grid-template-columns: 19rem minmax(0, 1fr); column-gap: 4.5rem; align-items: start; }
+  #experience .section-head { position: sticky; top: 7rem; margin-bottom: 0; }
+  #experience .skills { grid-column: 1 / -1; }
+}
