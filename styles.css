@@ -469,18 +469,19 @@ body { overflow-x: clip; }
 @keyframes track-run { to { background-position: 12px 0; } }
 .ticket__train { color: var(--accent); }
 
-/* Barcode: a scanner line sweeps it */
-.barcode { position: relative; overflow: hidden; }
-.barcode::after {
-  content: ""; position: absolute; top: -10%; bottom: -10%; width: 2px; left: 0;
-  background: var(--stop); box-shadow: 0 0 8px var(--stop);
-  animation: scan 3.2s ease-in-out infinite;
-}
-@keyframes scan { 0%, 100% { left: 0; } 50% { left: calc(100% - 2px); } }
 
 /* Experience: the line fills with scroll and a small train rides the front */
 .route__fill { position: absolute; z-index: 0; top: 0.75rem; left: calc(9rem + 1.5rem + 0.6rem); width: 2px; margin-left: -1px; height: calc(var(--fill, 0) * (100% - 2.75rem)); background: var(--accent); }
-.route__loco { position: absolute; z-index: 2; left: calc(9rem + 1.5rem + 0.6rem); top: calc(0.75rem + var(--fill, 0) * (100% - 2.75rem)); width: 8px; height: 18px; margin: -18px 0 0 -4px; border-radius: 4px 4px 2px 2px; background: var(--accent); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent); }
+/* The miniature train: drawn side-on (64 x 26), turned a quarter so the nose
+   points down, and placed so its nose sits at the front of the filled line. */
+.route__loco {
+  position: absolute; z-index: 2; width: 72px; height: 28px;
+  left: calc(9rem + 1.5rem + 0.6rem); top: calc(0.75rem + var(--fill, 0) * (100% - 2.75rem));
+  color: var(--accent); fill: var(--accent);
+  transform: translate(-50%, -50%) translateY(-36px) rotate(90deg);
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 30%, transparent));
+}
+.route__loco .loco__cut { fill: var(--bg); }  /* windows and skirt line in the page colour, so it stays one colour */
 .route__item.is-passed .route__dot { border-color: var(--accent); }
 .route__item--now .route__dot { animation: beacon 2.4s ease-out infinite; }
 @keyframes beacon { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); } 100% { box-shadow: 0 0 0 14px transparent; } }
@@ -519,6 +520,5 @@ body { overflow-x: clip; }
   .tracks { opacity: 0.35; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ticket__track::before, .barcode::after, .route__item--now .route__dot { animation: none !important; }
-  .barcode::after { display: none; }
+  .ticket__track::before, .route__item--now .route__dot { animation: none !important; }
 }

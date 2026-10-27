@@ -133,7 +133,16 @@ if ("IntersectionObserver" in window) {
 const route = document.querySelector(".route");
 let routeItems = [];
 if (route) {
-  route.insertAdjacentHTML("afterbegin", '<span class="route__fill" aria-hidden="true"></span><span class="route__loco" aria-hidden="true"></span>');
+  // A miniature electric train in one colour: windows and the gap under the
+  // body are cut out, so it reads as a train at any size. Drawn side-on and
+  // turned in CSS so its nose points down the line.
+  const train = `<svg class="route__loco" viewBox="0 0 80 31" aria-hidden="true">
+    <path d="M24 6.5l6-5.5h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="loco__body" d="M3 6.5h52c10 0 18 6 21 14l1 3v1H3z"/>
+    <g class="loco__cut"><rect x="9" y="10" width="9" height="6" rx="1.2"/><rect x="21" y="10" width="9" height="6" rx="1.2"/><rect x="33" y="10" width="9" height="6" rx="1.2"/><path d="M48 10h7c4.2 0 8 2.4 10.2 6H48z"/><rect x="3" y="19.2" width="71" height="1.4"/></g>
+    <g class="loco__wheels"><circle cx="11" cy="27.3" r="3"/><circle cx="19" cy="27.3" r="3"/><circle cx="51" cy="27.3" r="3"/><circle cx="59" cy="27.3" r="3"/></g>
+  </svg>`;
+  route.insertAdjacentHTML("afterbegin", `<span class="route__fill" aria-hidden="true"></span>${train}`);
   routeItems = [...route.querySelectorAll(".route__item")];
 }
 function updateRoute() {
