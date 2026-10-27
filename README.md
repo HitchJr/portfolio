@@ -1,32 +1,32 @@
 # Dante Persson – portfolio
 
-Personal portfolio under the DP.IO brand (logo: "dp" with a signal head): a dark page with one amber "signal" accent and bold condensed headlines. Projects are shown on a railway departure board whose letters and numbers roll like split-flap displays. Then results, AI and coding, experience, about, CV downloads and contact.
+Personal portfolio. The page opens with a train ticket from Malmö C to Vietnam, followed by a timeline of where I've worked, the projects I've built (each with its own case study page) and contact details. Light by default, with a dark mode toggle.
 
 Plain HTML, CSS and JavaScript with no build step, so it deploys anywhere static files are served.
 
 ## Files
 
-- `index.html` – page structure and all the text
-- `styles.css` – DP.IO design tokens (colours, fonts, spacing) at the top, then the layout
-- `main.js` – the departure board rows (the project list is at the top of this file), the split-flap rolling effect, and the Malmö and Tokyo clocks
-- `brand/` – the dp logo (dp + signal head) for dark and light backgrounds, the full version with name and route line (`dp-lockup-*`), the app icon, and the favicon (signal head only, also `favicon.svg`). All letters are outlined paths, so no font is needed.
-- `fonts/` – self-hosted Barlow, Barlow Condensed and JetBrains Mono (SIL Open Font License)
+- `index.html` – home page: ticket, experience timeline, projects and contact
+- `projects/` – one case study page per project
+- `styles.css` – colours, fonts and spacing at the top, then the layout
+- `site.js` – dark mode toggle, scroll fade-ins, the waveform on the VoiceReader card and the Malmö and Hanoi clocks
+- `img/` – project screenshots
+- `cv/` – CV PDFs (the Download CV buttons link to `cv/Dante_Persson_CV_Standard.pdf`)
+- `brand/` – the dp logo files and favicon
+
+Fonts are Fraunces (headings), Geist and Geist Mono, loaded from Google Fonts.
 
 ## Add or edit a project
 
-Projects live in the `departures` list at the top of `main.js`. Copy one `{ ... }` block and change the text. `track` groups them: 1 is web apps, 2 is data, 3 is work tools. Add `change: true` to light the status up in amber (used for "Paused"). The `details` text is what opens when someone clicks the row.
+Add a card in the "Things I've built" section of `index.html`, then copy one of the pages in `projects/` and change the text.
 
 ## Run locally
 
-```bash
-python3 -m http.server 8000
-```
-
-Then open http://localhost:8000.
+Open `index.html` in a browser.
 
 ## Deploy
 
-Import the repo in Vercel and accept the defaults. There's no framework or build command.
+The Vercel project deploys `main` to production automatically. Every other branch gets its own preview link. There's no framework or build command.
 
 ## Token tracking
 

@@ -3,228 +3,271 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dante Persson – portfolio</title>
-  <meta name="description" content="Portfolio of Dante Persson: railway operations lead from Sweden who plans and builds web apps and automation with AI. Projects, experience and CV.">
-  <meta name="theme-color" content="#0A0C0F">
+  <title>Dante Persson</title>
+  <meta name="description" content="Dante Persson: railway operations lead from Sweden who builds web apps and automation. Moving to Vietnam.">
+  <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="fonts/barlow-condensed-800.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/jetbrains-mono-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip" href="#projects">Skip to projects</a>
-
-  <header class="topbar">
-    <nav class="wrap topbar__inner" aria-label="Main">
-      <a class="brand" href="#top" aria-label="Dante Persson, back to top">
-        <img src="brand/dp-logo-on-dark.svg" alt="" width="58" height="30">
-        <span>Dante Persson</span>
-      </a>
-      <div class="nav">
-        <a href="#projects">Projects</a>
-        <a href="#ai">AI and coding</a>
-        <a href="#route">Experience</a>
-        <a href="#about">About</a>
-        <a href="#cv">CV</a>
-        <a class="btn btn--signal" href="#contact">Contact</a>
-      </div>
-    </nav>
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a class="logo" href="#top"><span class="logo__mark">DP</span> Dante Persson</a>
+      <nav class="nav__links" aria-label="Sections">
+        <a href="#experience">Experience</a>
+        <a href="#work">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="theme-btn" type="button" data-theme-toggle aria-label="Dark mode">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn btn--small" href="cv/Dante_Persson_CV_Standard.pdf">Download CV</a>
+    </div>
   </header>
 
   <main id="top">
-    <!-- Hero -->
-    <section class="hero">
-      <p class="status"><span class="sig sig--go" aria-hidden="true"><i></i><i></i></span>Open to project, operations and IT roles · on-site, hybrid or remote</p>
-      <h1 class="display">
-        <span>I keep trains moving.</span>
-        <span class="lit">Then I build the tools around them.</span>
-      </h1>
-      <p class="hero__lede">I'm Dante, a railway operations lead from Sweden with 4+ years of experience in train traffic control and track-work projects. Alongside the work, I plan and build web apps and automation with AI. Here you'll find what I've built, where I've worked, and my CV.</p>
-      <div class="hero__links">
-        <a class="btn btn--ghost btn--square" href="#projects">See the projects</a>
-        <a class="btn btn--signal btn--square" href="#cv">Download my CV</a>
+    <section class="hero wrap" aria-label="Introduction">
+      <article class="ticket reveal">
+        <div class="ticket__main">
+          <div class="ticket__route">
+            <div>
+              <p class="label">From</p>
+              <p class="city">Malmö C</p>
+              <p class="sub">Sweden</p>
+            </div>
+            <div class="ticket__track" aria-hidden="true">
+              <svg class="ticket__train" viewBox="0 0 72 30">
+                <path d="M4 6h50c8 0 14 6 15 13v3H4z" fill="currentColor"/>
+                <rect x="9" y="10" width="8" height="6" rx="1.5" fill="var(--card)"/>
+                <rect x="21" y="10" width="8" height="6" rx="1.5" fill="var(--card)"/>
+                <rect x="33" y="10" width="8" height="6" rx="1.5" fill="var(--card)"/>
+                <path d="M47 10h6c4 0 7 3 8 6h-14z" fill="var(--card)"/>
+                <circle cx="14" cy="25" r="3.2" fill="currentColor"/>
+                <circle cx="24" cy="25" r="3.2" fill="currentColor"/>
+                <circle cx="48" cy="25" r="3.2" fill="currentColor"/>
+                <circle cx="58" cy="25" r="3.2" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="ticket__to">
+              <p class="label">To</p>
+              <p class="city">Vietnam</p>
+              <p class="sub">Remote or on site</p>
+            </div>
+          </div>
+
+          <dl class="ticket__fields">
+            <div class="ticket__passenger">
+              <dt class="label">Passenger</dt>
+              <dd><h1>Dante Persson</h1></dd>
+            </div>
+            <div>
+              <dt class="label">Class</dt>
+              <dd>Project · Operations · IT</dd>
+            </div>
+            <div>
+              <dt class="label">Luggage</dt>
+              <dd>4 years of Swedish rail, web apps, automation</dd>
+            </div>
+          </dl>
+
+          <p class="ticket__note">Hi, I’m Dante. I lead track work teams in Sweden and build tools that save my team 2–4 hours a day. Now I’m moving to Vietnam, and I’m looking for my next role.</p>
+        </div>
+
+        <div class="ticket__stub">
+          <p class="ticket__status"><span class="pill__dot"></span> Boarding now: open to new roles</p>
+          <p class="label">Departure</p>
+          <p class="ticket__date">2026</p>
+          <div class="ticket__actions">
+            <a class="btn" href="cv/Dante_Persson_CV_Standard.pdf">Download CV</a>
+            <a class="btn btn--ghost" href="mailto:dantep@live.se">Email me</a>
+          </div>
+          <div class="barcode" aria-hidden="true"></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section wrap" id="experience" aria-labelledby="exp-h">
+      <div class="section-head reveal">
+        <p class="eyebrow">Experience</p>
+        <h2 id="exp-h">Where I’ve worked</h2>
+        <p>Newest first. Four years in Swedish rail operations, with a background in IT and support.</p>
+      </div>
+
+      <ol class="route">
+        <li class="route__item route__item--next reveal">
+          <div class="route__when"><p>Next</p></div>
+          <span class="route__dot" aria-hidden="true"></span>
+          <div class="route__card">
+            <h3>Project, operations or IT role</h3>
+            <p class="route__org">Vietnam, or remote</p>
+            <p>Relocating to Vietnam and open to roles in project management, operations, logistics and IT.</p>
+          </div>
+        </li>
+
+        <li class="route__item route__item--now reveal">
+          <div class="route__when"><p>2026 – now</p><span class="badge">Current</span></div>
+          <span class="route__dot" aria-hidden="true"></span>
+          <div class="route__card">
+            <h3>Chief track work supervisor</h3>
+            <p class="route__org">LD Järnväg och planering</p>
+            <p>Lead several on-site teams, act as the main contact with the infrastructure owner and plan upcoming railway projects.</p>
+            <ul class="stack"><li>Team leadership</li><li>Stakeholder contact</li><li>Project planning</li></ul>
+          </div>
+        </li>
+
+        <li class="route__item reveal">
+          <div class="route__when"><p>2022 – 2026</p></div>
+          <span class="route__dot" aria-hidden="true"></span>
+          <div class="route__card">
+            <h3>Train traffic controller and TLS programmer</h3>
+            <p class="route__org">Trafikverket, Malmö</p>
+            <p>Worked in a 24/7 control centre: live traffic, incidents and emergency stops together with police and rescue services.</p>
+            <ul class="stack"><li>24/7 operations</li><li>Incident handling</li><li>TLS programming</li></ul>
+          </div>
+        </li>
+
+        <li class="route__item reveal">
+          <div class="route__when"><p>2020 – 2022</p></div>
+          <span class="route__dot" aria-hidden="true"></span>
+          <div class="route__card">
+            <h3>Technical support and Salesforce superuser</h3>
+            <p class="route__org">Bredband2 and Postnord, Malmö</p>
+            <p>Technical support, then Salesforce superuser in Postnord’s invoicing department.</p>
+            <ul class="stack"><li>Salesforce</li><li>Customer support</li><li>Invoicing</li></ul>
+          </div>
+        </li>
+
+        <li class="route__item reveal">
+          <div class="route__when"><p>2018 – 2019</p></div>
+          <span class="route__dot" aria-hidden="true"></span>
+          <div class="route__card">
+            <h3>Machine operator</h3>
+            <p class="route__org">Metso, Trelleborg</p>
+            <p>Mineral processing, with risk assessment as part of the daily routine.</p>
+            <ul class="stack"><li>Risk assessment</li><li>Mineral processing</li></ul>
+          </div>
+        </li>
+
+        <li class="route__item reveal">
+          <div class="route__when"><p>2014 – 2018</p></div>
+          <span class="route__dot" aria-hidden="true"></span>
+          <div class="route__card">
+            <h3>Upper secondary school, IT – Media and Information</h3>
+            <p class="route__org">Sundsgymnasiet, Vellinge</p>
+            <p>Networking, servers and my first lines of code.</p>
+            <ul class="stack"><li>Networking</li><li>Servers</li></ul>
+          </div>
+        </li>
+      </ol>
+
+      <div class="skills">
+        <div class="reveal">
+          <h3>Operations</h3>
+          <ul class="stack"><li>Project planning</li><li>Risk management</li><li>Stakeholder contact</li><li>Incident handling</li><li>Team leadership</li></ul>
+        </div>
+        <div class="reveal reveal-2">
+          <h3>Building</h3>
+          <ul class="stack"><li>Next.js</li><li>React</li><li>TypeScript</li><li>Prisma</li><li>Excel / VBA</li><li>Claude Code</li></ul>
+        </div>
+        <div class="reveal reveal-3">
+          <h3>Languages</h3>
+          <ul class="stack"><li>Swedish (native)</li><li>English (fluent)</li><li>Vietnamese (learning)</li></ul>
+        </div>
       </div>
     </section>
 
-    <!-- Departure board: projects -->
-    <section class="wrap board-wrap" id="projects" aria-labelledby="board-title">
-      <div class="board">
-        <div class="board__head">
-          <h2 id="board-title"><span class="sig sig--lg" aria-hidden="true"><i></i><i></i></span><span lang="sv">Avgångar</span> <span class="board__en">Departures · Projects</span></h2>
-          <div class="clocks" aria-label="Local times">
-            <p><span class="clocks__city">Malmö</span> <time class="clocks__time" data-tz="Europe/Stockholm">--:--</time></p>
-            <p><span class="clocks__city">Tokyo</span> <time class="clocks__time" data-tz="Asia/Tokyo">--:--</time></p>
+    <section class="section wrap" id="work" aria-labelledby="work-h">
+      <div class="section-head reveal">
+        <p class="eyebrow">Projects</p>
+        <h2 id="work-h">Things I’ve built</h2>
+        <p>Click a project to read how I planned and built it.</p>
+      </div>
+
+      <a class="feature reveal" href="projects/rail-pulse.html">
+        <div class="feature__text">
+          <p class="tag tag--wip">In progress</p>
+          <h3>Rail Pulse</h3>
+          <p>A live dashboard of delays and disruptions on the Swedish rail network, built on Trafikverket’s open data. It’s the overview I wanted at the start of every shift in traffic control.</p>
+          <ul class="stack"><li>Next.js</li><li>TypeScript</li><li>Recharts</li><li>Trafikverket API</li></ul>
+          <p class="more">Read the case study <span>→</span></p>
+        </div>
+        <div class="browser">
+          <div class="browser__bar"><span></span><span></span><span></span><p>rail-pulse</p></div>
+          <div class="browser__shot">
+            <img class="shot-light" src="img/rail-pulse-light.png" alt="Rail Pulse dashboard for Malmö C: punctuality 82.4%, average delay 3.8 minutes, a delay-by-hour chart and a departures table." width="1280" height="2689">
+            <img class="shot-dark" src="img/rail-pulse-dark.png" alt="" width="1280" height="2689">
           </div>
         </div>
+      </a>
 
-        <div class="board__cols" aria-hidden="true">
-          <span>Time</span><span>Destination</span><span class="col-via">Via</span><span class="col-track">Track</span><span>Status</span>
-        </div>
+      <div class="cards">
+        <a class="card reveal" href="projects/tokenwise.html">
+          <div class="card__art card__art--shot">
+            <img src="img/tokenwise.jpg" alt="TokenWise AI home page: 'Know what AI can do for your business, and what it really costs', with an example savings calculation." width="800" height="506">
+          </div>
+          <div class="card__body">
+            <p class="tag tag--live">Live</p>
+            <h3>TokenWise AI</h3>
+            <p>Explains AI to business owners in plain language, with a savings calculator and a chat that checks if a task is a good fit for AI.</p>
+            <ul class="stack"><li>Web app</li><li>AI chat</li><li>Vercel</li></ul>
+            <p class="more">Read more <span>→</span></p>
+          </div>
+        </a>
 
-        <ol class="board__rows" id="rows"></ol>
+        <a class="card reveal reveal-2" href="projects/voicereader.html">
+          <div class="card__art" aria-hidden="true">
+            <div class="wave"></div>
+            <p class="reading">…and the <mark>train pulled slowly out of the station</mark> as the rain started.</p>
+          </div>
+          <div class="card__body">
+            <p class="tag">Built</p>
+            <h3>VoiceReader</h3>
+            <p>Turns chapters of web fiction into audio for your phone, and highlights each sentence as it’s read.</p>
+            <ul class="stack"><li>Next.js</li><li>TypeScript</li><li>Prisma</li></ul>
+            <p class="more">Read more <span>→</span></p>
+          </div>
+        </a>
 
-        <p class="board__hint">Select a departure for details. Track 1 is web apps, 2 is data, 3 is work tools.</p>
+        <a class="card reveal reveal-3" href="projects/automation.html">
+          <div class="card__art" aria-hidden="true">
+            <div class="sheet">
+              <span>Site</span><span>Date</span><span>Risk</span><span>Doc</span>
+              <span>KM 12+400</span><span>03-11</span><span class="ok">Low</span><span class="ok">✓</span>
+              <span>KM 14+150</span><span>03-12</span><span class="mid">Med</span><span class="ok">✓</span>
+              <span>KM 15+900</span><span>03-14</span><span class="ok">Low</span><span class="run"></span>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="tag tag--live">In daily use</p>
+            <h3>Track work automation</h3>
+            <p>Excel and VBA tools that write planning and safety documents for track work. Used daily by a team of 6.</p>
+            <ul class="stack"><li>Excel</li><li>VBA</li></ul>
+            <p class="more">Read more <span>→</span></p>
+          </div>
+        </a>
       </div>
     </section>
 
-    <!-- Ticker -->
-    <section class="ticker" aria-labelledby="ticker-title">
-      <p class="mono-label" id="ticker-title">Systems I've worked in and build with</p>
-      <div class="ticker__mask">
-        <ul class="ticker__track">
-          <li>Claude Code</li><li>Next.js</li><li>React</li><li>TypeScript</li><li>Excel + VBA</li><li>Salesforce</li><li>TLS</li><li>GitHub</li><li>Vercel</li><li>APIs</li>
-          <li aria-hidden="true">Claude Code</li><li aria-hidden="true">Next.js</li><li aria-hidden="true">React</li><li aria-hidden="true">TypeScript</li><li aria-hidden="true">Excel + VBA</li><li aria-hidden="true">Salesforce</li><li aria-hidden="true">TLS</li><li aria-hidden="true">GitHub</li><li aria-hidden="true">Vercel</li><li aria-hidden="true">APIs</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Numbers -->
-    <section class="section wrap" aria-labelledby="proof-title">
-      <p class="eyebrow">Results</p>
-      <h2 id="proof-title">What the work has added up to so far.</h2>
-      <div class="grid" style="--min: 240px">
-        <div class="card stat"><span class="stat__num lit roll">2–4 h</span><p>saved every day by Excel and VBA tools I built with AI, used by 6 people across 5 railway projects.</p></div>
-        <div class="card stat"><span class="stat__num roll">6 mo</span><p>to learn TLS and become a fully operational TLS programmer at Trafikverket, in a three-person team.</p></div>
-        <div class="card stat"><span class="stat__num roll">1 yr</span><p>from starting at Postnord to Salesforce superuser in the invoicing department.</p></div>
-        <div class="card stat"><span class="stat__num roll">~10 h</span><p>saved per documentation request, now generated automatically for safety-critical track work.</p></div>
-      </div>
-    </section>
-
-    <!-- AI and coding -->
-    <section class="section wrap" id="ai" aria-labelledby="ai-title">
-      <p class="eyebrow">AI and coding</p>
-      <h2 class="tight" id="ai-title">Where my skills end and the AI's begin.</h2>
-      <p class="lede">I'm not a software engineer. I'm an operations lead who learns systems fast and uses Claude and Claude Code to build tools people actually use. Here's an honest split.</p>
-      <div class="grid compare">
-        <div class="card compare--self">
-          <p class="compare__head"><strong>On my own</strong></p>
-          <ul>
-            <li>Fix and adapt the VBA macros in the tools my team uses every day</li>
-            <li>Plan what a tool needs to do, for whom, and what's out of scope</li>
-            <li>Test the result against how it should work, and send it back when it doesn't</li>
-          </ul>
-        </div>
-        <div class="card compare--on">
-          <p class="compare__head"><strong>With AI</strong><span>Claude and Claude Code</span></p>
-          <ul>
-            <li>Build web apps in Next.js, React and TypeScript by directing Claude Code</li>
-            <li>Solve HTML, CSS, JavaScript and Git problems, using AI or Google to find the fix</li>
-            <li>Put projects on GitHub and live on Vercel, like this site</li>
-          </ul>
-        </div>
-      </div>
-
-      <h3 class="sub">How a build runs</h3>
-      <div class="steps-wrap" id="steps">
-      <ol class="grid steps">
-        <li class="steps__now"><span class="steps__n">01</span><strong>Scope</strong><p>What problem, for whom, and what it won't do.</p></li>
-        <li><span class="steps__n">02</span><strong>Plan</strong><p>Structure and data before any code.</p></li>
-        <li><span class="steps__n">03</span><strong>Build</strong><p>Claude Code writes, I direct.</p></li>
-        <li><span class="steps__n">04</span><strong>Check</strong><p>Every result tested. Rail work taught me not to assume.</p></li>
-        <li><span class="steps__n">05</span><strong>Ship</strong><p>Live, then improved from real use.</p></li>
-      </ol>
-      <svg class="train" aria-hidden="true" width="150" height="46" viewBox="0 0 150 46">
-          <path class="train__body" d="M8 4H118Q140 4 146 24V30Q146 36 140 36H8Q2 36 2 30V10Q2 4 8 4Z"/>
-          <rect class="train__win" x="12" y="10" width="18" height="10" rx="2"/><rect class="train__win" x="36" y="10" width="18" height="10" rx="2"/><rect class="train__win" x="60" y="10" width="18" height="10" rx="2"/><rect class="train__win" x="84" y="10" width="18" height="10" rx="2"/>
-          <path class="train__win" d="M110 10H122Q132 10 136 20H110Z"/>
-          <rect class="train__stripe" x="2" y="25" width="140" height="3"/>
-          <circle class="train__lamp" cx="141" cy="31" r="2.5"/>
-          <circle class="train__wheel" cx="20" cy="40" r="5"/><circle class="train__wheel" cx="34" cy="40" r="5"/><circle class="train__wheel" cx="108" cy="40" r="5"/><circle class="train__wheel" cx="122" cy="40" r="5"/>
-        </svg>
-      </div>
-      <p class="note">I also log what AI costs me: the first version of this site took about 960,000 cost-weighted tokens. <a href="https://github.com/HitchJr/portfolio/blob/main/TOKENS.md">See the token log</a></p>
-    </section>
-
-    <!-- Experience -->
-    <section class="section wrap" id="route" aria-labelledby="route-title">
-      <p class="eyebrow">Experience</p>
-      <h2 id="route-title">The route so far.</h2>
-      <ol class="route">
-        <li><span class="when">2014–2018</span><strong>Sundsgymnasiet</strong><p>IT – networking, servers, first lines of code.</p></li>
-        <li><span class="when">2018–2019</span><strong>Metso</strong><p>Machine operator. Risk assessment as a habit.</p></li>
-        <li><span class="when">2020–2022</span><strong>Bredband2 · Postnord</strong><p>Tech support, then Salesforce superuser in invoicing.</p></li>
-        <li><span class="when">2022–2026</span><strong>Trafikverket</strong><p>Train traffic controller and TLS programmer, 24/7 control centre.</p></li>
-        <li class="now"><span class="when">2026 · now</span><strong>LD Järnväg och planering</strong><p>Chief track work supervisor: on-site teams, infrastructure owner contact, project planning.</p></li>
-        <li class="next"><span class="when">Next</span><strong>Your team?</strong><p>Roles in projects, operations, logistics and IT, on-site, hybrid or remote.</p></li>
-      </ol>
-    </section>
-
-    <!-- About -->
-    <section class="section wrap" id="about" aria-labelledby="about-title">
-      <p class="eyebrow">About</p>
-      <h2 id="about-title">From a harbour town to the control centre.</h2>
-      <div class="about">
-        <div class="about__text">
-          <p>I grew up in Trelleborg, a small harbour town at the southern tip of Sweden. Rail work taught me to plan carefully, communicate clearly under pressure and never assume a system is safe until it's checked.</p>
-          <p>I bring the same approach to software. I plan the scope first, build with AI coding tools and check every result. Every departure on the board above is something I planned and built myself, not a tutorial.</p>
-          <p>Away from work I surf, play football and study Vietnamese.</p>
-        </div>
-        <table class="facts card">
-          <caption class="mono-label">Quick facts</caption>
-          <tbody>
-            <tr><th scope="row">Based in</th><td>Malmö, Sweden</td></tr>
-            <tr><th scope="row">Languages</th><td>Swedish (native), English (fluent), Vietnamese (learning)</td></tr>
-            <tr><th scope="row">Strengths</th><td>Planning, risk management, stakeholder contact, calm incident handling</td></tr>
-            <tr><th scope="row">Builds with</th><td>Excel/VBA on my own; Next.js, React and TypeScript with Claude Code</td></tr>
-            <tr><th scope="row">Looking for</th><td>Project, operations and IT roles, on-site, hybrid or remote</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- CV -->
-    <section class="section wrap" id="cv" aria-labelledby="cv-title">
-      <p class="eyebrow">CV downloads</p>
-      <h2 class="tight" id="cv-title">One background. Three versions.</h2>
-      <p class="lede">One general CV, and two written for specific kinds of role. All PDFs.</p>
-      <div class="grid cvs">
-        <div class="card">
-          <strong>Standard</strong>
-          <p>My general CV for railway and operations roles.</p>
-          <span class="meta">1 page · 141 KB</span>
-          <a class="btn btn--ghost btn--square" href="cv/Dante_Persson_CV_Standard.pdf" download>Download PDF</a>
-        </div>
-        <div class="card card--signal">
-          <strong>Project management</strong>
-          <p>Railway operations, project lead and coordination roles.</p>
-          <span class="meta">1 page · 141 KB</span>
-          <a class="btn btn--signal btn--square" href="cv/Dante_Persson_CV_Project_Management.pdf" download>Download PDF</a>
-        </div>
-        <div class="card">
-          <strong>Operations and IT</strong>
-          <p>Operations, operations management, IT support and automation roles.</p>
-          <span class="meta">1 page · 143 KB</span>
-          <a class="btn btn--ghost btn--square" href="cv/Dante_Persson_CV_IT_Operations.pdf" download>Download PDF</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="section wrap" id="contact" aria-labelledby="contact-title">
-      <div class="contact card">
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2 id="contact-title">Get in touch.</h2>
-          <p>Hiring for a project, operations or IT role? I'm happy to talk, and to walk you through any project on the board.</p>
-        </div>
-        <div class="contact__links">
-          <a class="btn btn--signal btn--square" href="mailto:dantep@live.se">dantep@live.se</a>
-          <a class="btn btn--ghost btn--square" href="https://www.linkedin.com/in/dante-persson/">LinkedIn</a>
-          <a class="btn btn--ghost btn--square" href="https://github.com/HitchJr">GitHub</a>
-        </div>
+    <section class="cta wrap reveal" id="contact" aria-labelledby="cta-h">
+      <h2 id="cta-h">Let’s talk.</h2>
+      <p>Looking for project, operations or IT roles in Vietnam or remote.</p>
+      <div class="actions">
+        <a class="btn" href="mailto:dantep@live.se">dantep@live.se</a>
+        <a class="btn btn--ghost" href="https://www.linkedin.com/in/dante-persson/">LinkedIn ↗</a>
+        <a class="btn btn--ghost" href="https://github.com/HitchJr">GitHub ↗</a>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="wrap">
-      <img class="footer__logo" src="brand/dp-lockup-on-dark.svg" alt="dp, Dante Persson" width="190" height="44">
-      <span>© 2026 Dante Persson · Trelleborg → Malmö</span>
-      <span>Planned by me, built with Claude Code, hosted on Vercel.</span>
-    </div>
+  <footer class="foot wrap">
+    <p>© 2026 Dante Persson</p>
+    <p>Malmö <time data-tz="Europe/Stockholm">--:--</time> · Hanoi <time data-tz="Asia/Ho_Chi_Minh">--:--</time></p>
   </footer>
 
-  <script src="main.js"></script>
+  <script src="site.js"></script>
 </body>
 </html>

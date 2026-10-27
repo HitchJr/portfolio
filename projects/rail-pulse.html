@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rail Pulse – Dante Persson</title>
+  <meta name="description" content="Rail Pulse: a live dashboard of delays and disruptions on the Swedish rail network, built on Trafikverket's open data.">
+  <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a class="logo" href="../index.html"><span class="logo__mark">DP</span> Dante Persson</a>
+      <nav class="nav__links" aria-label="Sections">
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#work">Projects</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <button class="theme-btn" type="button" data-theme-toggle aria-label="Dark mode">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn btn--small" href="../cv/Dante_Persson_CV_Standard.pdf">Download CV</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="case-hero wrap">
+      <a class="back" href="../index.html#work">← All projects</a>
+      <p class="tag tag--wip reveal" style="margin-top: 1.75rem">In progress</p>
+      <h1 class="reveal" style="margin-top: 0.75rem">Rail Pulse</h1>
+      <p class="lead reveal reveal-2">A live dashboard showing punctuality, delays and disruption causes for Swedish railway stations, built on Trafikverket’s open data.</p>
+      <dl class="facts reveal reveal-3">
+        <div><dt>Role</dt><dd>Idea, planning and build</dd></div>
+        <div><dt>When</dt><dd>October 2026</dd></div>
+        <div><dt>Status</dt><dd>In progress</dd></div>
+        <div><dt>Data</dt><dd>Trafikverket Open API</dd></div>
+      </dl>
+    </section>
+
+    <div class="wrap case-shot reveal">
+      <div class="browser">
+        <div class="browser__bar"><span></span><span></span><span></span><p>rail-pulse</p></div>
+        <div class="browser__shot">
+          <img class="shot-light" src="../img/rail-pulse-light.png" alt="Rail Pulse dashboard for Malmö C: punctuality 82.4%, average delay 3.8 minutes, 1 cancellation, a delay-by-hour chart and a full departures table." width="1280" height="2689">
+          <img class="shot-dark" src="../img/rail-pulse-dark.png" alt="" width="1280" height="2689">
+        </div>
+      </div>
+    </div>
+
+    <section class="case-body wrap">
+      <h2 class="reveal">The problem</h2>
+      <div class="reveal">
+        <p>In a control room the hard part is rarely getting the raw data. It’s seeing the pattern quickly: which hour went wrong, what caused it, and how many passengers were affected.</p>
+        <p>I worked as a train traffic controller at Trafikverket for four years. Rail Pulse is the overview I would have wanted at the start of a shift.</p>
+      </div>
+
+      <hr>
+
+      <h2 class="reveal">What it shows</h2>
+      <div class="reveal">
+        <p>The layout follows the order an operator thinks in:</p>
+        <ul>
+          <li><strong>How bad is it?</strong> Punctuality, average delay, cancellations and the worst delay.</li>
+          <li><strong>When did it go wrong?</strong> Average delay per hour, with a line at the 5-minute limit.</li>
+          <li><strong>Why?</strong> The most common disruption causes, such as signal failures or track work.</li>
+          <li><strong>Which trains?</strong> A full departure board, filterable to show only delayed or cancelled trains.</li>
+        </ul>
+        <p>It refreshes every minute, works on phones and has light and dark mode.</p>
+      </div>
+
+      <hr>
+
+      <h2 class="reveal">Decisions from rail experience</h2>
+      <div class="reveal">
+        <ul>
+          <li><strong>On time means at most 5 minutes late,</strong> the same definition Trafikverket uses, so the numbers mean what rail people expect.</li>
+          <li><strong>Cancelled trains are left out of the average delay</strong> and counted separately. Counting them as 0 minutes would make a bad day look better than it was.</li>
+          <li><strong>Status is shown with colour, an icon and text,</strong> so it still works for colour-blind users.</li>
+          <li><strong>Times are always shown in Swedish time,</strong> even if the server runs somewhere else.</li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <h2 class="reveal">How it’s built</h2>
+      <div class="reveal">
+        <p>The browser never talks to Trafikverket directly. A small server route fetches the data, keeps the API key secret, caches answers for 60 seconds and cleans the raw data into one tidy format.</p>
+        <p>All the calculations live in separate functions with 15 unit tests, covering edge cases like trains exactly 5 minutes late and stations with no departures. Station input is validated so it can’t be used to change the API query.</p>
+        <p>Without an API key the app runs on realistic demo data, including a simulated signal failure, so anyone can try it straight away.</p>
+        <ul class="stack"><li>Next.js</li><li>TypeScript</li><li>Tailwind CSS</li><li>Recharts</li><li>Vitest</li></ul>
+      </div>
+
+      <hr>
+
+      <h2 class="reveal">Next steps</h2>
+      <div class="reveal">
+        <p>Publish the first live version. After that: an arrivals view, history to compare today with last week, and alerts when punctuality drops.</p>
+      </div>
+    </section>
+
+    <nav class="next-case wrap" aria-label="More projects">
+      <a href="../index.html#work"><small>Back</small><strong>All projects</strong></a>
+      <a href="tokenwise.html" style="text-align: right"><small>Next project</small><strong>TokenWise AI →</strong></a>
+    </nav>
+  </main>
+
+  <footer class="foot wrap">
+    <p>© 2026 Dante Persson</p>
+    <p><a href="mailto:dantep@live.se">dantep@live.se</a></p>
+  </footer>
+
+  <script src="../site.js"></script>
+</body>
+</html>
