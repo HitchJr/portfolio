@@ -538,8 +538,8 @@ body { overflow-x: clip; }
   :root { --wrap: 86rem; --gutter: 3rem; }
   .ticket { grid-template-columns: minmax(0, 1fr) 20rem; }
 
-  /* Experience: heading stays beside the timeline while it scrolls */
-  #experience { display: grid; grid-template-columns: 19rem minmax(0, 1fr); column-gap: 4.5rem; align-items: start; }
-  #experience .section-head { position: sticky; top: 7rem; margin-bottom: 0; }
-  #experience .skills { grid-column: 1 / -1; }
+  /* Experience: heading stays beside the timeline while it scrolls, and
+     leaves with the last stop (.exp holds only the heading and timeline) */
+  .exp { display: grid; grid-template-columns: 19rem minmax(0, 1fr); column-gap: 4.5rem; align-items: start; }
+  .exp .section-head { position: sticky; top: 7rem; margin-bottom: 0; }
 }
