@@ -1,24 +1,35 @@
-/* Light by default; dark is a choice made with the toggle in the top bar. */
-:root {
-  --bg: #fbfaf7;
-  --bg-2: #f3f1ec;
-  --card: #ffffff;
-  --line: #e7e4dc;
-  --text: #16150f;
-  --dim: #57544b;
-  --faint: #8f8b80;
-  --accent: #c27a00;        /* signal amber */
-  --accent-soft: #fff1d6;
-  --green: #1f8f45;
-  --btn-bg: #16150f;
-  --btn-text: #fff;
-  --shadow: 0 20px 40px -24px rgb(40 30 10 / 0.25);
+/* Colours: the night shift in a rail control room. Dark mode is petrol-blue
+   screens with phosphor-aqua lights; light mode is cool mint-grey paper
+   printed in petrol ink. Light by default; dark with the toggle.
+   Fonts: GitHub's open-source family, self-hosted (SIL Open Font License):
+   Hubot Sans (wide, for headings), Mona Sans (text), Martian Mono (live data). */
+@font-face { font-family: "Hubot Sans"; src: url("fonts/hubot-sans.woff2") format("woff2"); font-weight: 200 900; font-stretch: 75% 125%; font-display: swap; }
+@font-face { font-family: "Mona Sans"; src: url("fonts/mona-sans.woff2") format("woff2"); font-weight: 200 900; font-stretch: 75% 125%; font-display: swap; }
+@font-face { font-family: "Martian Mono"; src: url("fonts/martian-mono.woff2") format("woff2"); font-weight: 100 800; font-stretch: 75% 112.5%; font-display: swap; }
 
-  --head: "Fraunces", Georgia, serif;
-  --font: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "Geist Mono", ui-monospace, Consolas, monospace;
-  --head-weight: 500;
-  --head-track: -0.02em;
+:root {
+  --bg: #EDF3F1;            /* mint-grey paper */
+  --bg-2: #E2EBE8;
+  --card: #FAFCFB;
+  --line: #CFDCD8;
+  --text: #0B2327;          /* petrol ink */
+  --dim: #3B575B;
+  --faint: #5E777B;
+  --accent: #087A73;        /* petrol teal */
+  --accent-soft: #D3EEE9;
+  --green: #0E8A5F;         /* signal: go */
+  --stop: #D2452F;          /* signal: stop */
+  --led: #087A73;           /* "live" lights; aqua LED in dark mode */
+  --btn-bg: #0B2327;
+  --btn-text: #EDF3F1;
+  --shadow: 0 22px 44px -26px rgb(8 40 44 / 0.35);
+
+  --head: "Hubot Sans", "Mona Sans", system-ui, sans-serif;
+  --font: "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Martian Mono", ui-monospace, Consolas, monospace;
+  --head-weight: 700;
+  --head-stretch: 112%;
+  --head-track: -0.025em;
 
   --wrap: 72rem;
   --gutter: clamp(1rem, 4vw, 2rem);
@@ -27,19 +38,21 @@
 }
 
 :root[data-theme="dark"] {
-  --bg: #0b0b0a;
-  --bg-2: #131311;
-  --card: #161614;
-  --line: #2a2925;
-  --text: #edece6;
-  --dim: #a9a69c;
-  --faint: #6f6c63;
-  --accent: #ffb224;
-  --accent-soft: #3a2a08;
-  --green: #44d07a;
-  --btn-bg: #edece6;
-  --btn-text: #0b0b0a;
-  --shadow: 0 20px 40px -24px rgb(0 0 0 / 0.7);
+  --bg: #061619;            /* petrol night */
+  --bg-2: #0A2024;
+  --card: #0C2529;
+  --line: #17393E;
+  --text: #E3F2EF;
+  --dim: #9CBAB6;
+  --faint: #6E908C;
+  --accent: #3CE3C8;        /* phosphor aqua */
+  --accent-soft: #0E3B3A;
+  --green: #5BF0A4;
+  --stop: #FF6B55;
+  --led: #3CE3C8;
+  --btn-bg: #3CE3C8;
+  --btn-text: #04181B;
+  --shadow: 0 22px 44px -24px rgb(0 0 0 / 0.75);
   color-scheme: dark;
 }
 
@@ -60,7 +73,8 @@ ul, ol { padding: 0; list-style: none; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
-h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); }
+h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); font-stretch: var(--head-stretch); }
+::selection { background: var(--accent); color: var(--bg); }
 
 .wrap { width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto; }
 
@@ -107,8 +121,9 @@ h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); }
 .theme-btn .sun, :root[data-theme="dark"] .theme-btn .moon { display: none; }
 
 /* Hero: a train ticket from Malmö to Vietnam */
-.hero { padding-block: clamp(2.5rem, 7vw, 5rem) clamp(1rem, 3vw, 2rem); filter: drop-shadow(0 18px 24px rgb(40 30 10 / 0.12)); }
-:root[data-theme="dark"] .hero { filter: drop-shadow(0 18px 24px rgb(0 0 0 / 0.5)); }
+.hero { position: relative; isolation: isolate; padding-block: clamp(2.5rem, 7vw, 5rem) clamp(1rem, 3vw, 2rem); }
+.hero .ticket { box-shadow: 0 28px 50px -30px rgb(8 40 44 / 0.45); }
+:root[data-theme="dark"] .hero .ticket { box-shadow: 0 28px 60px -28px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(60 227 200 / 0.06); }
 .ticket {
   --notch: 1.1rem;
   display: grid; grid-template-columns: minmax(0, 1fr) 17rem;
@@ -120,7 +135,7 @@ h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); }
 
 .ticket__route { display: grid; grid-template-columns: auto minmax(4rem, 1fr) auto; align-items: center; gap: 1.5rem; }
 .ticket__to { text-align: right; }
-.city { font: var(--head-weight) clamp(2rem, 1rem + 3.5vw, 3.5rem)/1.05 var(--head); letter-spacing: var(--head-track); }
+.city { font: var(--head-weight) clamp(2rem, 1rem + 3.5vw, 3.5rem)/1.05 var(--head); font-stretch: var(--head-stretch); letter-spacing: var(--head-track); }
 .sub { margin-top: 0.3rem; font-size: 0.9375rem; color: var(--dim); }
 .ticket__track {
   position: relative; height: 2.5rem;
@@ -157,7 +172,7 @@ h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); }
 .ticket__stub::before { top: calc(-1 * var(--notch) - 1px); }
 .ticket__stub::after { bottom: calc(-1 * var(--notch) - 1px); }
 .ticket__status { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 1.25rem; font-size: 0.875rem; font-weight: 500; color: var(--green); }
-.ticket__date { font: var(--head-weight) 2rem/1.1 var(--head); }
+.ticket__date { font: 600 2rem/1.1 var(--mono); font-variant-numeric: tabular-nums; color: var(--accent); }
 .ticket__actions { display: grid; gap: 0.6rem; margin-top: auto; padding-top: 1.5rem; }
 .ticket__actions .btn { justify-content: center; }
 .barcode {
@@ -355,12 +370,12 @@ a:hover .browser__shot img { transform: translateY(-38%); }
 .case-body hr { grid-column: 1 / -1; width: 100%; border: 0; border-top: 1px solid var(--line); margin: 1.5rem 0; }
 .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 1rem; }
 .results div { padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
-.results dd { font: var(--head-weight) 1.6rem/1.2 var(--head); color: var(--text); letter-spacing: -0.03em; }
+.results dd { font: var(--head-weight) 1.6rem/1.2 var(--head); font-stretch: var(--head-stretch); color: var(--text); letter-spacing: -0.03em; }
 .results dt { font-size: 0.875rem; margin-top: 0.2rem; }
 .next-case { display: flex; justify-content: space-between; gap: 1rem; padding-block: 2rem; border-top: 1px solid var(--line); }
 .next-case a { text-decoration: none; }
 .next-case small { display: block; color: var(--faint); font-size: 0.8125rem; }
-.next-case strong { font: var(--head-weight) 1.25rem var(--head); }
+.next-case strong { font: var(--head-weight) 1.25rem var(--head); font-stretch: var(--head-stretch); }
 
 /* Scroll reveal */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity 700ms ease, transform 700ms ease; }
@@ -416,4 +431,94 @@ a:hover .browser__shot img { transform: translateY(-38%); }
   .ticket__actions { grid-template-columns: 1fr; }
   .actions .btn { flex: 1 1 auto; justify-content: center; }
   .facts { grid-template-columns: 1fr 1fr; }
+}
+
+/* ======================================================================
+   Motion and control-room details (added on top of the ticket design)
+   ====================================================================== */
+body { overflow-x: clip; }
+
+/* Live track display behind the ticket: tracks, moving trains and signals,
+   drawn by site.js. Full width, faded towards the middle. */
+.tracks {
+  position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%);
+  pointer-events: none; opacity: 0.6;
+  -webkit-mask-image: radial-gradient(ellipse 52% 58% at 50% 50%, rgba(0,0,0,0.08), #000 100%);
+          mask-image: radial-gradient(ellipse 52% 58% at 50% 50%, rgba(0,0,0,0.08), #000 100%);
+}
+:root[data-theme="dark"] .tracks { opacity: 0.75; }
+
+/* Route line under the top bar: page sections are stops, the train is where you are */
+.progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--line); overflow-x: clip; overflow-y: visible; }
+.progress__fill { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p, 0) * 100%); background: var(--accent); }
+.progress__train { position: absolute; top: -2px; left: calc(var(--p, 0) * 100%); width: 22px; height: 6px; margin-left: -22px; border-radius: 1px 4px 4px 1px; background: var(--accent); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent); }
+.progress__stop { position: absolute; top: -3px; left: calc(var(--at) * 100%); width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--faint); transition: background-color 200ms, border-color 200ms; }
+.progress__stop.is-passed { background: var(--accent); border-color: var(--accent); }
+.nav__links a[aria-current] { color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 7px; }
+
+/* Split-flap text: characters roll before they settle (site.js) */
+.flap { font-variant-numeric: tabular-nums; }
+
+/* Ticket: the track keeps moving after the train arrives, like a live route */
+.ticket__track { background: none; }
+.ticket__track::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px;
+  background: repeating-linear-gradient(90deg, var(--faint) 0 6px, transparent 6px 12px);
+  background-size: 12px 2px; animation: track-run 0.9s linear infinite;
+}
+@keyframes track-run { to { background-position: 12px 0; } }
+.ticket__train { color: var(--accent); }
+
+/* Barcode: a scanner line sweeps it */
+.barcode { position: relative; overflow: hidden; }
+.barcode::after {
+  content: ""; position: absolute; top: -10%; bottom: -10%; width: 2px; left: 0;
+  background: var(--stop); box-shadow: 0 0 8px var(--stop);
+  animation: scan 3.2s ease-in-out infinite;
+}
+@keyframes scan { 0%, 100% { left: 0; } 50% { left: calc(100% - 2px); } }
+
+/* Experience: the line fills with scroll and a small train rides the front */
+.route__fill { position: absolute; z-index: 0; top: 0.75rem; left: calc(9rem + 1.5rem + 0.6rem); width: 2px; margin-left: -1px; height: calc(var(--fill, 0) * (100% - 2.75rem)); background: var(--accent); }
+.route__loco { position: absolute; z-index: 2; left: calc(9rem + 1.5rem + 0.6rem); top: calc(0.75rem + var(--fill, 0) * (100% - 2.75rem)); width: 8px; height: 18px; margin: -18px 0 0 -4px; border-radius: 4px 4px 2px 2px; background: var(--accent); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent); }
+.route__item.is-passed .route__dot { border-color: var(--accent); }
+.route__item--now .route__dot { animation: beacon 2.4s ease-out infinite; }
+@keyframes beacon { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); } 100% { box-shadow: 0 0 0 14px transparent; } }
+
+/* Status tags become two-lamp signal heads: green below for go, red above for stop/paused */
+.tag::before {
+  width: 0.55rem; height: 1.05rem; border-radius: 0.3rem;
+  background:
+    radial-gradient(circle at 50% 28%, var(--lamp-top, color-mix(in srgb, var(--faint) 35%, transparent)) 0 0.17rem, transparent 0.18rem),
+    radial-gradient(circle at 50% 72%, var(--lamp-bottom, color-mix(in srgb, var(--faint) 35%, transparent)) 0 0.17rem, transparent 0.18rem),
+    #0B1A1D;
+}
+.tag--live::before { --lamp-bottom: var(--green); background-color: #0B1A1D; }
+.tag--wip::before { --lamp-top: #E9B949; background-color: #0B1A1D; }
+.tag:not(.tag--live):not(.tag--wip)::before { --lamp-bottom: color-mix(in srgb, var(--green) 55%, transparent); }
+
+/* Cards: a light follows the pointer across the card */
+.card, .feature, .route__card, .skills > div { position: relative; }
+.card::after, .feature::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 250ms;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 12%, transparent), transparent 60%);
+}
+.card:hover::after, .feature:hover::after { opacity: 1; }
+.card:hover, .feature:hover, .route__card:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
+
+/* Reveal: slide in from the left like carriages, instead of rising */
+.reveal { transform: translateX(-26px); }
+.reveal.is-in { transform: none; }
+
+.foot time { font-family: var(--mono); font-size: 0.8125rem; }
+
+@media (max-width: 60rem) {
+  .route__fill, .route__loco { left: 0.6rem; }
+}
+@media (max-width: 40rem) {
+  .tracks { opacity: 0.35; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticket__track::before, .barcode::after, .route__item--now .route__dot { animation: none !important; }
+  .barcode::after { display: none; }
 }

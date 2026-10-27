@@ -14,7 +14,7 @@ Plain HTML, CSS and JavaScript with no build step, so it deploys anywhere static
 - `cv/` – CV PDFs (the Download CV buttons link to `cv/Dante_Persson_CV_Standard.pdf`)
 - `brand/` – the dp logo files and favicon
 
-Fonts are Fraunces (headings), Geist and Geist Mono, loaded from Google Fonts.
+Fonts are Hubot Sans (headings), Mona Sans (text) and Martian Mono (live data), GitHub's open-source typefaces, self-hosted in `fonts/` (SIL Open Font License).
 
 ## Add or edit a project
 
@@ -31,3 +31,8 @@ The Vercel project deploys `main` to production automatically. Every other branc
 ## Token tracking
 
 This project tracks how many AI tokens it took to build. The current totals are in `TOKENS.md`.
+
+
+## Motion and colours
+
+Colours come from a rail control room on the night shift: petrol-blue and phosphor aqua in dark mode, mint-grey paper and petrol ink in light mode. `site.js` adds the motion: the ticket's city names roll in like a departure board, a live track display runs behind the ticket (trains move, signals turn red behind them), a route line under the top bar follows your scrolling, the experience line fills with a small train at the front, cards get a light that follows the pointer, and the clocks tick. Visitors with reduced motion switched on get a still page.
