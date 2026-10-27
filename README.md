@@ -10,8 +10,7 @@ Plain HTML, CSS and JavaScript with no build step, so it deploys anywhere static
 
 - `index.html` – page structure and all the text
 - `styles.css` – DP.IO design tokens (colours, fonts, spacing) at the top, then the layout
-- `main.js` – also the light/dark switch, the route line, and the live track display (section 7, near the end).
-- `main.js` (start) – the departure board rows (the project list is at the top of this file), the split-flap rolling effect, and the Malmö and Tokyo clocks
+- `main.js` – the departure board rows (the project list is at the top of this file), the split-flap rolling effect, the board clocks, the build-steps train, the light/dark switch, the route line under the header, and the live track display behind the headline (the last section of the file)
 - `brand/` – the dp logo (dp + signal head) for dark and light backgrounds, the full version with name and route line (`dp-lockup-*`), the app icon, and the favicon (signal head only, also `favicon.svg`). All letters are outlined paths, so no font is needed.
 - `fonts/` – self-hosted Barlow, Barlow Condensed and JetBrains Mono (SIL Open Font License)
 
