@@ -101,11 +101,15 @@ h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); font-str
 }
 .nav__inner { display: flex; align-items: center; gap: 1.25rem; height: 4rem; }
 .logo { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
-.logo__mark {
-  display: grid; place-items: center; width: 1.9rem; height: 1.9rem;
-  border-radius: 8px; background: var(--text); color: var(--bg);
-  font: 600 0.75rem var(--mono);
-}
+/* Logo mark: track and signal, drawn with the theme colours */
+.logo__mark { width: 2.1rem; height: 2.1rem; flex: none; }
+.logo__mark .lm-tile { fill: var(--bg-2); }
+.logo__mark .lm-sleepers { stroke: var(--track); stroke-width: 2.4; stroke-linecap: round; }
+.logo__mark .lm-ink { fill: none; stroke: var(--text); stroke-width: 2.6; stroke-linecap: round; }
+.logo__mark .lm-head { fill: var(--text); }
+.logo__mark .lm-off { fill: var(--line); }
+.logo__mark .lm-lit { fill: var(--green); }
+[data-theme="dark"] .logo__mark .lm-tile { fill: var(--card); }
 .nav__links { display: flex; gap: 1.5rem; margin-left: auto; font-size: 0.9375rem; }
 .nav__links a { color: var(--dim); text-decoration: none; }
 .nav__links a:hover { color: var(--text); }
