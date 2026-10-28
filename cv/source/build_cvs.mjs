@@ -41,9 +41,9 @@ const HTSM = {
   bullets: [
     "Lead safety on railway worksites from planning to hand-back, often on several projects at the same time",
     "Plan each project with Trafikverket (Swedish Transport Administration) and coordinate all " +
-      "protection on the track under D-skydd",
+      "the protection on the track",
     "Keep traffic control updated until the track is ready for trains again",
-    "Built Excel and VBA tools that cut the paperwork and save a team of 6 people 2–4 hours a day",
+    "Cut the paperwork with Excel and VBA tools I built, which save a team of 6 people 2–4 hours a day",
   ],
 };
 const TRAFIKVERKET = {
