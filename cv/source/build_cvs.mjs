@@ -39,14 +39,11 @@ const HTSM = {
   org: "LD Järnväg & Planering AB",
   when: "May 2026 – present · Malmö",
   bullets: [
-    "Plan railway projects and worksites together with Trafikverket (Swedish Transport " +
-      "Administration), with several running at the same time",
-    "Lead and coordinate traffic safety in and near the track under D-skydd, the level that covers " +
-      "A-, E-, L- and S-skydd, with risk assessments according to TTJ",
-    "Keep in contact with train dispatchers and traffic control while the work is on",
-    "Responsible for logbooks, start permits and handing the track back ready for trains",
-    "Built Excel and VBA tools for tracking and safety documentation that save 2–4 work hours " +
-      "per day. A team of 6 uses them daily across 5 projects",
+    "Lead safety on railway worksites from planning to hand-back, often on several projects at the same time",
+    "Plan each project with Trafikverket (Swedish Transport Administration) and coordinate all " +
+      "protection on the track under D-skydd",
+    "Keep traffic control updated until the track is ready for trains again",
+    "Built Excel and VBA tools that cut the paperwork and save a team of 6 people 2–4 hours a day",
   ],
 };
 const TRAFIKVERKET = {
@@ -140,8 +137,8 @@ const CVS = [
     eyebrow: "Project management · Railway",
     about: [
       INTRO,
-      "In my current job I plan several railway projects at the same time together with " +
-        "Trafikverket, and lead traffic safety while the work is on. I'm used to safety-critical work with strict rules, and to solving " +
+      "In my current job I lead safety on railway worksites, often on several projects at the same " +
+        "time, and plan each one with Trafikverket. I'm used to safety-critical work with strict rules, and to solving " +
         "problems calmly when plans change. I like finding more efficient ways to work.",
     ],
     jobs: [HTSM, TRAFIKVERKET, POSTNORD],
@@ -167,7 +164,7 @@ const CVS = [
     ],
     jobs: [
       { ...HTSM, bullets: [
-        HTSM.bullets[4], HTSM.bullets[0], HTSM.bullets[1], HTSM.bullets[2],
+        HTSM.bullets[3], HTSM.bullets[0], HTSM.bullets[1], HTSM.bullets[2],
       ] },
       { ...TRAFIKVERKET, bullets: [
         TRAFIKVERKET.bullets[3], TRAFIKVERKET.bullets[0], TRAFIKVERKET.bullets[1],
