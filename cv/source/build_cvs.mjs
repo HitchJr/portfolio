@@ -39,11 +39,10 @@ const HTSM = {
   org: "LD Järnväg & Planering AB",
   when: "May 2026 – present · Malmö",
   bullets: [
-    "Manage several teams on the ground across parallel railway projects",
+    "Oversee several railway projects running at the same time",
+    "Keep control of who is out working on the track",
     "Contact person between the teams and the customer who owns the railway",
-    "Plan upcoming projects: staffing, equipment, logistics and timelines",
     "Plan track protection (A-, E-, L- and S-skydd) and risk assessments according to TTJ",
-    "Responsible for traffic safety, electrical safety and the work environment on site",
     "Built Excel tools with VBA macros for tracking and safety documentation. A team of 6 uses " +
       "them daily across 5 projects, and they save 2–4 work hours per day",
   ],
@@ -137,23 +136,22 @@ const CVS = [
     eyebrow: "Project management · Railway",
     about: [
       INTRO,
-      "In my current job I plan the projects, run several teams on the ground at the same time and " +
-        "keep the customer updated. I'm used to safety-critical work with strict rules, and to solving " +
+      "In my current job I oversee several projects at the same time, keep control of who is out " +
+        "working on the track and keep the customer updated. I'm used to safety-critical work with strict rules, and to solving " +
         "problems calmly when plans change. I like finding more efficient ways to work.",
     ],
     jobs: [
       { ...HTSM, bullets: [
-        "Plan upcoming projects: staffing, equipment, logistics and timelines",
-        "Manage several teams on the ground across parallel railway projects",
+        "Oversee several railway projects running at the same time",
+        "Keep control of who is out working on the track",
         "Contact person between the teams and the customer who owns the railway",
         "Plan track protection (A-, E-, L- and S-skydd) and risk assessments according to TTJ",
-        "Responsible for traffic safety, electrical safety and the work environment on site",
-        HTSM.bullets[5],
+        HTSM.bullets[4],
       ] },
       TRAFIKVERKET, POSTNORD,
     ],
     earlier: [BREDBAND2_SHORT, METSO_SHORT],
-    skills: ["Project planning and logistics", "Coordinating teams and customer contact",
+    skills: ["Project oversight and follow-up", "Customer contact and coordination",
       "Risk assessment and track protection (TTJ)", "Excel, VBA, Salesforce, SAP, Microsoft Office"],
     projects: [RAIL_PULSE, TOKENWISE],
     education: [SCHOOL],
@@ -174,11 +172,10 @@ const CVS = [
     ],
     jobs: [
       { ...HTSM, bullets: [
-        HTSM.bullets[5],
-        "Manage several teams on the ground across parallel railway projects",
+        HTSM.bullets[4],
+        "Oversee several railway projects running at the same time",
+        "Keep control of who is out working on the track",
         "Contact person between the teams and the customer who owns the railway",
-        "Plan upcoming projects: staffing, equipment, logistics and timelines",
-        "Responsible for traffic safety, electrical safety and the work environment on site",
       ] },
       { ...TRAFIKVERKET, bullets: [
         TRAFIKVERKET.bullets[3],
