@@ -1,2 +1,6 @@
 .impeccable/review/
 .impeccable/questions/
+
+# Local notes, not part of the repo
+.impeccable/
+TOKENS.md
