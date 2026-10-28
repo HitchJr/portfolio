@@ -9,6 +9,15 @@ function store(key, value) {
   try { localStorage.setItem(key, value); } catch (e) { /* private mode: setting just isn't remembered */ }
 }
 
+// CV links follow the theme: light mode downloads cv/<file>, dark mode cv/dark/<file>.
+const cvLinks = [...document.querySelectorAll('a[href*="cv/"][href$=".pdf"]')];
+cvLinks.forEach((a) => { a.dataset.light = a.getAttribute("href"); });
+function syncCvLinks() {
+  const dark = root.dataset.theme === "dark";
+  cvLinks.forEach((a) => a.setAttribute("href", dark ? a.dataset.light.replace("cv/", "cv/dark/") : a.dataset.light));
+}
+syncCvLinks();
+
 // Light / dark toggle. Light is the default; the choice is remembered.
 document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
   const sync = () => btn.setAttribute("aria-pressed", String(root.dataset.theme === "dark"));
@@ -17,6 +26,7 @@ document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
     root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
     store("theme", root.dataset.theme);
     sync();
+    syncCvLinks();
     if (window.readTrackColors) window.readTrackColors();
   });
 });

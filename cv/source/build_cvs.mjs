@@ -114,6 +114,10 @@ const ICONS = {
 const CVS = [
   {
     file: "Dante_Persson_CV_Standard.pdf",
+    // Standard terms CV screening software searches for. Only things Dante has done.
+    keywords: ["Railway operations", "Safety-critical operations", "Risk assessment", "Incident management",
+      "Project planning", "Project coordination", "Stakeholder communication", "24/7 operations",
+      "Process improvement", "Excel/VBA"],
     label: "Standard",
     icon: "signal",
     eyebrow: "Railway operations · Project lead",
@@ -125,13 +129,15 @@ const CVS = [
     ],
     jobs: [HTSM, TRAFIKVERKET, POSTNORD],
     earlier: [BREDBAND2_SHORT, METSO_SHORT],
-    skills: ["Train control systems, TTJ and track protection (D-skydd)", "Excel and VBA macros",
+    skills: ["Train control systems, TTJ and track protection", "Excel and VBA macros",
       "Salesforce (superuser), SAP, Citrix NCM, Microsoft Office", "AI tools (Claude, ChatGPT), basic JavaScript and Git"],
     projects: [RAIL_PULSE, TOKENWISE],
     education: [SCHOOL],
   },
   {
     file: "Dante_Persson_CV_Project_Management.pdf",
+    keywords: ["Project planning", "Project coordination", "Stakeholder communication", "Risk assessment",
+      "Safety compliance", "Process improvement", "Rail infrastructure", "Excel/VBA", "Salesforce", "SAP"],
     label: "Project management",
     icon: "plan",
     eyebrow: "Project management · Railway",
@@ -150,6 +156,8 @@ const CVS = [
   },
   {
     file: "Dante_Persson_CV_IT_Operations.pdf",
+    keywords: ["Process improvement", "Automation", "Excel/VBA", "Incident management", "24/7 operations",
+      "Salesforce", "SAP", "Microsoft Office", "IT support", "Railway operations"],
     label: "Operations and IT",
     icon: "server",
     eyebrow: "Operations · IT · Automation",
@@ -169,9 +177,9 @@ const CVS = [
       { ...TRAFIKVERKET, bullets: [
         TRAFIKVERKET.bullets[3], TRAFIKVERKET.bullets[0], TRAFIKVERKET.bullets[1],
       ] },
-      POSTNORD, BREDBAND2,
+      POSTNORD,
     ],
-    earlier: [METSO_SHORT],
+    earlier: [BREDBAND2_SHORT, METSO_SHORT],
     skills: ["Excel and VBA macros", "AI coding tools: Claude Code, ChatGPT", "JavaScript, React, Git (learning)",
       "Salesforce (superuser), SAP, Citrix NCM"],
     projectsIntro: false,
@@ -213,6 +221,7 @@ function page(cv, theme) {
     <section class="about">
       <h2>About me</h2>
       ${cv.about.map((p) => `<p>${esc(p)}</p>`).join("\n      ")}
+      <p class="keys"><b>Key skills:</b> ${cv.keywords.map(esc).join(" · ")}</p>
     </section>
     <section>
       <h2>Work experience</h2>

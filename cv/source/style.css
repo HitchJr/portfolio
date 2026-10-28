@@ -52,10 +52,14 @@ h1 span { color: var(--head-accent); }
 .body { display: grid; grid-template-columns: 1fr 57mm; flex: 1; min-height: 0; }
 .main { padding: 6.5mm 8mm 6mm 14mm; }
 .side { background: var(--side); padding: 6.5mm 9mm 4mm 7mm; }
+/* The work history is positioned (for its route line), and print draws positioned boxes last.
+   Positioning the sidebar too keeps the PDF text order: About, Key skills, jobs, then sidebar,
+   which is how CV screening software reads it. */
+.side { position: relative; }
 
 h2 { font-weight: 600; font-size: 11.5pt; letter-spacing: -.01em; margin: 0 0 2.4mm; display: flex; align-items: center; gap: 2.5mm; }
 h2::after { content: ""; flex: 1; height: .3mm; background: var(--rule); }
-section + section { margin-top: 4.8mm; }
+section + section { margin-top: 4.2mm; }
 p { margin: 0; }
 .about p + p { margin-top: 1.8mm; }
 
@@ -63,7 +67,7 @@ p { margin: 0; }
 .jobs { position: relative; padding-left: 7mm; }
 .jobs::before { content: ""; position: absolute; left: 1.6mm; top: 2mm; bottom: 2mm; width: .4mm; background: var(--rule); }
 .job { position: relative; break-inside: avoid; }
-.job + .job { margin-top: 3.2mm; }
+.job + .job { margin-top: 2.8mm; }
 .job::before { content: ""; position: absolute; left: -7mm; top: .9mm; width: 3.4mm; height: 3.4mm; border-radius: 50%;
   background: var(--page); border: .45mm solid var(--text-2); }
 .job.now::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 1mm var(--accent-soft); }
@@ -95,3 +99,7 @@ li::marker { color: var(--accent); }
 /* Role icon in the eyebrow: one per CV version, drawn as a signal-style device */
 .icon { width: 6mm; height: 6mm; flex: 0 0 auto; }
 
+
+/* Key skills: one line of standard terms that CV screening software looks for */
+.about .keys { margin-top: 1.8mm; color: var(--text-2); }
+.keys b { font-weight: 600; color: var(--text); }
