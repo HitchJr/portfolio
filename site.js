@@ -53,28 +53,38 @@ setInterval(tick, 1000);
 
 
 // ---------- Split-flap: ticket text rolls in like a departure board ----------
-// Each character spins through characters of the same kind and case, then
-// locks, left to right. Screen readers get the real text from aria-label.
+// Every character flips through its row of the board (A, B, C... in order)
+// and they land strictly left to right, so the settled text sweeps across.
+// Landed characters are full colour, the ones still flipping are dimmed.
+// Screen readers get the real text from aria-label.
 const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", LOWER = "abcdefghijklmnopqrstuvwxyz", DIGITS = "0123456789";
-const pick = (set) => set[Math.floor(Math.random() * set.length)];
-function randomLike(c) {
-  if (/[0-9]/.test(c)) return pick(DIGITS);
-  if (/[A-ZÅÄÖ]/.test(c)) return pick(UPPER);
-  if (/[a-zåäöé]/.test(c)) return pick(LOWER);
-  return c;
-}
+const setFor = (c) => (/[0-9]/.test(c) ? DIGITS : /[A-ZÅÄÖ]/.test(c) ? UPPER : /[a-zåäöé]/.test(c) ? LOWER : null);
 function flap(el, delay) {
   const final = [...el.textContent];
   el.setAttribute("aria-label", el.textContent);
   el.classList.add("flap");
-  const stops = final.map((_, i) => 5 + Math.round(i * 1.5) + Math.floor(Math.random() * 3));
+  const sets = final.map(setFor);
+  const pos = sets.map((s) => (s ? Math.floor(Math.random() * s.length) : 0));
+  const stops = final.map((_, i) => 8 + i * 3); // one character lands every third flip
   const last = Math.max(...stops);
+  const done = document.createElement("span"), rolling = document.createElement("span");
+  rolling.className = "flap__rolling";
+  el.replaceChildren(done, rolling);
   let frame = 0;
-  el.textContent = final.map(randomLike).join("");
+  const render = () => {
+    const landed = final.filter((_, i) => frame >= stops[i]).length;
+    done.textContent = final.slice(0, landed).join("");
+    rolling.textContent = final.slice(landed).map((c, j) => {
+      const i = landed + j;
+      return sets[i] ? sets[i][(pos[i] + frame) % sets[i].length] : c;
+    }).join("");
+  };
+  render();
   setTimeout(function step() {
     frame++;
-    el.textContent = final.map((c, i) => (frame >= stops[i] ? c : randomLike(c))).join("");
-    if (frame < last) setTimeout(step, 45);
+    render();
+    if (frame < last) setTimeout(step, 55);
+    else el.textContent = final.join("");
   }, delay);
 }
 if (!reduceMotion) {
@@ -160,7 +170,7 @@ function updateRoute() {
 updateRoute();
 
 // ---------- Cards: a soft light follows the pointer ----------
-document.querySelectorAll(".card, .feature").forEach((el) => {
+document.querySelectorAll(".card, .feature, .route__card").forEach((el) => {
   el.addEventListener("pointermove", (e) => {
     const r = el.getBoundingClientRect();
     el.style.setProperty("--mx", `${e.clientX - r.left}px`);

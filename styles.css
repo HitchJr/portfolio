@@ -464,6 +464,7 @@ body { overflow-x: clip; }
 
 /* Split-flap text: characters roll before they settle (site.js) */
 .flap { font-variant-numeric: tabular-nums; }
+.flap__rolling { color: var(--faint); }
 
 /* Ticket: a still dashed track for the train to ride along */
 .ticket__track { background: none; }
@@ -507,11 +508,11 @@ body { overflow-x: clip; }
 
 /* Cards: a light follows the pointer across the card */
 .card, .feature, .route__card, .skills > div { position: relative; }
-.card::after, .feature::after {
+.card::after, .feature::after, .route__card::after {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 250ms;
   background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 12%, transparent), transparent 60%);
 }
-.card:hover::after, .feature:hover::after { opacity: 1; }
+.card:hover::after, .feature:hover::after, .route__card:hover::after { opacity: 1; }
 .card:hover, .feature:hover, .route__card:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
 
 /* Reveal: slide in from the left like carriages, instead of rising */
@@ -542,4 +543,20 @@ body { overflow-x: clip; }
      leaves with the last stop (.exp holds only the heading and timeline) */
   .exp { display: grid; grid-template-columns: 19rem minmax(0, 1fr); column-gap: 4.5rem; align-items: start; }
   .exp .section-head { position: sticky; top: 7rem; margin-bottom: 0; }
+}
+
+/* Light mode glow: on paper the pointer light alone is too faint, so hovered
+   cards also get a soft green halo, like a lamp lit behind the card */
+:root:not([data-theme="dark"]) .card::after,
+:root:not([data-theme="dark"]) .feature::after,
+:root:not([data-theme="dark"]) .route__card::after {
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--green) 28%, transparent), transparent 65%);
+}
+:root:not([data-theme="dark"]) .card:hover,
+:root:not([data-theme="dark"]) .feature:hover,
+:root:not([data-theme="dark"]) .route__card:hover {
+  border-color: color-mix(in srgb, var(--green) 55%, var(--line));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--green) 18%, transparent),
+              0 0 48px -2px color-mix(in srgb, var(--green) 42%, transparent),
+              0 22px 44px -26px rgb(24 34 28 / 0.35);
 }
