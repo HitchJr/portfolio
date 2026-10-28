@@ -259,11 +259,15 @@ h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); font-str
 .tag--live::before { background: var(--green); }
 .tag--wip::before { background: var(--accent); }
 .stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+/* Tags: signal green, so skills and tools stand out from the body text */
 .stack li {
-  padding: 0.2rem 0.6rem; border: 1px solid var(--line); border-radius: 6px;
-  background: var(--bg-2); font: 400 0.8125rem var(--mono); color: var(--dim);
+  padding: 0.2rem 0.6rem; border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  background: var(--accent-soft); font: 500 0.8125rem var(--mono); color: var(--accent);
   white-space: nowrap; /* a tag stays one line, so every tag in a row is the same height */
+  transition: border-color 200ms;
 }
+.stack li:hover { border-color: color-mix(in srgb, var(--accent) 60%, transparent); }
 
 /* Featured project */
 .feature {
