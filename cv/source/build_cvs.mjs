@@ -40,9 +40,11 @@ const HTSM = {
   when: "May 2026 – present · Malmö",
   bullets: [
     "Oversee several railway projects running at the same time",
-    "Keep control of who is out working on the track",
-    "Contact person between the teams and the customer who owns the railway",
-    "Plan track protection (A-, E-, L- and S-skydd) and risk assessments according to TTJ",
+    "Plan the projects and worksites together with Trafikverket, which owns the railway",
+    "Lead and coordinate traffic safety for work in or near the track under D-skydd, including " +
+      "A-, E-, L- and S-skydd, with risk assessments according to TTJ",
+    "Keep contact with train dispatchers and traffic control",
+    "Responsible for logbooks, start permits and handing the track back in a condition trains can run on",
     "Built Excel tools with VBA macros for tracking and safety documentation. A team of 6 uses " +
       "them daily across 5 projects, and they save 2–4 work hours per day",
   ],
@@ -124,7 +126,7 @@ const CVS = [
     ],
     jobs: [HTSM, TRAFIKVERKET, POSTNORD],
     earlier: [BREDBAND2_SHORT, METSO_SHORT],
-    skills: ["TLS, TTJ and track protection planning", "Excel and VBA macros",
+    skills: ["TLS, TTJ and track protection (D-skydd)", "Excel and VBA macros",
       "Salesforce (superuser), SAP, Citrix NCM, Microsoft Office", "AI tools (Claude, ChatGPT), basic JavaScript and Git"],
     projects: [RAIL_PULSE, TOKENWISE],
     education: [SCHOOL],
@@ -136,22 +138,13 @@ const CVS = [
     eyebrow: "Project management · Railway",
     about: [
       INTRO,
-      "In my current job I oversee several projects at the same time, keep control of who is out " +
-        "working on the track and keep the customer updated. I'm used to safety-critical work with strict rules, and to solving " +
+      "In my current job I oversee several projects at the same time and plan each project and " +
+        "worksite together with Trafikverket. I'm used to safety-critical work with strict rules, and to solving " +
         "problems calmly when plans change. I like finding more efficient ways to work.",
     ],
-    jobs: [
-      { ...HTSM, bullets: [
-        "Oversee several railway projects running at the same time",
-        "Keep control of who is out working on the track",
-        "Contact person between the teams and the customer who owns the railway",
-        "Plan track protection (A-, E-, L- and S-skydd) and risk assessments according to TTJ",
-        HTSM.bullets[4],
-      ] },
-      TRAFIKVERKET, POSTNORD,
-    ],
+    jobs: [HTSM, TRAFIKVERKET, POSTNORD],
     earlier: [BREDBAND2_SHORT, METSO_SHORT],
-    skills: ["Project oversight and follow-up", "Customer contact and coordination",
+    skills: ["Project oversight and worksite planning", "Coordination with Trafikverket and traffic control",
       "Risk assessment and track protection (TTJ)", "Excel, VBA, Salesforce, SAP, Microsoft Office"],
     projects: [RAIL_PULSE, TOKENWISE],
     education: [SCHOOL],
@@ -172,10 +165,7 @@ const CVS = [
     ],
     jobs: [
       { ...HTSM, bullets: [
-        HTSM.bullets[4],
-        "Oversee several railway projects running at the same time",
-        "Keep control of who is out working on the track",
-        "Contact person between the teams and the customer who owns the railway",
+        HTSM.bullets[5], HTSM.bullets[0], HTSM.bullets[1], HTSM.bullets[2], HTSM.bullets[3],
       ] },
       { ...TRAFIKVERKET, bullets: [
         TRAFIKVERKET.bullets[3],
