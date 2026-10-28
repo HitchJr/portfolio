@@ -50,14 +50,16 @@ const HTSM = {
   ],
 };
 const TRAFIKVERKET = {
-  title: "Train Traffic Controller and TLS Programmer",
+  title: "Train Traffic Controller",
   org: "Trafikverket",
   when: "Sep 2022 – May 2026 · Malmö",
   bullets: [
-    "Controlled rail traffic in the 24/7 traffic control centre, including trains, shunting and track inspection runs",
-    "Handled accidents, near misses and other disruptions",
-    "Coordinated emergency stops when the police, fire service or ambulance needed the line stopped",
-    "Worked in TLS every day, and after one year joined the team of three that programmed it",
+    "Controlled trains, shunting and track inspection runs through remote signalling systems in the " +
+      "24/7 control centre, working shifts around the clock",
+    "Handled accidents, technical faults and other disruptions by rerouting trains, changing " +
+      "timetables or stopping traffic, together with the police, fire service or ambulance when needed",
+    "Constant contact with train drivers, other traffic controllers and passenger information",
+    "Part of the team that programmed the train automation system",
   ],
 };
 const POSTNORD = {
@@ -126,7 +128,7 @@ const CVS = [
     ],
     jobs: [HTSM, TRAFIKVERKET, POSTNORD],
     earlier: [BREDBAND2_SHORT, METSO_SHORT],
-    skills: ["TLS, TTJ and track protection (D-skydd)", "Excel and VBA macros",
+    skills: ["Train control systems, TTJ and track protection (D-skydd)", "Excel and VBA macros",
       "Salesforce (superuser), SAP, Citrix NCM, Microsoft Office", "AI tools (Claude, ChatGPT), basic JavaScript and Git"],
     projects: [RAIL_PULSE, TOKENWISE],
     education: [SCHOOL],
@@ -157,8 +159,8 @@ const CVS = [
     github: true,
     about: [
       "I have worked in operations for most of my career, mostly on the railway, and I started out " +
-        "in IT support. For almost four years I controlled rail traffic at Trafikverket and programmed " +
-        "in its traffic control system, TLS. Since May 2026 I've worked as a Chief Track Work " +
+        "in IT support. For almost four years I controlled rail traffic at Trafikverket and was part of " +
+        "the team that programmed its train automation system. Since May 2026 I've worked as a Chief Track Work " +
         "Supervisor, leading track work projects on the railway.",
       "I like finding more efficient ways to work. At my current job I built tools in Excel and VBA " +
         "that my team uses every day, and in my free time I build web apps with AI coding tools.",
@@ -168,15 +170,13 @@ const CVS = [
         HTSM.bullets[4], HTSM.bullets[0], HTSM.bullets[1], HTSM.bullets[2],
       ] },
       { ...TRAFIKVERKET, bullets: [
-        TRAFIKVERKET.bullets[3],
-        TRAFIKVERKET.bullets[0],
-        "Handled accidents, near misses and other disruptions, including emergency stops for the police, fire service or ambulance",
+        TRAFIKVERKET.bullets[3], TRAFIKVERKET.bullets[0], TRAFIKVERKET.bullets[1],
       ] },
       POSTNORD, BREDBAND2,
     ],
     earlier: [METSO_SHORT],
     skills: ["Excel and VBA macros", "AI coding tools: Claude Code, ChatGPT", "JavaScript, React, Git (learning)",
-      "Salesforce (superuser), SAP, Citrix NCM, TLS"],
+      "Salesforce (superuser), SAP, Citrix NCM"],
     projectsIntro: false,
     projects: [TOKENWISE, RAIL_PULSE],
     education: [ODIN, SCHOOL],
