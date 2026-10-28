@@ -366,9 +366,9 @@ a:hover .browser__shot img { transform: translateY(-38%); }
 .case-body > div { max-width: 40rem; color: var(--dim); }
 .case-body > div > * + * { margin-top: 0.9rem; }
 .case-body > div strong { color: var(--text); font-weight: 600; }
-.case-body ul li { position: relative; padding-left: 1.25rem; }
-.case-body ul li + li { margin-top: 0.5rem; }
-.case-body ul li::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--accent); }
+.case-body ul:not(.stack) li { position: relative; padding-left: 1.25rem; }
+.case-body ul:not(.stack) li + li { margin-top: 0.5rem; }
+.case-body ul:not(.stack) li::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--accent); }
 .case-body hr { grid-column: 1 / -1; width: 100%; border: 0; border-top: 1px solid var(--line); margin: 1.5rem 0; }
 .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 1rem; }
 .results div { padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
