@@ -117,7 +117,7 @@ const CVS = [
     // Standard terms CV screening software searches for. Only things Dante has done.
     keywords: ["Railway operations", "Safety-critical operations", "Risk assessment", "Incident management",
       "Project planning", "Project coordination", "Stakeholder communication", "24/7 operations",
-      "Process improvement", "Excel/VBA"],
+      "Process improvement", "Track protection planning", "Excel/VBA"],
     label: "Standard",
     icon: "signal",
     eyebrow: "Railway operations · Project lead",
@@ -129,15 +129,16 @@ const CVS = [
     ],
     jobs: [HTSM, TRAFIKVERKET, POSTNORD],
     earlier: [BREDBAND2_SHORT, METSO_SHORT],
-    skills: ["Train control systems, TTJ and track protection", "Excel and VBA macros",
-      "Salesforce (superuser), SAP, Citrix NCM, Microsoft Office", "AI tools (Claude, ChatGPT), basic JavaScript and Git"],
+    skills: ["Excel and VBA macros", "Salesforce (superuser), SAP, Citrix NCM, Microsoft Office",
+      "Train control systems", "AI tools (Claude, ChatGPT), basic JavaScript and Git"],
     projects: [RAIL_PULSE, TOKENWISE],
     education: [SCHOOL],
   },
   {
     file: "Dante_Persson_CV_Project_Management.pdf",
     keywords: ["Project planning", "Project coordination", "Stakeholder communication", "Risk assessment",
-      "Safety compliance", "Process improvement", "Rail infrastructure", "Excel/VBA", "Salesforce", "SAP"],
+      "Safety compliance", "Track protection planning", "Incident management", "Process improvement",
+      "Rail infrastructure", "Excel/VBA"],
     label: "Project management",
     icon: "plan",
     eyebrow: "Project management · Railway",
@@ -149,8 +150,8 @@ const CVS = [
     ],
     jobs: [HTSM, TRAFIKVERKET, POSTNORD],
     earlier: [BREDBAND2_SHORT, METSO_SHORT],
-    skills: ["Project and worksite planning", "Coordination with Trafikverket and traffic control",
-      "Risk assessment and track protection (TTJ)", "Excel, VBA, Salesforce, SAP, Microsoft Office"],
+    skills: ["Excel and VBA macros", "Salesforce (superuser), SAP, Citrix NCM", "Microsoft Office",
+      "Train control systems"],
     projects: [RAIL_PULSE, TOKENWISE],
     education: [SCHOOL],
   },
@@ -241,7 +242,7 @@ function page(cv, theme) {
   </div>
   <aside class="side">
     <section>
-      <h2>Skills</h2>
+      <h2>Tools and systems</h2>
       <ul>${cv.skills.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>
     </section>
     <section>
