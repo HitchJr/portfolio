@@ -506,10 +506,13 @@ body { overflow-x: clip; }
 .tag--wip::before { --lamp-top: #E9B949; background-color: #0B1A1D; }
 .tag:not(.tag--live):not(.tag--wip)::before { --lamp-bottom: color-mix(in srgb, var(--green) 55%, transparent); }
 
-/* Cards: a light follows the pointer across the card */
+/* Cards: a light follows the pointer across the card. It sits under the
+   text: isolation keeps z-index -1 above the card background but below
+   everything inside the card. */
 .card, .feature, .route__card, .skills > div { position: relative; }
+.card, .feature, .route__card { isolation: isolate; }
 .card::after, .feature::after, .route__card::after {
-  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 250ms;
+  content: ""; position: absolute; z-index: -1; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 250ms;
   background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 12%, transparent), transparent 60%);
 }
 .card:hover::after, .feature:hover::after, .route__card:hover::after { opacity: 1; }
