@@ -116,8 +116,8 @@ const CVS = [
     file: "Dante_Persson_CV_Standard.pdf",
     // Standard terms CV screening software searches for. Only things Dante has done.
     keywords: ["Railway operations", "Safety-critical operations", "Risk assessment", "Incident management",
-      "Project planning", "Project coordination", "Stakeholder communication", "24/7 operations",
-      "Process improvement", "Track protection planning", "Excel/VBA"],
+      "Project planning", "Project coordination", "Team coordination", "Stakeholder communication",
+      "24/7 operations", "Process improvement", "Data analysis", "Excel/VBA"],
     label: "Standard",
     icon: "signal",
     eyebrow: "Railway operations · Project lead",
@@ -136,8 +136,8 @@ const CVS = [
   },
   {
     file: "Dante_Persson_CV_Project_Management.pdf",
-    keywords: ["Project planning", "Project coordination", "Stakeholder communication", "Risk assessment",
-      "Safety compliance", "Track protection planning", "Incident management", "Process improvement",
+    keywords: ["Project planning", "Project coordination", "Team coordination", "Stakeholder communication",
+      "Risk assessment", "Safety compliance", "Incident management", "Process improvement", "Data analysis",
       "Rail infrastructure", "Excel/VBA"],
     label: "Project management",
     icon: "plan",
@@ -158,7 +158,7 @@ const CVS = [
   {
     file: "Dante_Persson_CV_IT_Operations.pdf",
     keywords: ["Process improvement", "Automation", "Excel/VBA", "Incident management", "24/7 operations",
-      "Salesforce", "SAP", "Microsoft Office", "IT support", "Railway operations"],
+      "Data analysis", "Team coordination", "IT support", "Railway operations"],
     label: "Operations and IT",
     icon: "server",
     eyebrow: "Operations · IT · Automation",
