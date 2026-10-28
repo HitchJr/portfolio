@@ -20,7 +20,11 @@ syncCvLinks();
 
 // Light / dark toggle. Light is the default; the choice is remembered.
 document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
-  const sync = () => btn.setAttribute("aria-pressed", String(root.dataset.theme === "dark"));
+  const sync = () => {
+    const dark = root.dataset.theme === "dark";
+    btn.setAttribute("aria-pressed", String(dark));
+    btn.setAttribute("aria-label", dark ? "Light mode" : "Dark mode");
+  };
   sync();
   btn.addEventListener("click", () => {
     root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";

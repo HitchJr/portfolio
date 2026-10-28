@@ -14,7 +14,7 @@ Plain HTML, CSS and JavaScript with no build step, so it deploys anywhere static
 - `cv/` – CV PDFs (the Download CV buttons link to `cv/Dante_Persson_CV_Standard.pdf`)
 - `brand/` – the dp logo files and favicon
 
-Fonts are IBM Plex Sans and IBM Plex Mono, loaded from Google Fonts. Colours are the "forest signal" scheme: warm grey paper and deep green in light mode, a green-black control screen in dark mode.
+Fonts are IBM Plex Sans and IBM Plex Mono, self-hosted in `fonts/` so no visitor data goes to Google (GDPR). Security headers are set in `vercel.json`; if you add an inline script, add its hash to the Content-Security-Policy there. `privacy.html` is the privacy notice: update it if you ever add analytics, cookies or a form. Colours are the "forest signal" scheme: warm grey paper and deep green in light mode, a green-black control screen in dark mode.
 
 ## Add or edit a project
 

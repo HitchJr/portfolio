@@ -1,8 +1,17 @@
+/* IBM Plex, self-hosted (SIL Open Font License, see fonts/OFL.txt) */
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/ibm-plex-sans-400.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/ibm-plex-sans-500.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("fonts/ibm-plex-sans-600.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 700; font-display: swap; src: url("fonts/ibm-plex-sans-700.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/ibm-plex-mono-400.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/ibm-plex-mono-500.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 600; font-display: swap; src: url("fonts/ibm-plex-mono-600.woff2") format("woff2"); }
+
 /* Colours: "forest signal". Light mode is warm grey paper printed in deep
    green ink; dark mode is a green-black control screen with signal-green
    lights. Light by default; dark with the toggle.
    Fonts: IBM Plex Sans (headings and text) and IBM Plex Mono (live data),
-   loaded from Google Fonts. */
+   self-hosted in fonts/ (no visitor data goes to Google). */
 :root {
   --bg: #F0F0EA;            /* warm grey paper */
   --bg-2: #E5E6DD;
@@ -41,7 +50,7 @@
   --line: #223128;
   --text: #E7EEE8;
   --dim: #A5B4AA;
-  --faint: #6F8076;
+  --faint: #7F9187;         /* labels: 4.5:1 or better on every dark surface */
   --accent: #6FD49A;        /* signal green */
   --accent-soft: #173426;
   --green: #6FD49A;
@@ -173,7 +182,7 @@ h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); font-str
 }
 .ticket__stub::before { top: calc(-1 * var(--notch) - 1px); }
 .ticket__stub::after { bottom: calc(-1 * var(--notch) - 1px); }
-.ticket__status { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 1.25rem; font-size: 0.875rem; font-weight: 500; color: var(--green); }
+.ticket__status { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 1.25rem; font-size: 0.875rem; font-weight: 500; color: var(--accent); }
 .ticket__date { font: 600 2rem/1.1 var(--mono); font-variant-numeric: tabular-nums; color: var(--accent); }
 .ticket__actions { display: grid; gap: 0.6rem; margin-top: auto; padding-top: 1.5rem; }
 .ticket__actions .btn { justify-content: center; }
@@ -240,7 +249,7 @@ h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); font-str
 .route__item--next .route__card { background: transparent; border-style: dashed; }
 .route__item--next .route__card h3 { color: var(--dim); }
 
-.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 3.5rem; }
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin-top: 3.5rem; }
 .skills > div { padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); display: grid; gap: 0.9rem; align-content: start; }
 .skills h3 { font-size: 1rem; }
 
@@ -253,6 +262,7 @@ h1, h2, h3 { font-family: var(--head); font-weight: var(--head-weight); font-str
 .stack li {
   padding: 0.2rem 0.6rem; border: 1px solid var(--line); border-radius: 6px;
   background: var(--bg-2); font: 400 0.8125rem var(--mono); color: var(--dim);
+  white-space: nowrap; /* a tag stays one line, so every tag in a row is the same height */
 }
 
 /* Featured project */
