@@ -22,11 +22,12 @@
   --faint: #56615A;         /* labels and dates: 5.5:1 or better */
   --accent: #1E6B47;        /* forest green */
   --accent-soft: #D8EADF;
-  --green: #1E8A4C;         /* signal: go */
+  --green: #207A4B;         /* signal: go, same family as the forest green; 4.6:1 on paper */
   --stop: #C2412D;          /* signal: stop */
   --led: #1E6B47;
   --track: #B3BBAA;         /* rails in the hero background */
-  --btn-bg: #18221C;
+  --deep: #1A2E23;          /* deep forest: main buttons and the contact card */
+  --btn-bg: var(--deep);
   --btn-text: #F0F0EA;
   --shadow: 0 22px 44px -26px rgb(24 34 28 / 0.35);
 
@@ -527,7 +528,7 @@ body { overflow-x: clip; }
 .card, .feature, .route__card { isolation: isolate; }
 .card::after, .feature::after, .route__card::after {
   content: ""; position: absolute; z-index: -1; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 250ms;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 12%, transparent), transparent 60%);
+  background: radial-gradient(170px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 12%, transparent), transparent 60%);
 }
 .card:hover::after, .feature:hover::after, .route__card:hover::after { opacity: 1; }
 .card:hover, .feature:hover, .route__card:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
@@ -567,7 +568,7 @@ body { overflow-x: clip; }
 :root:not([data-theme="dark"]) .card::after,
 :root:not([data-theme="dark"]) .feature::after,
 :root:not([data-theme="dark"]) .route__card::after {
-  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--green) 28%, transparent), transparent 65%);
+  background: radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--green) 28%, transparent), transparent 65%);
 }
 :root:not([data-theme="dark"]) .card:hover,
 :root:not([data-theme="dark"]) .feature:hover,
@@ -581,14 +582,18 @@ body { overflow-x: clip; }
 /* Home page footer: a dark CTA card with a
    signal-green glow, a link row, and the name as a giant wordmark that
    sits on a strip of track and is cropped by the bottom of the page. */
+/* Light mode: the card shares the deep forest green of the main buttons,
+   and its glow uses a soft green from the same family. */
 :root {
-  --cta-bg: #18221C; --cta-text: #F0F0EA; --cta-dim: #B4C0B8; --cta-line: rgb(240 240 234 / 0.22);
-  --cta-btn-bg: #F0F0EA; --cta-btn-text: #18221C; --cta-glow: rgb(111 212 154 / 0.38);
+  --cta-bg: var(--deep); --cta-text: #F0F0EA; --cta-dim: #B9C6BD; --cta-line: rgb(240 240 234 / 0.2);
+  --cta-btn-bg: #F0F0EA; --cta-btn-text: var(--deep); --cta-glow: rgb(95 184 134 / 0.32);
+  --cta-spot: rgb(95 184 134 / 0.2); --cta-dot: #5FB886;
   --word-top: #C9CEC0;
 }
 :root[data-theme="dark"] {
   --cta-bg: #15201A; --cta-text: #E7EEE8; --cta-dim: #A5B4AA; --cta-line: #2B3D32;
   --cta-btn-bg: #6FD49A; --cta-btn-text: #0D1410; --cta-glow: rgb(111 212 154 / 0.22);
+  --cta-spot: rgb(111 212 154 / 0.12); --cta-dot: #6FD49A;
   --word-top: #24342B;
 }
 
@@ -600,17 +605,31 @@ body { overflow-x: clip; }
   border-radius: calc(var(--radius) * 2); text-align: center;
   background: var(--cta-bg); color: var(--cta-text);
   border: 1px solid var(--cta-line);
+  transition: border-color 200ms, box-shadow 200ms;
 }
 .cta2::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
   background: radial-gradient(42rem 20rem at 50% 125%, var(--cta-glow), transparent 70%);
+}
+/* Same pointer light as the other cards */
+.cta2::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 250ms;
+  background: radial-gradient(180px circle at var(--mx, 50%) var(--my, 50%), var(--cta-spot), transparent 62%);
+}
+.cta2:hover::after { opacity: 1; }
+.cta2:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
+:root:not([data-theme="dark"]) .cta2:hover {
+  border-color: color-mix(in srgb, var(--green) 55%, var(--line));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--green) 18%, transparent),
+              0 0 48px -2px color-mix(in srgb, var(--green) 42%, transparent),
+              0 22px 44px -26px rgb(24 34 28 / 0.35);
 }
 .cta2__status {
   display: inline-flex; align-items: center; gap: 0.6rem;
   padding: 0.35rem 0.85rem; border: 1px solid var(--cta-line); border-radius: 99px;
   font: 500 0.8125rem/1.4 var(--mono); color: var(--cta-dim);
 }
-.cta2 .pill__dot { background: #6FD49A; }
+.cta2 .pill__dot, .cta2 .pill__dot::after { background: var(--cta-dot); }
 .cta2 h2 { margin-top: 1.4rem; font-size: clamp(2.4rem, 1.4rem + 4vw, 4rem); letter-spacing: -0.035em; line-height: 1; }
 .cta2 > p:not(.cta2__status) { max-width: 30rem; margin: 1rem auto 0; color: var(--cta-dim); }
 .cta2 .actions { justify-content: center; }

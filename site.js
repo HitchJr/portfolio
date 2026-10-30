@@ -184,7 +184,7 @@ function updateRoute() {
 updateRoute();
 
 // ---------- Cards: a soft light follows the pointer ----------
-document.querySelectorAll(".card, .feature, .route__card").forEach((el) => {
+document.querySelectorAll(".card, .feature, .route__card, .cta2").forEach((el) => {
   el.addEventListener("pointermove", (e) => {
     const r = el.getBoundingClientRect();
     el.style.setProperty("--mx", `${e.clientX - r.left}px`);
