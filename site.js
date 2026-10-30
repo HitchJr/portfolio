@@ -107,7 +107,7 @@ if (!reduceMotion) {
 
 // ---------- Route line under the top bar ----------
 const nav = document.querySelector(".nav");
-const sections = [...document.querySelectorAll("main section[id]")];
+const sections = [...document.querySelectorAll("main section[id], footer[id]")];
 const navLinks = [...document.querySelectorAll(".nav__links a")];
 if (nav) {
   const bar = document.createElement("div");
