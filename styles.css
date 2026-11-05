@@ -6,6 +6,9 @@
 @font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/ibm-plex-mono-400.woff2") format("woff2"); }
 @font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/ibm-plex-mono-500.woff2") format("woff2"); }
 @font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 600; font-display: swap; src: url("fonts/ibm-plex-mono-600.woff2") format("woff2"); }
+/* Doto, a dot-matrix display face for numbers and headings, self-hosted (SIL Open Font License, see fonts/DOTO-OFL.txt) */
+@font-face { font-family: "Doto"; font-style: normal; font-weight: 900; font-display: swap; src: url("fonts/doto-latin-900.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Doto"; font-style: normal; font-weight: 900; font-display: swap; src: url("fonts/doto-latin-ext-900.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 
 /* Colours: "forest signal". Light mode is warm grey paper printed in deep
    green ink; dark mode is a green-black control screen with signal-green
@@ -34,6 +37,7 @@
   --head: "IBM Plex Sans", system-ui, sans-serif;
   --font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --dot: "Doto", var(--mono);  /* dot-matrix: figures and section headings */
   --head-weight: 600;
   --head-stretch: 100%;
   --head-track: -0.02em;
@@ -666,3 +670,11 @@ body { overflow-x: clip; }
 @media (max-width: 40rem) {
   .site-foot__row { flex-direction: column; align-items: flex-start; }
 }
+
+/* Dot-matrix type, like a station board: the figures (departure date,
+   timeline years, clocks) and the section headings. Body text stays Plex. */
+.ticket__date { font: 900 clamp(2.6rem, 2rem + 2vw, 3.4rem)/1 var(--dot); letter-spacing: 0.02em; }
+.route__when p { font: 900 1.15rem/1.1 var(--dot); letter-spacing: 0.02em; }
+.site-foot__row time { font: 900 1.1rem/1 var(--dot); color: var(--text); letter-spacing: 0.03em; }
+.section-head h2 { font: 900 clamp(2.2rem, 1.4rem + 2.8vw, 3.4rem)/1 var(--dot); letter-spacing: 0; }
+.cta2 h2 { font: 900 clamp(2.8rem, 1.6rem + 5vw, 5rem)/1 var(--dot); letter-spacing: 0; }
