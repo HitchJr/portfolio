@@ -8,6 +8,7 @@
   <script>try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="globe/globe.css">
 </head>
 <body>
   <header class="nav">
@@ -85,6 +86,27 @@
           <div class="barcode" aria-hidden="true"></div>
         </div>
       </article>
+    </section>
+
+    <section class="section wrap" id="glance" aria-labelledby="board-h">
+      <div class="section-head reveal">
+        <p class="eyebrow">At a glance</p>
+        <h2 id="board-h">Departures and arrivals</h2>
+        <p>Where I’m heading next, where I’ve worked and what I bring along. Switch boards below.</p>
+      </div>
+      <div class="fb reveal" role="table" aria-label="Departure board" id="board">
+        <p class="fb__title"><span>Dante Persson · <b data-board-name>Departures</b></span><span data-clock>00:00</span></p>
+        <div class="fb__cols" role="row" aria-hidden="true">
+          <span style="--n:4" data-col="year">Year</span><span style="--n:10">To</span><span style="--n:15" data-col="info">Role</span><span style="--n:8">Status</span>
+        </div>
+        <!-- rows are built by board.js -->
+      </div>
+
+      <div class="fb-ctrl">
+        <button class="btn" type="button" data-show="departures" aria-pressed="true">Departures</button>
+        <button class="btn btn--ghost" type="button" data-show="arrivals" aria-pressed="false">Arrivals</button>
+        <button class="btn btn--ghost" type="button" data-show="skills" aria-pressed="false">Luggage</button>
+      </div>
     </section>
 
     <section class="section wrap" id="experience" aria-labelledby="exp-h">
@@ -262,6 +284,48 @@
       </div>
     </section>
 
+    <section class="section wrap" id="route" aria-labelledby="route-h">
+      <div class="section-head reveal">
+        <p class="eyebrow">Next departure</p>
+        <h2 id="route-h">Malmö C to Hanoi</h2>
+        <p>The whole way by train: across the Øresund, through Europe to Moscow, the Trans-Siberian and Trans-Mongolian lines to Beijing, then south to Vietnam. It follows the real tracks at each line’s top speed, slow across Mongolia and fast on China’s high-speed lines.</p>
+      </div>
+
+      <div class="gl-hero" data-globe>
+        <div class="gl-copy">
+          <ul class="gl-key" aria-label="Map key">
+            <li><span class="gl-key__done"></span> Travelled</li>
+            <li><span class="gl-key__here"></span> You are here</li>
+            <li><span class="gl-key__ahead"></span> Still to come</li>
+            <li><span class="gl-key__rail"></span> Other railways</li>
+          </ul>
+
+          <div class="board">
+            <dl>
+              <dt>Now in</dt><dd class="is-accent" data-out="country">Sweden</dd>
+              <dt>Next stop</dt><dd data-out="next">Copenhagen</dd>
+              <dt>Travelled</dt><dd data-out="km">0 km</dd>
+            </dl>
+            <div class="board__bar" aria-hidden="true"><span></span></div>
+            <div class="board__ctrl">
+              <button class="btn" type="button" data-act="play">Pause</button>
+              <button class="btn btn--ghost" type="button" data-act="view">Overview</button>
+              <input type="range" min="0" max="1000" value="0" step="1" aria-label="Position along the route" data-act="scrub">
+            </div>
+          </div>
+          <p class="gl-foot">The classic route. Not every train or border crossing on it runs for regular travellers today. Line speeds are rounded estimates. Rail data: Natural Earth.</p>
+        </div>
+  
+        <div class="gl-stage" id="globe" role="img" aria-label="A globe following a train from Malmö through Denmark, Germany, Poland, Belarus, Russia, Mongolia and China to Hanoi in Vietnam">
+          <p class="gl-fallback">Loading globe…</p>
+          <div class="gl-speed" aria-live="off">
+            <p><b data-speed>000</b> km/h</p>
+            <p class="gl-speed__line" data-line>Malmö C – Copenhagen</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-foot" id="contact">
@@ -295,5 +359,7 @@
   </footer>
 
   <script src="site.js"></script>
+  <script src="board.js"></script>
+  <script src="globe/globe.js"></script>
 </body>
 </html>

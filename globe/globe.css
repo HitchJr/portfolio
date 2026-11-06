@@ -1,0 +1,41 @@
+.gl-hero { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: center; gap: clamp(1.5rem, 4vw, 3rem); padding-block: clamp(2rem, 5vw, 3.5rem); }
+.gl-copy h1, .gl-copy h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.1; letter-spacing: var(--head-track); margin-bottom: 1rem; }
+.gl-stage { position: relative; aspect-ratio: 1; width: 100%; max-width: 38rem; justify-self: center; overflow: hidden; border-radius: var(--radius); touch-action: pan-y; }
+.gl-stage.is-overview { cursor: grab; }
+.gl-stage canvas { display: block; width: 100% !important; height: 100% !important; }
+.gl-fallback { position: absolute; inset: 0; display: grid; place-items: center; color: var(--faint); font: 0.875rem var(--mono); }
+.gl-tag { position: absolute; left: 0; top: 0; font: 600 0.6875rem/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 250ms, color 250ms; text-shadow: 0 0 6px var(--bg), 0 0 2px var(--bg); }
+.gl-tag.is-here { color: var(--accent); }
+
+/* Speed tab: the cab's speedometer, top left of the globe */
+.gl-speed { position: absolute; z-index: 2; top: 0.75rem; left: 0.75rem; padding: 0.5rem 0.8rem 0.55rem; border: 1px solid var(--line); border-radius: 10px; background: color-mix(in srgb, var(--card) 88%, transparent); backdrop-filter: blur(4px); font: 500 0.8125rem/1.2 var(--mono); color: var(--faint); pointer-events: none; }
+.gl-speed b { font: 900 2rem/1 var(--dot); color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.gl-speed__line { margin-top: 0.3rem; font-size: 0.6875rem; max-width: 16rem; }
+.gl-tag--city { text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text); }
+
+/* Departure board under the copy */
+.board { margin-top: 1.5rem; padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); font: 500 0.875rem/1.5 var(--mono); }
+.board dl { display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 1rem; margin: 0; }
+.board dt { color: var(--faint); }
+.board dd { margin: 0; color: var(--text); font-variant-numeric: tabular-nums; }
+.board dd.is-accent { color: var(--accent); font-weight: 600; }
+.board__bar { position: relative; height: 4px; margin: 1rem 0 0.75rem; border-radius: 2px; background: var(--line); overflow: hidden; }
+.board__bar span { position: absolute; inset: 0 auto 0 0; width: calc(var(--p, 0) * 100%); background: var(--accent); }
+.board__ctrl { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.board__ctrl input[type="range"] { flex: 1 1 10rem; accent-color: var(--accent); }
+.board__ctrl .btn { padding: 0.45rem 0.9rem; font-size: 0.8125rem; }
+.gl-foot { margin-top: 1rem; color: var(--faint); font-size: 0.8125rem; }
+
+/* On the home page the globe sits in a normal section, which has its own header and spacing */
+.section .gl-hero { padding-block: 0; }
+
+/* Map key: what each line and mark on the globe means */
+.gl-key { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.55rem 1.5rem; font: 500 0.8125rem/1.3 var(--mono); color: var(--dim); }
+.gl-key li { display: flex; align-items: center; gap: 0.6rem; }
+.gl-key span { flex: none; width: 1.6rem; }
+.gl-key__done { height: 3px; border-radius: 2px; background: var(--accent); }
+.gl-key__ahead { height: 3px; background: repeating-linear-gradient(90deg, var(--dim) 0 5px, transparent 5px 9px); }
+.gl-key__rail { height: 1px; background: var(--faint); opacity: 0.7; }
+.gl-key__here { height: 0.85rem; width: 0.85rem !important; margin-inline: 0.375rem; border-radius: 50%; background: var(--stop); box-shadow: 0 0 0 3px var(--card), 0 0 0 4px var(--faint); }
+
+@media (max-width: 900px) { .gl-hero { grid-template-columns: 1fr; } .gl-stage { order: -1; } }
